@@ -8,7 +8,7 @@ This directory accompanies the **TSAS'26** submission (`TSAS26_EVOXXLTraffic_Du_
 
 ## 📊 Dataset and Task
 
-We benchmark continual spatio-temporal forecasting on **EvoXXLTraffic** — a long-horizon extension of the PEMS family that spans up to **25 years** per district and exhibits **sensor-count growth of up to $+9{,}433\%$** between the first and last year. The task is *evolving-graph traffic forecasting*: at each period $\tau$ the sensor set $\mathcal{V}_\tau$ may expand (newly installed sensors) and the underlying graph $\mathcal{G}_\tau$ grows, while the model must keep predicting the next $3 / 6 / 12$ steps.
+We benchmark continual spatio-temporal forecasting on **EvoXXLTraffic** — a long-horizon extension of the PEMS family that spans up to **25 years** per district and exhibits **sensor-count growth of up to $+9,433\%$** between the first and last year. The task is *evolving-graph traffic forecasting*: at each period $\tau$ the sensor set $\mathcal{V}_\tau$ may expand (newly installed sensors) and the underlying graph $\mathcal{G}_\tau$ grows, while the model must keep predicting the next $3 / 6 / 12$ steps.
 
 <p align="center">
     <img src="fig/new1.svg" alt="EvoXXLTraffic dataset and evolving-graph task overview" align="center" width="900px" />
@@ -18,41 +18,41 @@ We benchmark continual spatio-temporal forecasting on **EvoXXLTraffic** — a lo
 
 ### Comparison with existing traffic datasets
 
-LaTeX source: [`TSAS26_EVOXXLTraffic_Du_Yin/table/data1.tex`](table/data1.tex).
+LaTeX source: [`table/data1.tex`](table/data1.tex).
 
 | Reference | Dataset | Samples | Nodes | Interval | Span | Period |
 |---|---|---:|---:|---|---|---|
-| DCRNN | METR-LA | 34{,}272 | 207 | 5 min | 4 mo | 03/2012–06/2012 |
-| DCRNN | PEMS-BAY | 52{,}116 | 325 | 5 min | 6 mo | 01/2017–05/2017 |
-| LSTNet | Traffic | 17{,}544 | 862 | 1 h | 2 yr | 01/2015–12/2016 |
-| STSGCN | PEMS03 | 26{,}208 | 358 | 5 min | 11 mo | 01/2018–11/2018 |
-| STSGCN | PEMS04 | 16{,}992 | 307 | 5 min | 2 mo | 01/2018–02/2018 |
-| STSGCN | PEMS07 | 28{,}224 | 883 | 5 min | 2 mo | 05/2017–06/2017 |
-| STSGCN | PEMS08 | 17{,}856 | 170 | 5 min | 2 mo | 07/2016–08/2016 |
-| Large-ST | CA / GLA / GBA / SD | 525{,}888 | 716 – 8{,}600 | 5 min | 5 yr | 01/2017–12/2021 |
-| **Ours** | **PEMS03**$_\text{gap\&agg}$ | 2{,}629{,}513 | 151 | Gap/Hr/Day | **23.00 yr** | 03/2001–03/2024 |
-| **Ours** | **PEMS04**$_\text{gap\&agg}$ | 2{,}486{,}472 | 822 | Gap/Hr/Day | **21.75 yr** | 06/2002–03/2024 |
-| **Ours** | **PEMS05**$_\text{gap\&agg}$ | 1{,}371{,}879 | 103 | Gap/Hr/Day | **12.00 yr** | 03/2012–03/2024 |
-| **Ours** | **PEMS06**$_\text{gap\&agg}$ | 1{,}628{,}852 | 130 | Gap/Hr/Day | **14.25 yr** | 12/2009–03/2024 |
-| **Ours** | **PEMS07**$_\text{gap\&agg}$ | 2{,}486{,}472 | 3{,}062 | Gap/Hr/Day | **21.75 yr** | 06/2002–03/2024 |
-| **Ours** | **PEMS08**$_\text{gap\&agg}$ | 2{,}629{,}513 | 212 | Gap/Hr/Day | **23.00 yr** | 03/2001–03/2024 |
-| **Ours** | **PEMS10**$_\text{gap\&agg}$ | 1{,}914{,}982 | 107 | Gap/Hr/Day | **16.75 yr** | 06/2007–03/2024 |
-| **Ours** | **PEMS11**$_\text{gap\&agg}$ | 2{,}457{,}676 | 521 | Gap/Hr/Day | **21.50 yr** | 09/2002–03/2024 |
-| **Ours** | **PEMS12**$_\text{gap\&agg}$ | 2{,}533{,}735 | 1{,}543 | Gap/Hr/Day | **22.16 yr** | 01/2002–03/2024 |
+| DCRNN | METR-LA | 34,272 | 207 | 5 min | 4 mo | 03/2012–06/2012 |
+| DCRNN | PEMS-BAY | 52,116 | 325 | 5 min | 6 mo | 01/2017–05/2017 |
+| LSTNet | Traffic | 17,544 | 862 | 1 h | 2 yr | 01/2015–12/2016 |
+| STSGCN | PEMS03 | 26,208 | 358 | 5 min | 11 mo | 01/2018–11/2018 |
+| STSGCN | PEMS04 | 16,992 | 307 | 5 min | 2 mo | 01/2018–02/2018 |
+| STSGCN | PEMS07 | 28,224 | 883 | 5 min | 2 mo | 05/2017–06/2017 |
+| STSGCN | PEMS08 | 17,856 | 170 | 5 min | 2 mo | 07/2016–08/2016 |
+| Large-ST | CA / GLA / GBA / SD | 525,888 | 716 – 8,600 | 5 min | 5 yr | 01/2017–12/2021 |
+| **Ours** | **PEMS03**<sub>gap&agg</sub> | 2,629,513 | 151 | Gap/Hr/Day | **23.00 yr** | 03/2001–03/2024 |
+| **Ours** | **PEMS04**<sub>gap&agg</sub> | 2,486,472 | 822 | Gap/Hr/Day | **21.75 yr** | 06/2002–03/2024 |
+| **Ours** | **PEMS05**<sub>gap&agg</sub> | 1,371,879 | 103 | Gap/Hr/Day | **12.00 yr** | 03/2012–03/2024 |
+| **Ours** | **PEMS06**<sub>gap&agg</sub> | 1,628,852 | 130 | Gap/Hr/Day | **14.25 yr** | 12/2009–03/2024 |
+| **Ours** | **PEMS07**<sub>gap&agg</sub> | 2,486,472 | 3,062 | Gap/Hr/Day | **21.75 yr** | 06/2002–03/2024 |
+| **Ours** | **PEMS08**<sub>gap&agg</sub> | 2,629,513 | 212 | Gap/Hr/Day | **23.00 yr** | 03/2001–03/2024 |
+| **Ours** | **PEMS10**<sub>gap&agg</sub> | 1,914,982 | 107 | Gap/Hr/Day | **16.75 yr** | 06/2007–03/2024 |
+| **Ours** | **PEMS11**<sub>gap&agg</sub> | 2,457,676 | 521 | Gap/Hr/Day | **21.50 yr** | 09/2002–03/2024 |
+| **Ours** | **PEMS12**<sub>gap&agg</sub> | 2,533,735 | 1,543 | Gap/Hr/Day | **22.16 yr** | 01/2002–03/2024 |
 
 ### Per-district sensor growth
 
 | District | Years | $N_\text{first}$ | $N_\text{last}$ | Growth |
 |---|---|---:|---:|---:|
-| PEMS03 | 2001–2025 (25) | 174 | 1{,}859 | $+968\%$ |
-| PEMS04 | 2001–2025 (25) | $\sim 25$ | 4{,}089 | $\gg 10{,}000\%$ |
-| PEMS05 | 2005–2025 (21) | $\sim 6$ | 573 | $\sim +9{,}433\%$ |
-| PEMS06 | 2005–2025 (21) | $\sim 12$ | 705 | $\sim +5{,}638\%$ |
-| PEMS07 | 2001–2025 (25) | $\sim 70$ | 4{,}888 | $\sim +6{,}883\%$ |
-| PEMS08 | 2001–2025 (25) | $\sim 170$ | 2{,}059 | $\sim +1{,}111\%$ |
-| PEMS10 | 2006–2025 (20) | $\sim 340$ | 1{,}378 | $\sim +305\%$ |
-| PEMS11 | 1999–2025 (27) | $\sim 200$ | 1{,}440 | $\sim +620\%$ |
-| PEMS12 | 2002–2025 (24) | $\sim 100$ | 2{,}587 | $\sim +2{,}487\%$ |
+| PEMS03 | 2001–2025 (25) | 174 | 1,859 | $+968\%$ |
+| PEMS04 | 2001–2025 (25) | $\sim 25$ | 4,089 | $\gg 10,000\%$ |
+| PEMS05 | 2005–2025 (21) | $\sim 6$ | 573 | $\sim +9,433\%$ |
+| PEMS06 | 2005–2025 (21) | $\sim 12$ | 705 | $\sim +5,638\%$ |
+| PEMS07 | 2001–2025 (25) | $\sim 70$ | 4,888 | $\sim +6,883\%$ |
+| PEMS08 | 2001–2025 (25) | $\sim 170$ | 2,059 | $\sim +1,111\%$ |
+| PEMS10 | 2006–2025 (20) | $\sim 340$ | 1,378 | $\sim +305\%$ |
+| PEMS11 | 1999–2025 (27) | $\sim 200$ | 1,440 | $\sim +620\%$ |
+| PEMS12 | 2002–2025 (24) | $\sim 100$ | 2,587 | $\sim +2,487\%$ |
 
 This regime (high growth $\times$ long horizon) is what existing evolving-graph methods are *not* designed for — backbones trained on the tiny first-year graph become severely under-capacity, and rank-limited prompts/embeddings cannot absorb the heterogeneity of thousands of newly installed sensors. EvoXXLTraffic is constructed precisely to expose this failure mode.
 
