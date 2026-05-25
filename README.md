@@ -8,7 +8,7 @@ This directory accompanies the **TSAS'26** submission (`TSAS26_EVOXXLTraffic_Du_
 
 ## 📊 Dataset and Task
 
-We benchmark continual spatio-temporal forecasting on **EvoXXLTraffic** — a long-horizon extension of the PEMS family that spans up to **25 years** per district and exhibits **sensor-count growth of up to $+9,433\%$** between the first and last year. The task is *evolving-graph traffic forecasting*: at each period $\tau$ the sensor set $\mathcal{V}_\tau$ may expand (newly installed sensors) and the underlying graph $\mathcal{G}_\tau$ grows, while the model must keep predicting the next $3 / 6 / 12$ steps.
+We benchmark continual spatio-temporal forecasting on **EvoXXLTraffic** — a long-horizon extension of the PEMS family that spans up to **25 years** per district and exhibits **sensor-count growth of up to +9,433%** between the first and last year. The task is *evolving-graph traffic forecasting*: at each period **τ** the sensor set **𝒱<sub>τ</sub>** may expand (newly installed sensors) and the underlying graph **𝒢<sub>τ</sub>** grows, while the model must keep predicting the next **3 / 6 / 12** steps.
 
 <p align="center">
     <img src="fig/new1.svg" alt="EvoXXLTraffic dataset and evolving-graph task overview" align="center" width="900px" />
@@ -50,19 +50,19 @@ Comparison with existing traffic datasets:
 
 Per-district sensor growth:
 
-| District | Years | $N_\text{first}$ | $N_\text{last}$ | Growth |
+| District | Years | N<sub>first</sub> | N<sub>last</sub> | Growth |
 |---|---|---:|---:|---:|
-| PEMS03 | 2001–2025 (25) | 174 | 1,859 | $+968\%$ |
-| PEMS04 | 2001–2025 (25) | $\sim 25$ | 4,089 | $\gg 10,000\%$ |
-| PEMS05 | 2005–2025 (21) | $\sim 6$ | 573 | $\sim +9,433\%$ |
-| PEMS06 | 2005–2025 (21) | $\sim 12$ | 705 | $\sim +5,638\%$ |
-| PEMS07 | 2001–2025 (25) | $\sim 70$ | 4,888 | $\sim +6,883\%$ |
-| PEMS08 | 2001–2025 (25) | $\sim 170$ | 2,059 | $\sim +1,111\%$ |
-| PEMS10 | 2006–2025 (20) | $\sim 340$ | 1,378 | $\sim +305\%$ |
-| PEMS11 | 1999–2025 (27) | $\sim 200$ | 1,440 | $\sim +620\%$ |
-| PEMS12 | 2002–2025 (24) | $\sim 100$ | 2,587 | $\sim +2,487\%$ |
+| PEMS03 | 2001–2025 (25) | 174 | 1,859 | +968% |
+| PEMS04 | 2001–2025 (25) | ~25 | 4,089 | ≫ 10,000% |
+| PEMS05 | 2005–2025 (21) | ~6 | 573 | ~+9,433% |
+| PEMS06 | 2005–2025 (21) | ~12 | 705 | ~+5,638% |
+| PEMS07 | 2001–2025 (25) | ~70 | 4,888 | ~+6,883% |
+| PEMS08 | 2001–2025 (25) | ~170 | 2,059 | ~+1,111% |
+| PEMS10 | 2006–2025 (20) | ~340 | 1,378 | ~+305% |
+| PEMS11 | 1999–2025 (27) | ~200 | 1,440 | ~+620% |
+| PEMS12 | 2002–2025 (24) | ~100 | 2,587 | ~+2,487% |
 
-This regime (high growth $\times$ long horizon) is what existing evolving-graph methods are *not* designed for — backbones trained on the tiny first-year graph become severely under-capacity, and rank-limited prompts/embeddings cannot absorb the heterogeneity of thousands of newly installed sensors. EvoXXLTraffic is constructed precisely to expose this failure mode.
+This regime (high growth × long horizon) is what existing evolving-graph methods are *not* designed for — backbones trained on the tiny first-year graph become severely under-capacity, and rank-limited prompts/embeddings cannot absorb the heterogeneity of thousands of newly installed sensors. EvoXXLTraffic is constructed precisely to expose this failure mode.
 
 ---
 
@@ -170,7 +170,7 @@ Adapt the model without continual parameter updates on the full graph.
 
 | Baseline | Model class | Config (PEMS05) | Notes |
 |---|---|---|---|
-| **STRAP** (NeurIPS'25) | [`RAP_Model`](eac/src/model/model.py) | [`strap_pems05.json`](eac/conf/PEMS05/strap_pems05.json) | Top-$K$ retrieval from a spatial/temporal/spatio-temporal pattern library |
+| **STRAP** (NeurIPS'25) | [`RAP_Model`](eac/src/model/model.py) | [`strap_pems05.json`](eac/conf/PEMS05/strap_pems05.json) | Top-K retrieval from a spatial/temporal/spatio-temporal pattern library |
 | **ST-TTC** (NeurIPS'25) | [`STTTC_Model`](eac/src/model/model.py) | [`sttc_pems05.json`](eac/conf/PEMS05/sttc_pems05.json) | Test-time spectral calibrator + streaming FIFO memory (`use_ttc=1`); inference path `test_model_with_ttc` in [`default_trainer.py`](eac/src/trainer/default_trainer.py) |
 
 ---
@@ -209,18 +209,18 @@ One entry point covers what used to be three separate launchers. Pick the method
 |---|---|---:|---|
 | `core` *(default)* | Retrain × {STGNN, ASTGNN, DCRNN, TGCN} + PECPM + STRAP | `47 48 49 50 51` | PECPM / STRAP reuse the first-year STGNN weight via an `AutoLink` symlink. |
 | `extra` | GWN / STID / ITransformer / DLinear (STBP-paper extras) | `42 43 44 45 46` | Simple retrain per period, one config per `(district, method)`. |
-| `sttc` | ST-TTC (NeurIPS'25 spectral calibrator) | `42 43 44 45 46` | Frozen backbone + test-time calibrator; conf name uses lowercase district. |
+| `sttc` | ST-TTC (NeurIPS'25 spectral calibrator) | `42 43 44 45 46` | Frozen backbone + test-time calibrator (case-insensitive: the runner accepts both `PEMS05` and `pems05`). |
 | `all` | runs `core → extra → sttc` in sequence | — | — |
 
-All other knobs (`DATASETS`, `METHODS`, `SEEDS`, `GPU`, `NOHUP=1`) are forwarded to the group runner. Examples:
+All other knobs (`DATASETS`, `METHODS`, `SEEDS`, `GPU`, `NOHUP=1`) are forwarded to the group runner. `DATASETS` is case-insensitive — examples below stick to uppercase for consistency:
 
 ```bash
 cd eac/
 bash scripts/run_all_baselines.sh                                    # GROUP=core (default)
 GROUP=all  bash scripts/run_all_baselines.sh                         # everything
-GROUP=core METHODS="strap pecpm"     bash scripts/run_all_baselines.sh
-GROUP=extra DATASETS="PEMS03 PEMS04" bash scripts/run_all_baselines.sh
-GROUP=sttc DATASETS="pems05 pems06"  bash scripts/run_all_baselines.sh
+GROUP=core  METHODS="strap pecpm"     bash scripts/run_all_baselines.sh
+GROUP=extra DATASETS="PEMS03 PEMS04"  bash scripts/run_all_baselines.sh
+GROUP=sttc  DATASETS="PEMS05 PEMS06"  bash scripts/run_all_baselines.sh
 NOHUP=1 GROUP=all bash scripts/run_all_baselines.sh                  # background → run_logs/
 ```
 
