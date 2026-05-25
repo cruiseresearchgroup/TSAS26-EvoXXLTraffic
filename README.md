@@ -130,7 +130,7 @@ Then either rerun the stage-2 notebooks to regenerate the EAC inputs, or symlink
 
 ## 🧩 Baselines
 
-All baselines share the same data loader ([`eac/main.py`](eac/main.py), [`eac/src/dataer/SpatioTemporalDataset.py`](eac/src/dataer/SpatioTemporalDataset.py)) and the same 3 / 6 / 12-step evaluation protocol (`eac/src/trainer/default_trainer.py::test_model`). Each method is selected through a JSON config under [`eac/conf/<DATASET>/`](eac/conf); per-dataset launch scripts live in [`eac/scripts/`](eac/scripts) (e.g. [`pems05_run.sh`](eac/scripts/pems05_run.sh), [`baselines_pems_run.sh`](eac/scripts/baselines_pems_run.sh)).
+All baselines share the same data loader ([`eac/main.py`](eac/main.py), [`eac/src/dataer/SpatioTemporalDataset.py`](eac/src/dataer/SpatioTemporalDataset.py)) and the same 3 / 6 / 12-step evaluation protocol (`eac/src/trainer/default_trainer.py::test_model`). Each method is selected through a JSON config under [`eac/conf/<DATASET>/`](eac/conf); launch scripts live in [`eac/scripts/`](eac/scripts) — see [Reproducing the main tables](#-reproducing-the-main-tables).
 
 ### (i) Static STGNN backbones
 
@@ -177,11 +177,52 @@ Adapt the model without continual parameter updates on the full graph.
 
 ## 🚀 Reproducing the main tables
 
-| Dataset | Launch all baselines | Single-method examples |
+There are two launchers; everything is invoked from inside `eac/`:
+
+| Scope | Launcher | What it runs |
 |---|---|---|
-| PEMS05 | [`scripts/pems05_run.sh`](eac/scripts/pems05_run.sh) | `python eac/main.py --conf eac/conf/PEMS05/eac.json --gpuid 0 --seed 43` |
-| PEMS03–PEMS12 | [`scripts/baselines_pems_run.sh`](eac/scripts/baselines_pems_run.sh), [`scripts/extra_baselines_run.sh`](eac/scripts/extra_baselines_run.sh) | replace `PEMS05` with the target district |
-| ST-TTC (separate launcher) | [`scripts/sttc_run.sh`](eac/scripts/sttc_run.sh) | — |
+| **Single district** (full pipeline) | [`scripts/pemsXX_run.sh`](eac/scripts/) | Per-district pipeline for `PEMSXX`: Retrain → Pretrain → Online-NN → Online-AN → TrafficStream → STKEC → EAC (covers columns 4–11 of the main result tables for that district). |
+| **Cross-district baselines** | [`scripts/run_all_baselines.sh`](eac/scripts/run_all_baselines.sh) | All cross-dataset baselines on PEMS03–PEMS12, split into three method groups selectable via `GROUP` (see below). |
+
+### Per-district full pipeline
+
+```bash
+cd eac/
+bash scripts/pems05_run.sh                # PEMS05, default seeds 42-46 / 51-55 / 47-51
+NOHUP=1 bash scripts/pems05_run.sh        # background, log under run_logs/
+GPU=2 bash scripts/pems05_run.sh          # pin to a specific GPU
+```
+
+Single-method invocation (skip the pipeline, run one config):
+
+```bash
+python eac/main.py --conf eac/conf/PEMS05/eac.json --gpuid 0 --seed 43
+```
+
+Other districts: replace `pems05` with `pems03 / pems04 / pems06 / pems07 / pems08 / pems10 / pems11 / pems12`.
+
+### Cross-district baselines (`run_all_baselines.sh`)
+
+One entry point covers what used to be three separate launchers. Pick the method group with `GROUP`:
+
+| `GROUP` | Methods | Default seeds | Notes |
+|---|---|---:|---|
+| `core` *(default)* | Retrain × {STGNN, ASTGNN, DCRNN, TGCN} + PECPM + STRAP | `47 48 49 50 51` | PECPM / STRAP reuse the first-year STGNN weight via an `AutoLink` symlink. |
+| `extra` | GWN / STID / ITransformer / DLinear (STBP-paper extras) | `42 43 44 45 46` | Simple retrain per period, one config per `(district, method)`. |
+| `sttc` | ST-TTC (NeurIPS'25 spectral calibrator) | `42 43 44 45 46` | Frozen backbone + test-time calibrator; conf name uses lowercase district. |
+| `all` | runs `core → extra → sttc` in sequence | — | — |
+
+All other knobs (`DATASETS`, `METHODS`, `SEEDS`, `GPU`, `NOHUP=1`) are forwarded to the group runner. Examples:
+
+```bash
+cd eac/
+bash scripts/run_all_baselines.sh                                    # GROUP=core (default)
+GROUP=all  bash scripts/run_all_baselines.sh                         # everything
+GROUP=core METHODS="strap pecpm"     bash scripts/run_all_baselines.sh
+GROUP=extra DATASETS="PEMS03 PEMS04" bash scripts/run_all_baselines.sh
+GROUP=sttc DATASETS="pems05 pems06"  bash scripts/run_all_baselines.sh
+NOHUP=1 GROUP=all bash scripts/run_all_baselines.sh                  # background → run_logs/
+```
 
 The aggregated numbers in [`tables/tsas_main_table_part1.tex`](tables/tsas_main_table_part1.tex) (PEMS03–PEMS07) and [`tables/tsas_main_table_part2.tex`](tables/tsas_main_table_part2.tex) (PEMS08, PEMS10–PEMS12) follow the same column order as the four baseline groups defined above.
 
