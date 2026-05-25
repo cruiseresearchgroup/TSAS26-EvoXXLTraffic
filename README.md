@@ -70,9 +70,16 @@ This regime (high growth $\times$ long horizon) is what existing evolving-graph 
 
 All preprocessing notebooks live in [`xxltrafficdata/`](xxltrafficdata). Each district is processed by a two-stage pipeline:
 
-```
-raw PEMS dumps  ──[stage 1]──>  yearly per-district tensors  ──[stage 2]──>  EAC-format (flow + adj per year)
-                pemsXX_yearly_nodes.ipynb                    pemsXX_build_eac_data.ipynb
+```mermaid
+flowchart LR
+    A([Raw PEMS dumps]) -->|Stage 1<br/><code>pemsXX_yearly_nodes.ipynb</code>| B([Yearly per-district<br/>tensors])
+    B -->|Stage 2<br/><code>pemsXX_build_eac_data.ipynb</code>| C([EAC-format<br/>flow + adj per year])
+    classDef raw fill:#fff4e6,stroke:#f59f00,stroke-width:1.5px;
+    classDef mid fill:#e7f5ff,stroke:#1c7ed6,stroke-width:1.5px;
+    classDef out fill:#ebfbee,stroke:#2f9e44,stroke-width:1.5px;
+    class A raw;
+    class B mid;
+    class C out;
 ```
 
 * **Stage 1 — `pemsXX_yearly_nodes.ipynb`** ([example: PEMS03](xxltrafficdata/pems03_yearly_nodes.ipynb)) reads the raw 5-minute PEMS feed, harmonises the station set year-by-year, and emits yearly node lists / sensor metadata.
