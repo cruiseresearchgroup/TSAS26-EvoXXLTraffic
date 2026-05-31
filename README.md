@@ -112,7 +112,7 @@ flowchart LR
 
 Raw PEMS dumps and the intermediate / EAC-format outputs are **not** committed to this repository. The per-district directories `pems03/ ... pems12/` and `preprocessed/` are empty placeholders.
 
-> ☁️ **Cloud-disk download link (TODO: insert after upload):** `<paste-link-here>`
+> ☁️ **Cloud-disk download link (TODO: insert after upload):** `https://pan.baidu.com/s/1llz16kYY33TrWlKENNHC5A?pwd=xxtf code: xxtf`
 
 After downloading, place the files so the layout matches:
 
