@@ -6,6 +6,8 @@ This directory accompanies the **TSAS'26** submission (`TSAS26_EVOXXLTraffic_Du_
 
 ---
 
+The paper could be found in https://arxiv.org/abs/2605.29768
+
 ## 📊 Dataset and Task
 
 We benchmark continual spatio-temporal forecasting on **EvoXXLTraffic** — a long-horizon extension of the PEMS family that spans up to **25 years** per district and exhibits **sensor-count growth of up to +9,433%** between the first and last year. The task is *evolving-graph traffic forecasting*: at each period **τ** the sensor set **𝒱<sub>τ</sub>** may expand (newly installed sensors) and the underlying graph **𝒢<sub>τ</sub>** grows, while the model must keep predicting the next **3 / 6 / 12** steps.
