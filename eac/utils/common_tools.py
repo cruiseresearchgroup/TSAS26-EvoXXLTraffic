@@ -16,18 +16,31 @@ def load_json_file(file_path):
     return json.loads(s)
 
 
+def _numeric_checkpoint(directory):
+    """Finite numeric validation loss, rather than filename ordering."""
+    candidates = []
+    for filename in os.listdir(directory):
+        if not filename.endswith('.pkl'):
+            continue
+        try:
+            value = float(filename[:-4])
+        except ValueError:
+            continue
+        if np.isfinite(value) and os.path.isfile(osp.join(directory, filename)):
+            candidates.append((value, filename))
+    if not candidates:
+        raise ValueError('No finite numeric checkpoint in ' + directory)
+    return osp.join(directory, min(candidates)[1])
+
+
 def load_best_model(args):
-    # if (args.load_first_year and args.year <= args.begin_year +  1) or args.train == 0:  # Determine whether to load the first year's model
-    if args.load_first_year:  # Determine whether to load the first year's model
-        load_path = args.first_year_model_path  # Set the loading path to the first year model path
-        loss = load_path.split("/")[-1].replace(".pkl", "")  # Get the model file name and remove the extension
+    # The external first-year initialization applies only to the first transition.
+    if args.load_first_year and args.year == args.begin_year + 1:
+        load_path = args.first_year_model_path
     else:
-        loss = []
-        for filename in os.listdir(osp.join(args.model_path, args.logname+"-"+str(args.seed), str(args.year-1))):  # Traverse the files under the model path of the previous year and get all loss values
-            loss.append(filename[0:-4])
-        loss = sorted(loss)
-        load_path = osp.join(args.model_path, args.logname+"-"+str(args.seed), str(args.year-1), loss[0]+".pkl")  # Set the loading path to the model file corresponding to the minimum loss value
-        
+        load_path = _numeric_checkpoint(osp.join(args.model_path, args.logname+'-'+str(args.seed), str(args.year-1)))
+    loss = osp.basename(load_path)[:-4]
+
     args.logger.info("[*] load from {}".format(load_path))  # Recording Load Path
     state_dict = torch.load(load_path, map_location=args.device)["model_state_dict"]  # Loading the model state dictionary
     
@@ -49,20 +62,16 @@ def load_best_model(args):
     
     model.load_state_dict(state_dict)  # Load the state dictionary into the model
     model = model.to(args.device)  # Move the model to the specified device
-    return model, loss[0]  # Returns the model and the minimum loss value
+    return model, loss  # Returns the model and the minimum loss value
 
 
 def load_test_best_model(args):
-    # if args.load_first_year and args.year < args.begin_year +  1:  # Determine whether to load the first year's model
-    #     load_path = args.first_year_model_path  # Set the loading path to the first year model path
-    #     loss = load_path.split("/")[-1].replace(".pkl", "")  # Get the model file name and remove the extension
-    # else:
-    loss = []
-    for filename in os.listdir(osp.join(args.model_path, args.logname+"-"+str(args.seed), str(args.year))):  # Traverse the files under the model path of the previous year and get all loss values
-        loss.append(filename[0:-4])
-    loss = sorted(loss)
-    load_path = osp.join(args.model_path, args.logname+"-"+str(args.seed), str(args.year), loss[0]+".pkl")  # Set the loading path to the model file corresponding to the minimum loss value
-    
+    if args.load_first_year and args.year == args.begin_year:
+        load_path = args.first_year_model_path
+    else:
+        load_path = _numeric_checkpoint(osp.join(args.model_path, args.logname+'-'+str(args.seed), str(args.year)))
+    loss = osp.basename(load_path)[:-4]
+
     args.logger.info("[*] load from {}".format(load_path))  # Recording Load Path
     state_dict = torch.load(load_path, map_location=args.device)["model_state_dict"]  # Loading the model state dictionary
     
@@ -84,7 +93,7 @@ def load_test_best_model(args):
     
     model.load_state_dict(state_dict)  # Load the state dictionary into the model
     model = model.to(args.device)  # Move the model to the specified device
-    return model, loss[0]  # Returns the model and the minimum loss value
+    return model, loss  # Returns the model and the minimum loss value
 
 
 

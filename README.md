@@ -1,261 +1,54 @@
-<div align="center">
-  <h2><b>EvoXXLTraffic: Evolving-Graph Traffic Forecasting under Extreme Sensor Growth</b></h2>
-</div>
+# EvoXXLTraffic: dataset and sensor-evolving benchmark
 
-This directory accompanies the **TSAS'26** submission (`TSAS26_EVOXXLTraffic_Du_Yin/`) and documents the dataset, task, and baseline organisation that backs the main experimental tables ([`tables/tsas_main_table_part1.tex`](tables/tsas_main_table_part1.tex), [`tables/tsas_main_table_part2.tex`](tables/tsas_main_table_part2.tex)). All baselines below are implemented in [`eac/`](eac).
+This revision separates the nine-district dataset archive from the **five-district corrected evaluation**. It accompanies the TSAS dataset/benchmark revision; it does not introduce a new forecasting model.
 
----
+## Corrected experiment scope
 
-The paper could be found in https://arxiv.org/abs/2605.29768
+| District | Evaluated years | Methods | Seeds | Complete sequential runs |
+|---|---|---:|---|---:|
+| PEMS04 | 2002–2025 | 13 | 47–51 | 65 |
+| PEMS05 | 2005–2025 | 13 | 47–49 | 39 |
+| PEMS03 | 2001–2025 | Retrain, Online-AN, ST-TTC | 47–49 | 9 |
+| PEMS06 | 2005–2025 | Retrain, Online-AN, ST-TTC | 47–49 | 9 |
+| PEMS10 | 2006–2025 | Retrain, Online-AN, ST-TTC | 47–49 | 9 |
 
-## 📊 Dataset and Task
+There are **131 main runs**, plus **3 PEMS04 Online-AN coordinate-policy sensitivity runs**, totaling 3,045 model–year tasks. Each district is trained and tested separately; these are not district-transfer experiments. Each yearly task covers 31 stored days, not a full calendar year. Gap/hourly/daily experiments are inherited work and were not revalidated by these runs.
 
-We benchmark continual spatio-temporal forecasting on **EvoXXLTraffic** — a long-horizon extension of the PEMS family that spans up to **25 years** per district and exhibits **sensor-count growth of up to +9,433%** between the first and last year. The task is *evolving-graph traffic forecasting*: at each period **τ** the sensor set **𝒱<sub>τ</sub>** may expand (newly installed sensors) and the underlying graph **𝒢<sub>τ</sub>** grows, while the model must keep predicting the next **3 / 6 / 12** steps.
+## Audited archive statistics
 
-<p align="center">
-    <img src="fig/new1.svg" alt="EvoXXLTraffic dataset and evolving-graph task overview" align="center" width="900px" />
-</p>
+Counts below are columns in the stored yearly sensor catalogs, not counts of valid observations or physical road growth. The original PEMS04 “~25 sensors” statement was erroneous.
 
-> 📄 PDF version: [`fig/new1.pdf`](fig/new1.pdf) · prototype diagram: [`fig/proto.pdf`](fig/proto.pdf)
-
----
-
-LaTeX source: [`table/data1.tex`](table/data1.tex).
-
-### XXLTraffic subset from [SIGSPATIAL 2025 Best Paper](https://dl.acm.org/doi/10.1145/3748636.3762762):
-
-Comparison with existing traffic datasets:
-
-| Reference | Dataset | Samples | Nodes | Interval | Span | Period |
-|---|---|---:|---:|---|---|---|
-| DCRNN | METR-LA | 34,272 | 207 | 5 min | 4 mo | 03/2012–06/2012 |
-| DCRNN | PEMS-BAY | 52,116 | 325 | 5 min | 6 mo | 01/2017–05/2017 |
-| LSTNet | Traffic | 17,544 | 862 | 1 h | 2 yr | 01/2015–12/2016 |
-| STSGCN | PEMS03 | 26,208 | 358 | 5 min | 11 mo | 01/2018–11/2018 |
-| STSGCN | PEMS04 | 16,992 | 307 | 5 min | 2 mo | 01/2018–02/2018 |
-| STSGCN | PEMS07 | 28,224 | 883 | 5 min | 2 mo | 05/2017–06/2017 |
-| STSGCN | PEMS08 | 17,856 | 170 | 5 min | 2 mo | 07/2016–08/2016 |
-| Large-ST | CA / GLA / GBA / SD | 525,888 | 716 – 8,600 | 5 min | 5 yr | 01/2017–12/2021 |
-| **Ours** | **PEMS03**<sub>gap&agg</sub> | 2,629,513 | 151 | Gap/Hr/Day | **23.00 yr** | 03/2001–03/2024 |
-| **Ours** | **PEMS04**<sub>gap&agg</sub> | 2,486,472 | 822 | Gap/Hr/Day | **21.75 yr** | 06/2002–03/2024 |
-| **Ours** | **PEMS05**<sub>gap&agg</sub> | 1,371,879 | 103 | Gap/Hr/Day | **12.00 yr** | 03/2012–03/2024 |
-| **Ours** | **PEMS06**<sub>gap&agg</sub> | 1,628,852 | 130 | Gap/Hr/Day | **14.25 yr** | 12/2009–03/2024 |
-| **Ours** | **PEMS07**<sub>gap&agg</sub> | 2,486,472 | 3,062 | Gap/Hr/Day | **21.75 yr** | 06/2002–03/2024 |
-| **Ours** | **PEMS08**<sub>gap&agg</sub> | 2,629,513 | 212 | Gap/Hr/Day | **23.00 yr** | 03/2001–03/2024 |
-| **Ours** | **PEMS10**<sub>gap&agg</sub> | 1,914,982 | 107 | Gap/Hr/Day | **16.75 yr** | 06/2007–03/2024 |
-| **Ours** | **PEMS11**<sub>gap&agg</sub> | 2,457,676 | 521 | Gap/Hr/Day | **21.50 yr** | 09/2002–03/2024 |
-| **Ours** | **PEMS12**<sub>gap&agg</sub> | 2,533,735 | 1,543 | Gap/Hr/Day | **22.16 yr** | 01/2002–03/2024 |
-
----
-
-### EvoXXLTraffic subset from TSAS26-EvoXXLTraffic
-
-Per-district sensor growth:
-
-| District | Years | N<sub>first</sub> | N<sub>last</sub> | Growth |
+| District | Stored years | First catalog | Last catalog | Growth |
 |---|---|---:|---:|---:|
 | PEMS03 | 2001–2025 (25) | 174 | 1,859 | +968% |
-| PEMS04 | 2001–2025 (25) | ~25 | 4,089 | ≫ 10,000% |
-| PEMS05 | 2005–2025 (21) | ~6 | 573 | ~+9,433% |
-| PEMS06 | 2005–2025 (21) | ~12 | 705 | ~+5,638% |
-| PEMS07 | 2001–2025 (25) | ~70 | 4,888 | ~+6,883% |
-| PEMS08 | 2001–2025 (25) | ~170 | 2,059 | ~+1,111% |
-| PEMS10 | 2006–2025 (20) | ~340 | 1,378 | ~+305% |
-| PEMS11 | 1999–2025 (27) | ~200 | 1,440 | ~+620% |
-| PEMS12 | 2002–2025 (24) | ~100 | 2,587 | ~+2,487% |
+| PEMS04 | 2001–2025 (25) | 1,266 | 4,110 | +225% |
+| PEMS05 | 2005–2025 (21) | 6 | 572 | +9,433% |
+| PEMS06 | 2005–2025 (21) | 13 | 746 | +5,638% |
+| PEMS07 | 2001–2025 (25) | 3,215 | 4,888 | +52% |
+| PEMS08 | 2001–2025 (25) | 262 | 2,074 | +692% |
+| PEMS10 | 2006–2025 (20) | 45 | 1,396 | +3,002% |
+| PEMS11 | 1999–2025 (27) | 424 | 1,440 | +240% |
+| PEMS12 | 2002–2025 (24) | 1,783 | 2,587 | +45% |
 
-This regime (high growth × long horizon) is what existing evolving-graph methods are *not* designed for — backbones trained on the tiny first-year graph become severely under-capacity, and rank-limited prompts/embeddings cannot absorb the heterogeneity of thousands of newly installed sensors. EvoXXLTraffic is constructed precisely to expose this failure mode.
+PEMS04/2001 remains in archive visualizations but is excluded from corrected forecasting evaluation. See [audited statistics](benchmark_release/results/district_stats.csv).
 
----
+## Reproduce and inspect the revised results
 
-## 🛠️ Dataset Processing
+- [Reproduction instructions and limitations](benchmark_release/README.md)
+- [All 134 portable experiment manifests](benchmark_release/index.json), with original configuration/input checksums
+- [Completed-run evidence](benchmark_release/results/runs.csv) and [yearly checks](benchmark_release/results/year_checks.csv)
+- [Per-year scores and denominators](benchmark_release/results/yearly_metrics.csv.gz)
+- [Coordinate-policy sensitivity](benchmark_release/results/coordinate_sensitivity.json)
+- [Artifact licensing status](NOTICE.txt)
 
-All preprocessing notebooks live in [`xxltrafficdata/`](xxltrafficdata). Each district is processed by a two-stage pipeline:
+The main metric averages each eligible year equally within a seed, then reports seed mean and sample standard deviation. Horizons 3/6/12 pool the first 3/6/12 leads; “Avg” is the 12-lead score. Missing targets are masked, valid zeros are retained, and MAPE excludes targets within 1e-6 of zero. New-to-previous-year nodes include returning sensors and receive current-year training; this is supervised adaptation, not zero-shot cold start.
 
-```mermaid
-flowchart LR
-    A([Raw PEMS dumps]) -->|Stage 1<br/><code>pemsXX_yearly_nodes.ipynb</code>| B([Yearly per-district<br/>tensors])
-    B -->|Stage 2<br/><code>pemsXX_build_eac_data.ipynb</code>| C([EAC-format<br/>flow + adj per year])
-    classDef raw fill:#fff4e6,stroke:#f59f00,stroke-width:1.5px;
-    classDef mid fill:#e7f5ff,stroke:#1c7ed6,stroke-width:1.5px;
-    classDef out fill:#ebfbee,stroke:#2f9e44,stroke-width:1.5px;
-    class A raw;
-    class B mid;
-    class C out;
-```
+Main graphs describe retrospective geographic proximity. Restricting coordinate dates and isolating missing-location nodes jointly raises Online-AN MAE by 2.72% for all nodes and 11.40% for new-to-previous-year nodes. This experiment neither isolates the two interventions nor checks all-method ranking stability. The catalog remains retrospective; no strictly prospective deployment claim is made.
 
-* **Stage 1 — `pemsXX_yearly_nodes.ipynb`** ([example: PEMS03](xxltrafficdata/pems03_yearly_nodes.ipynb)) reads the raw 5-minute PEMS feed, harmonises the station set year-by-year, and emits yearly node lists / sensor metadata.
-* **Stage 2 — `pemsXX_build_eac_data.ipynb`** ([example: PEMS03](xxltrafficdata/pems03_build_eac_data.ipynb)) takes the yearly node lists and produces the `<year>.npz` (flow tensor) and `<year>_adj.npz` (adjacency) files expected by [`eac/main.py`](eac/main.py).
+## Data access
 
-| District | Stage 1 (yearly nodes) | Stage 2 (EAC-format flow + adj) |
-|---|---|---|
-| PEMS03 | [`pems03_yearly_nodes.ipynb`](xxltrafficdata/pems03_yearly_nodes.ipynb) | [`pems03_build_eac_data.ipynb`](xxltrafficdata/pems03_build_eac_data.ipynb) |
-| PEMS04 | [`pems04_yearly_nodes.ipynb`](xxltrafficdata/pems04_yearly_nodes.ipynb) | [`pems04_build_eac_data.ipynb`](xxltrafficdata/pems04_build_eac_data.ipynb) |
-| PEMS05 | [`pems05_yearly_nodes.ipynb`](xxltrafficdata/pems05_yearly_nodes.ipynb) | [`pems05_build_eac_data.ipynb`](xxltrafficdata/pems05_build_eac_data.ipynb) |
-| PEMS06 | [`pems06_yearly_nodes.ipynb`](xxltrafficdata/pems06_yearly_nodes.ipynb) | [`pems06_build_eac_data.ipynb`](xxltrafficdata/pems06_build_eac_data.ipynb) |
-| PEMS07 | [`pems07_yearly_nodes.ipynb`](xxltrafficdata/pems07_yearly_nodes.ipynb) | [`pems07_build_eac_data.ipynb`](xxltrafficdata/pems07_build_eac_data.ipynb) |
-| PEMS08 | [`pems08_yearly_nodes.ipynb`](xxltrafficdata/pems08_yearly_nodes.ipynb) | [`pems08_build_eac_data.ipynb`](xxltrafficdata/pems08_build_eac_data.ipynb) |
-| PEMS10 | [`pems10_yearly_nodes.ipynb`](xxltrafficdata/pems10_yearly_nodes.ipynb) | [`pems10_build_eac_data.ipynb`](xxltrafficdata/pems10_build_eac_data.ipynb) |
-| PEMS11 | [`pems11_yearly_nodes.ipynb`](xxltrafficdata/pems11_yearly_nodes.ipynb) | [`pems11_build_eac_data.ipynb`](xxltrafficdata/pems11_build_eac_data.ipynb) |
-| PEMS12 | [`pems12_yearly_nodes.ipynb`](xxltrafficdata/pems12_yearly_nodes.ipynb) | [`pems12_build_eac_data.ipynb`](xxltrafficdata/pems12_build_eac_data.ipynb) |
+[Original processed archive](https://pan.baidu.com/s/1llz16kYY33TrWlKENNHC5A?pwd=xxtf) and [original raw records](https://pan.baidu.com/s/1BPuxL96npWlfRXDv38duww?pwd=xxtf) use access code `xxtf`. These are the existing author-provided links. Their contents have **not** been verified as a distribution of the newly corrected observation-aware NPZ caches. The manifests identify the exact corrected cache hashes; download access alone does not establish a match.
 
-### Auxiliary notebooks / scripts
+The corrected-cache upload and artifact-specific licensing notices remain release tasks. Legacy filled NPZ matrices must not be substituted for the explicit masks used in the revised benchmark. Original preprocessing notebooks remain under `xxltrafficdata/`; original baseline commands under `eac/` describe the earlier implementation unless invoked through the frozen revised runner below.
 
-* [`pems03_build_adj.ipynb`](xxltrafficdata/pems03_build_adj.ipynb) — reference notebook for constructing the per-year adjacency matrix (used as a template for the other districts).
-* [`pems03_data_quality_check.py`](xxltrafficdata/pems03_data_quality_check.py) — sanity checks for missing / duplicate stations and per-year coverage.
-* [`pems_all_growth_viz.ipynb`](xxltrafficdata/pems_all_growth_viz.ipynb) — produces the cross-district growth visualisation ([`pems_all_growth_viz.pdf`](xxltrafficdata/pems_all_growth_viz.pdf), [`pems_all_growth_viz.png`](xxltrafficdata/pems_all_growth_viz.png)).
-* [`pems11_adj_evolution.png`](xxltrafficdata/pems11_adj_evolution.png) — example visualisation of adjacency evolution across years for PEMS11.
-
-<p align="center">
-    <img src="xxltrafficdata/pems_all_growth_viz.png" alt="Cross-district sensor growth visualisation" align="center" width="900px" />
-</p>
-
-### Downloading the processed data
-
-Raw PEMS dumps and the intermediate / EAC-format outputs are **not** committed to this repository. The per-district directories `pems03/ ... pems12/` and `preprocessed/` are empty placeholders.
-
-> ☁️ **Cloud-disk download link:** `https://pan.baidu.com/s/1llz16kYY33TrWlKENNHC5A?pwd=xxtf code: xxtf`
-> ☁️ **Raw data Link:**   `https://pan.baidu.com/s/1BPuxL96npWlfRXDv38duww?pwd=xxtf code: xxtf`
-
-After downloading, place the files so the layout matches:
-
-```
-xxltrafficdata/
-├── pems03/<year>.npz           ← yearly flow tensors
-├── pems03/<year>_adj.npz       ← yearly adjacency matrices
-├── pems04/...
-└── preprocessed/               ← intermediate stage-1 outputs
-```
-
-Then either rerun the stage-2 notebooks to regenerate the EAC inputs, or symlink / copy the processed `<year>.npz` files into [`eac/data/`](eac/) following [`eac/README.md`](eac/README.md).
-
----
-
-## 🧩 Baselines
-
-All baselines share the same data loader ([`eac/main.py`](eac/main.py), [`eac/src/dataer/SpatioTemporalDataset.py`](eac/src/dataer/SpatioTemporalDataset.py)) and the same 3 / 6 / 12-step evaluation protocol (`eac/src/trainer/default_trainer.py::test_model`). Each method is selected through a JSON config under [`eac/conf/<DATASET>/`](eac/conf); launch scripts live in [`eac/scripts/`](eac/scripts) — see [Reproducing the main tables](#-reproducing-the-main-tables).
-
-### (i) Static STGNN backbones
-
-Trained from scratch on the current period only — used both standalone and as the shared backbone for the continual schemes.
-
-| Baseline | Model class | Config (PEMS05 example) |
-|---|---|---|
-| **DCRNN** | [`DCRNN_Model`](eac/src/model/model.py) | [`conf/PEMS05/retrain_dcrnn_pems05.json`](eac/conf/PEMS05/retrain_dcrnn_pems05.json) |
-| **ASTGNN** | [`ASTGNN_Model`](eac/src/model/model.py) | [`conf/PEMS05/retrain_astgnn_pems05.json`](eac/conf/PEMS05/retrain_astgnn_pems05.json) |
-| **TGCN** | [`TGCN_Model`](eac/src/model/model.py) | [`conf/PEMS05/retrain_tgcn_pems05.json`](eac/conf/PEMS05/retrain_tgcn_pems05.json) |
-
-### (ii) Naïve training schemes
-
-Fix the backbone (`STGNN_Model`) and only vary how each period's data is used; isolate the effect of the continual strategy.
-
-| Baseline | `strategy` | Config (PEMS05) |
-|---|---|---|
-| **Pretrain** | `pretrain` (train on Period 1, zero-shot afterwards) | [`pretrain_st_pems05.json`](eac/conf/PEMS05/pretrain_st_pems05.json) |
-| **Retrain** | `retrain` (train from scratch each period) | [`retrain_st_pems05.json`](eac/conf/PEMS05/retrain_st_pems05.json) |
-| **Online-NN** | `incremental` (fine-tune on new nodes only) | [`oneline_st_nn_pems05.json`](eac/conf/PEMS05/oneline_st_nn_pems05.json) |
-| **Online-AN** | `retrain` + `load_first_year` (fine-tune all nodes from previous-period init) | [`oneline_st_an_pems05.json`](eac/conf/PEMS05/oneline_st_an_pems05.json) |
-
-### (iii) Evolving-graph continual methods
-
-Methods explicitly designed for streaming graphs with newly installed sensors.
-
-| Baseline | Model class | Config (PEMS05) | Notes |
-|---|---|---|---|
-| **TrafficStream** (IJCAI'21) | [`TrafficStream_Model`](eac/src/model/model.py) | [`trafficstream.json`](eac/conf/PEMS05/trafficstream.json) | `incremental` + EWC + 2-hop subgraph of new nodes; drift detector in [`detect_default.py`](eac/src/model/detect_default.py) |
-| **PECPM** (KDD'23) | [`PECPM_Model`](eac/src/model/model.py) | [`pecpm_pems05.json`](eac/conf/PEMS05/pecpm_pems05.json) | Pattern bank with expansion / consolidation |
-| **STKEC** (TKDE'23) | [`STKEC_Model`](eac/src/model/model.py) | [`stkec.json`](eac/conf/PEMS05/stkec.json) | Influence-based node selection + learnable memory bank; trainer [`stkec_trainer.py`](eac/src/trainer/stkec_trainer.py); drift score [`detect_stkec.py`](eac/src/model/detect_stkec.py) |
-| **EAC** (ICLR'25) | [`EAC_Model`](eac/src/model/model.py) | [`eac.json`](eac/conf/PEMS05/eac.json) | Frozen backbone + expand-and-compress prompt pool (`rank=6`) |
-
-### (iv) Retrieval and test-time methods
-
-Adapt the model without continual parameter updates on the full graph.
-
-| Baseline | Model class | Config (PEMS05) | Notes |
-|---|---|---|---|
-| **STRAP** (NeurIPS'25) | [`RAP_Model`](eac/src/model/model.py) | [`strap_pems05.json`](eac/conf/PEMS05/strap_pems05.json) | Top-K retrieval from a spatial/temporal/spatio-temporal pattern library |
-| **ST-TTC** (NeurIPS'25) | [`STTTC_Model`](eac/src/model/model.py) | [`sttc_pems05.json`](eac/conf/PEMS05/sttc_pems05.json) | Test-time spectral calibrator + streaming FIFO memory (`use_ttc=1`); inference path `test_model_with_ttc` in [`default_trainer.py`](eac/src/trainer/default_trainer.py) |
-
----
-
-## 🚀 Reproducing the main tables
-
-There are two launchers; everything is invoked from inside `eac/`:
-
-| Scope | Launcher | What it runs |
-|---|---|---|
-| **Single district** (full pipeline) | [`scripts/pemsXX_run.sh`](eac/scripts/) | Per-district pipeline for `PEMSXX`: Retrain → Pretrain → Online-NN → Online-AN → TrafficStream → STKEC → EAC (covers columns 4–11 of the main result tables for that district). |
-| **Cross-district baselines** | [`scripts/run_all_baselines.sh`](eac/scripts/run_all_baselines.sh) | All cross-dataset baselines on PEMS03–PEMS12, split into three method groups selectable via `GROUP` (see below). |
-
-### Per-district full pipeline
-
-```bash
-cd eac/
-bash scripts/pems05_run.sh                # PEMS05, default seeds 42-46 / 51-55 / 47-51
-NOHUP=1 bash scripts/pems05_run.sh        # background, log under run_logs/
-GPU=2 bash scripts/pems05_run.sh          # pin to a specific GPU
-```
-
-Single-method invocation (skip the pipeline, run one config):
-
-```bash
-python eac/main.py --conf eac/conf/PEMS05/eac.json --gpuid 0 --seed 43
-```
-
-Other districts: replace `pems05` with `pems03 / pems04 / pems06 / pems07 / pems08 / pems10 / pems11 / pems12`.
-
-### Cross-district baselines (`run_all_baselines.sh`)
-
-One entry point covers what used to be three separate launchers. Pick the method group with `GROUP`:
-
-| `GROUP` | Methods | Default seeds | Notes |
-|---|---|---:|---|
-| `core` *(default)* | Retrain × {STGNN, ASTGNN, DCRNN, TGCN} + PECPM + STRAP | `47 48 49 50 51` | PECPM / STRAP reuse the first-year STGNN weight via an `AutoLink` symlink. |
-| `extra` | GWN / STID / ITransformer / DLinear (STBP-paper extras) | `42 43 44 45 46` | Simple retrain per period, one config per `(district, method)`. |
-| `sttc` | ST-TTC (NeurIPS'25 spectral calibrator) | `42 43 44 45 46` | Frozen backbone + test-time calibrator (case-insensitive: the runner accepts both `PEMS05` and `pems05`). |
-| `all` | runs `core → extra → sttc` in sequence | — | — |
-
-All other knobs (`DATASETS`, `METHODS`, `SEEDS`, `GPU`, `NOHUP=1`) are forwarded to the group runner. `DATASETS` is case-insensitive — examples below stick to uppercase for consistency:
-
-```bash
-cd eac/
-bash scripts/run_all_baselines.sh                                    # GROUP=core (default)
-GROUP=all  bash scripts/run_all_baselines.sh                         # everything
-GROUP=core  METHODS="strap pecpm"     bash scripts/run_all_baselines.sh
-GROUP=extra DATASETS="PEMS03 PEMS04"  bash scripts/run_all_baselines.sh
-GROUP=sttc  DATASETS="PEMS05 PEMS06"  bash scripts/run_all_baselines.sh
-NOHUP=1 GROUP=all bash scripts/run_all_baselines.sh                  # background → run_logs/
-```
-
-The aggregated numbers in [`tables/tsas_main_table_part1.tex`](tables/tsas_main_table_part1.tex) (PEMS03–PEMS07) and [`tables/tsas_main_table_part2.tex`](tables/tsas_main_table_part2.tex) (PEMS08, PEMS10–PEMS12) follow the same column order as the four baseline groups defined above.
-
----
-
-## 📁 Layout
-
-```
-tsas/
-├── README.md                          ← this file
-├── fig/                               ← paper figures
-│   ├── new1.pdf / new1.svg            ← dataset & task overview
-│   └── proto.pdf                      ← method prototype
-├── table/
-│   └── data1.tex                      ← dataset comparison (LaTeX)
-├── tables/                            ← main result tables (LaTeX)
-│   ├── tsas_main_table_part1.tex      ← PEMS03–PEMS07
-│   └── tsas_main_table_part2.tex      ← PEMS08, PEMS10–PEMS12
-├── xxltrafficdata/                    ← data processing pipeline
-│   ├── pemsXX_yearly_nodes.ipynb      ← stage 1: raw → yearly nodes
-│   ├── pemsXX_build_eac_data.ipynb    ← stage 2: yearly → EAC format
-│   ├── pems_all_growth_viz.ipynb      ← cross-district growth viz
-│   └── pemsXX/  preprocessed/         ← empty placeholders (cloud download)
-└── eac/                               ← shared codebase (all baselines)
-    ├── main.py                        ← entry point
-    ├── conf/PEMS{03,04,05,...,12}/    ← per-method JSON configs
-    ├── src/model/                     ← model implementations
-    ├── src/trainer/                   ← training / TTC loops
-    └── scripts/                       ← launch scripts
-```
-
-> Heavy artefacts (raw / processed flow data, training logs) are not committed.
-> Download them from the cloud-disk link in the [Dataset Processing](#-dataset-processing) section.
+Paper: [From XXLTraffic to EvoXXLTraffic](https://arxiv.org/abs/2605.29768). The inherited XXLTraffic work is [SIGSPATIAL 2025](https://dl.acm.org/doi/10.1145/3748636.3762762).

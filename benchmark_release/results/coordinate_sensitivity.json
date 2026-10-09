@@ -1,0 +1,231 @@
+{
+  "status": "passed",
+  "scope": "PEMS04 Online-AN, seeds47/48/49, 2002-2025; joint metadata-timing and missing-location-policy sensitivity",
+  "aggregation": "12-step overall metrics, equal weight for eligible years per seed, three-seed mean and sample SD",
+  "paired": [
+    {
+      "seed": 47,
+      "cohort": "all",
+      "metric": "MAE",
+      "baseline": 21.250151647802227,
+      "asof": 21.77569178207754,
+      "delta": 0.5255401342753139,
+      "relative_percent": 2.473112394610455
+    },
+    {
+      "seed": 47,
+      "cohort": "all",
+      "metric": "RMSE",
+      "baseline": 34.827910535444104,
+      "asof": 35.54437847812671,
+      "delta": 0.7164679426826055,
+      "relative_percent": 2.057166024799173
+    },
+    {
+      "seed": 47,
+      "cohort": "all",
+      "metric": "MAPE",
+      "baseline": 19.5583603077899,
+      "asof": 19.643261506776774,
+      "delta": 0.08490119898687354,
+      "relative_percent": 0.43409159894174376
+    },
+    {
+      "seed": 47,
+      "cohort": "new_to_previous",
+      "metric": "MAE",
+      "baseline": 17.899878412619895,
+      "asof": 19.874093963525738,
+      "delta": 1.9742155509058428,
+      "relative_percent": 11.029212072825967
+    },
+    {
+      "seed": 47,
+      "cohort": "new_to_previous",
+      "metric": "RMSE",
+      "baseline": 30.105698708160684,
+      "asof": 33.11377743059334,
+      "delta": 3.0080787224326535,
+      "relative_percent": 9.991725326133217
+    },
+    {
+      "seed": 47,
+      "cohort": "new_to_previous",
+      "metric": "MAPE",
+      "baseline": 23.512408305026003,
+      "asof": 22.551035132185017,
+      "delta": -0.961373172840986,
+      "relative_percent": -4.088790737082782
+    },
+    {
+      "seed": 48,
+      "cohort": "all",
+      "metric": "MAE",
+      "baseline": 21.3883566576015,
+      "asof": 22.050384008551553,
+      "delta": 0.6620273509500549,
+      "relative_percent": 3.095269830909464
+    },
+    {
+      "seed": 48,
+      "cohort": "all",
+      "metric": "RMSE",
+      "baseline": 35.038732473115054,
+      "asof": 35.98411461471976,
+      "delta": 0.9453821416047035,
+      "relative_percent": 2.6981059955010878
+    },
+    {
+      "seed": 48,
+      "cohort": "all",
+      "metric": "MAPE",
+      "baseline": 19.9531562274044,
+      "asof": 20.26475688642383,
+      "delta": 0.31160065901942957,
+      "relative_percent": 1.5616609997342934
+    },
+    {
+      "seed": 48,
+      "cohort": "new_to_previous",
+      "metric": "MAE",
+      "baseline": 18.04978955221882,
+      "asof": 19.946331344191414,
+      "delta": 1.896541791972595,
+      "relative_percent": 10.507279248247281
+    },
+    {
+      "seed": 48,
+      "cohort": "new_to_previous",
+      "metric": "RMSE",
+      "baseline": 30.299548322693997,
+      "asof": 33.185925509599045,
+      "delta": 2.8863771869050474,
+      "relative_percent": 9.526139321169968
+    },
+    {
+      "seed": 48,
+      "cohort": "new_to_previous",
+      "metric": "MAPE",
+      "baseline": 24.485000151816095,
+      "asof": 22.736176025902232,
+      "delta": -1.7488241259138633,
+      "relative_percent": -7.142430529183185
+    },
+    {
+      "seed": 49,
+      "cohort": "all",
+      "metric": "MAE",
+      "baseline": 21.398339771146205,
+      "asof": 21.95217642730216,
+      "delta": 0.5538366561559549,
+      "relative_percent": 2.5882225540822423
+    },
+    {
+      "seed": 49,
+      "cohort": "all",
+      "metric": "RMSE",
+      "baseline": 35.0921945879956,
+      "asof": 35.78196886095677,
+      "delta": 0.6897742729611736,
+      "relative_percent": 1.9656059732358067
+    },
+    {
+      "seed": 49,
+      "cohort": "all",
+      "metric": "MAPE",
+      "baseline": 19.272131261923153,
+      "asof": 20.54791464570726,
+      "delta": 1.2757833837841055,
+      "relative_percent": 6.619835483918335
+    },
+    {
+      "seed": 49,
+      "cohort": "new_to_previous",
+      "metric": "MAE",
+      "baseline": 18.01518116764653,
+      "asof": 20.294319086265013,
+      "delta": 2.2791379186184813,
+      "relative_percent": 12.651207320143886
+    },
+    {
+      "seed": 49,
+      "cohort": "new_to_previous",
+      "metric": "RMSE",
+      "baseline": 30.294580736694133,
+      "asof": 33.6405745412554,
+      "delta": 3.345993804561264,
+      "relative_percent": 11.044859255993767
+    },
+    {
+      "seed": 49,
+      "cohort": "new_to_previous",
+      "metric": "MAPE",
+      "baseline": 22.49164011468177,
+      "asof": 23.46590547380344,
+      "delta": 0.9742653591216701,
+      "relative_percent": 4.331677699598724
+    }
+  ],
+  "summary": [
+    {
+      "cohort": "all",
+      "metric": "MAE",
+      "baseline_mean": 21.345616025516644,
+      "baseline_sd": 0.0828251241973848,
+      "asof_mean": 21.92608407264375,
+      "asof_sd": 0.13919253949126623,
+      "delta_mean": 0.5804680471271055,
+      "relative_percent": 2.719378285607732
+    },
+    {
+      "cohort": "all",
+      "metric": "RMSE",
+      "baseline_mean": 34.986279198851584,
+      "baseline_sd": 0.13973197412897082,
+      "asof_mean": 35.77015398460108,
+      "asof_sd": 0.220106022030112,
+      "delta_mean": 0.7838747857494965,
+      "relative_percent": 2.2405205803514683
+    },
+    {
+      "cohort": "all",
+      "metric": "MAPE",
+      "baseline_mean": 19.59454926570582,
+      "baseline_sd": 0.3419517237980576,
+      "asof_mean": 20.151977679635955,
+      "asof_sd": 0.4627512156191179,
+      "delta_mean": 0.5574284139301362,
+      "relative_percent": 2.8448136589992457
+    },
+    {
+      "cohort": "new_to_previous",
+      "metric": "MAE",
+      "baseline_mean": 17.988283044161747,
+      "baseline_sd": 0.07849184180036796,
+      "asof_mean": 20.03824813132739,
+      "asof_sd": 0.22468602596369824,
+      "delta_mean": 2.049965087165642,
+      "relative_percent": 11.3961131372734
+    },
+    {
+      "cohort": "new_to_previous",
+      "metric": "RMSE",
+      "baseline_mean": 30.23327592251627,
+      "baseline_sd": 0.11051302386920346,
+      "asof_mean": 33.31342582714926,
+      "asof_sd": 0.2856064550776605,
+      "delta_mean": 3.0801499046329894,
+      "relative_percent": 10.187946263339075
+    },
+    {
+      "cohort": "new_to_previous",
+      "metric": "MAPE",
+      "baseline_mean": 23.49634952384129,
+      "baseline_sd": 0.9967770426484024,
+      "asof_mean": 22.917705543963564,
+      "asof_sd": 0.4836958341136875,
+      "delta_mean": -0.5786439798777252,
+      "relative_percent": -2.4626973619480186
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+EvoXXLTraffic artifact licensing status — revision candidate, 9 October 2026
+
+No new blanket license is granted by this revision. The previously inspected XXLTraffic README states CC BY-NC 4.0 for its dataset and MIT for its code; those statements do not establish the licensing of every artifact in TSAS26-EvoXXLTraffic. In particular, upstream PeMS records and reused forecasting implementations retain their applicable ownership and terms.
+
+Before tagging a completed licensed release, the authors must confirm separate notices for (1) author-owned preprocessing/benchmark code, (2) derived dataset products and metadata, and (3) each reused baseline implementation. This file records the unresolved status; it is not a substitute for a LICENSE or permission from third-party rights holders.
+
+The corrected runner adapts the baseline implementations already present in this repository. Attribution in original source files and the manuscript bibliography is preserved. No unsupported claim that every implementation exactly reproduces its original authors' code is made.

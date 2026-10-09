@@ -1,3 +1,13 @@
+# Explicit v2 entry: observation-aware caches and complete checkpoint provenance.
+# Dispatch before legacy optional dependencies so CPU audits use the same entry.
+import sys as _sys
+if __name__ == "__main__" and "--benchmark_manifest" in _sys.argv:
+    from pathlib import Path as _Path
+    _sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+    from benchmark_v2.runner import main as _benchmark_main
+    _benchmark_main()
+    raise SystemExit(0)
+
 import sys, argparse, random, torch
 sys.path.append("src/")
 

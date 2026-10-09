@@ -1,0 +1,237 @@
+{
+  "method": "Online-AN",
+  "district": "PEMS10",
+  "purpose": "benchmark",
+  "protocol_frozen": true,
+  "frozen_protocol_path": "benchmark_release/protocols/pems10.json",
+  "frozen_protocol_sha256": "84838bfe121bd8d0a9c1f8aef7ef32be9fadf1a239cc532addf8872400d3cd6c",
+  "seed": 49,
+  "years": [
+    {
+      "district": "PEMS10",
+      "year": 2006,
+      "sensors": 45,
+      "data": "pems10/2006/data.npz",
+      "data_sha256": "23a18d2481a588c189b43d79008c37d753d42a52283a2aa1e9af39d05c988010",
+      "graph": "pems10/2006/graph.npz",
+      "graph_sha256": "993ef673be2cd43954a761546f1ec1dd8d387a06c98e30178925cb15efd83f2a"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2007,
+      "sensors": 121,
+      "data": "pems10/2007/data.npz",
+      "data_sha256": "8db5d60d20f48f3c463f70587cd2c8eac4a07d6ffca4ec00752bdfab706d345b",
+      "graph": "pems10/2007/graph.npz",
+      "graph_sha256": "5f9e74dfd3e21fa9944f2b819c68663754c6792eac78471d6719cdb2b52d1721"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2008,
+      "sensors": 161,
+      "data": "pems10/2008/data.npz",
+      "data_sha256": "3bbbc20c1039b8a5ba5a2e6da73ec0d00558a3977b6ba73023c3ef02692436b2",
+      "graph": "pems10/2008/graph.npz",
+      "graph_sha256": "d7c2a695ca06db862df96d43268af8d0c6b0b806c940c2e0c270c9123d688f52"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2009,
+      "sensors": 255,
+      "data": "pems10/2009/data.npz",
+      "data_sha256": "275dc3a03805debffa1ccd7939cd98abb9a25755361c1848415d8a03aedd6dec",
+      "graph": "pems10/2009/graph.npz",
+      "graph_sha256": "2fa8916b01ef7174286dc5eb06fe98cdf6f8f09427ddffe5081c00f35e67de27"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2010,
+      "sensors": 278,
+      "data": "pems10/2010/data.npz",
+      "data_sha256": "e457665fde2f859deb11e7f1e6fc1224c86ed6b99a7d5a66c2b59d3df72832b5",
+      "graph": "pems10/2010/graph.npz",
+      "graph_sha256": "e430b2808c00423e436518ede2a3823035ccaa354e4f711b06926f00971ac749"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2011,
+      "sensors": 283,
+      "data": "pems10/2011/data.npz",
+      "data_sha256": "2c8281cb0ef6e5cdfe0c07230781f7fde38c40108cb222be2af210c62aa988f4",
+      "graph": "pems10/2011/graph.npz",
+      "graph_sha256": "1938e08310245e8ce87ed3b7c26a07ec235ed18e33432cab4ab731f747aa63a5"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2012,
+      "sensors": 661,
+      "data": "pems10/2012/data.npz",
+      "data_sha256": "1d8a942aceab84de896819f19ed005e3b8fffb4a7f08380973f3a948431d497a",
+      "graph": "pems10/2012/graph.npz",
+      "graph_sha256": "5483fbb48e013ee8800a5d3dd6923d27e8dd1dcdde31cb228adfd443731ce440"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2013,
+      "sensors": 707,
+      "data": "pems10/2013/data.npz",
+      "data_sha256": "9d9beef38738c1f1d31bba7e3b1ee64cf7687d50c29b40af5ddb5c3fda026b74",
+      "graph": "pems10/2013/graph.npz",
+      "graph_sha256": "4cf663781d190d19290e90031da14bfeb24bd82b8381577a2708c5716446340a"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2014,
+      "sensors": 760,
+      "data": "pems10/2014/data.npz",
+      "data_sha256": "c4ef3ef2ad3e48e647dcbb01c0a9f660d8df9cb9205c33f5d4a4fb854594d69b",
+      "graph": "pems10/2014/graph.npz",
+      "graph_sha256": "7dc7e5670761f4432e60469550b7bfb125635ec9865c6abdf9520f6a8ee68903"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2015,
+      "sensors": 906,
+      "data": "pems10/2015/data.npz",
+      "data_sha256": "2cc9b213098c6ec674e49d89cdcb0f059759ada5d582d9902f56e0a90eb6c85f",
+      "graph": "pems10/2015/graph.npz",
+      "graph_sha256": "5fd4a7d3a706175a02f5234b1f3c81d68a5eef0ae35b38e7d8b1335c67a6c0ab"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2016,
+      "sensors": 977,
+      "data": "pems10/2016/data.npz",
+      "data_sha256": "801d1f93781096830fadb238948313088567608a2127ee765afd32b5c42891cf",
+      "graph": "pems10/2016/graph.npz",
+      "graph_sha256": "80421431e5d97ac828566a14e8b29dc4eddb26afa7b171f428c0bde216cd1801"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2017,
+      "sensors": 1034,
+      "data": "pems10/2017/data.npz",
+      "data_sha256": "37368d2cdd0c6a5687fa84e6375f5cd89ea95d4f2811fc7b240c0cfae0e3586a",
+      "graph": "pems10/2017/graph.npz",
+      "graph_sha256": "b9793dd7b32c3f165174920991232416159df9d8a86242620d976bcf2fdc930f"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2018,
+      "sensors": 1154,
+      "data": "pems10/2018/data.npz",
+      "data_sha256": "0219d4bee75cec3df79c7afcdc2d552cc458f90fdc08453901ebdcc32e7f3b9f",
+      "graph": "pems10/2018/graph.npz",
+      "graph_sha256": "12ad56f9558da0877436e6e49feaa10d8ec5ea639a97e20787f68dcae07c631b"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2019,
+      "sensors": 1179,
+      "data": "pems10/2019/data.npz",
+      "data_sha256": "9142d3a4bd9c69954fb59b52751e3ae389a482a0b33fa0c1f926baaf779c0eec",
+      "graph": "pems10/2019/graph.npz",
+      "graph_sha256": "dbf07b7540e3d9be61e1238af1054c733d723c487575360af36af04af70dbecd"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2020,
+      "sensors": 1152,
+      "data": "pems10/2020/data.npz",
+      "data_sha256": "fac89d289654b34f335d1a9758909e4b513406bb85936a1262c2ca9515ca990f",
+      "graph": "pems10/2020/graph.npz",
+      "graph_sha256": "7b6e8701e283eb797f9964f7cfc5a5c988c5516d05dd1216db2b190269b15092"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2021,
+      "sensors": 1242,
+      "data": "pems10/2021/data.npz",
+      "data_sha256": "41537d5ee5c134295551d7cb1b4192f5c2c9e6cf05ac0d01615e1d5adcbd06a0",
+      "graph": "pems10/2021/graph.npz",
+      "graph_sha256": "b3a847f0bb458c0d3574066907fc1a44db81512a850ede67144ea5079ce0826a"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2022,
+      "sensors": 1238,
+      "data": "pems10/2022/data.npz",
+      "data_sha256": "a479f25e9dd4aca76a305bffe4d7216843e2a0390ba7aa68780f3c6ea839825b",
+      "graph": "pems10/2022/graph.npz",
+      "graph_sha256": "d345c12c9e5c84c283b081a997ddc357983efc5c9aa1f0286aab60748d2dc796"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2023,
+      "sensors": 1258,
+      "data": "pems10/2023/data.npz",
+      "data_sha256": "150d0fbb4456950bcb165599dea3f27700092a868cb528a6e6c5b0935bec7633",
+      "graph": "pems10/2023/graph.npz",
+      "graph_sha256": "a84d523d8580645a781cf856070bf9203eaa6f1173105d78057de407c69ba326"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2024,
+      "sensors": 1378,
+      "data": "pems10/2024/data.npz",
+      "data_sha256": "9dd2ec37f37f4d2d5bc9e43b3aca42875daef33fef6311a2a9159c605b6d3ca2",
+      "graph": "pems10/2024/graph.npz",
+      "graph_sha256": "c84954c42d11c1bb226897cea6863833188ce9d4c72bc8f44f2e2fd98c3bcf00"
+    },
+    {
+      "district": "PEMS10",
+      "year": 2025,
+      "sensors": 1396,
+      "data": "pems10/2025/data.npz",
+      "data_sha256": "2ea0f8ad490a43a681ffb0749fe5966769a4f57501b5703fa089c5d2db2f16c6",
+      "graph": "pems10/2025/graph.npz",
+      "graph_sha256": "f44a72d1c7e0b55f81cc171566fb01db7566cf9051cc03ec2e72b2ee639ecc41"
+    }
+  ],
+  "model_config": {
+    "begin_year": 2006,
+    "end_year": 2025,
+    "dropout": 0.0,
+    "lr": 0.03,
+    "batch_size": 128,
+    "epoch": 100,
+    "gpuid": 0,
+    "loss": "mse",
+    "activation": "relu",
+    "scheduler": "epo",
+    "y_len": 12,
+    "x_len": 12,
+    "data_process": 0,
+    "raw_data_path": "../xxltrafficdata/preprocessed/pems10/RawData/",
+    "save_data_path": "../xxltrafficdata/preprocessed/pems10/FastData/",
+    "graph_path": "../xxltrafficdata/preprocessed/pems10/graph/",
+    "model_path": "log/PEMS10/",
+    "gcn": {
+      "in_channel": 12,
+      "out_channel": 12,
+      "hidden_channel": 64
+    },
+    "tcn": {
+      "in_channel": 1,
+      "out_channel": 1,
+      "kernel_size": 3,
+      "dilation": 1
+    },
+    "logname": "oneline_st_an_pems10",
+    "init": true,
+    "train": 1,
+    "auto_test": 0,
+    "strategy": "retrain",
+    "detect": false,
+    "ewc": false,
+    "replay": false
+  },
+  "epochs": 100,
+  "early_stopping_patience": 5,
+  "batch_size": 128,
+  "max_batches": null,
+  "max_eval_origins": null,
+  "cpu_threads": 6,
+  "device": "cuda:0",
+  "output": "results/pems10-s49-Online-AN"
+}

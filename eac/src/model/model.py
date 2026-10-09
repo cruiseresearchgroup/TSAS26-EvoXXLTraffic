@@ -847,20 +847,18 @@ class PECPM_Model(nn.Module):
 
     count_parameters = _count_params_log
 
-    def pattern_matching(self, current_features):
+    def pattern_matching(self, current_features, available=None):
         # Cap history *before* the matmul. Otherwise the first batch of a year
         # stores all B*N rows, and batch 2 builds a (B*N) x (B*N) similarity
         # matrix on CPU (~331GB at PEMS04 year 2012) and OOMs.
         max_patterns = 1000
         device = current_features.device
         current_detached = current_features.detach()
-        # Keep at most max_patterns rows of the new batch when growing history.
-        if current_detached.size(0) > max_patterns:
-            new_history_rows = current_detached[-max_patterns:].cpu()
-        else:
-            new_history_rows = current_detached.cpu()
+        # V2 excludes rows whose entire input history is unavailable.
+        candidates = current_detached if available is None else current_detached[available]
+        new_history_rows = candidates[-max_patterns:].cpu()
 
-        if self.historical_patterns is None:
+        if self.historical_patterns is None or len(self.historical_patterns) == 0:
             self.historical_patterns = new_history_rows
             return torch.ones(current_features.size(0), 1, device=device)
 
@@ -886,7 +884,7 @@ class PECPM_Model(nn.Module):
         N = adj.shape[0]
         x = data.x.reshape((-1, N, self.args.gcn["in_channel"]))
         feat = self.backbone(x, adj).reshape(-1, self.args.gcn["out_channel"])
-        pattern_scores = self.pattern_matching(feat)
+        pattern_scores = self.pattern_matching(feat, data.x_available.any(-1) if hasattr(data, "x_available") else None)
         enhanced = feat * pattern_scores
         x = enhanced + data.x
         x = self.fc(self.activation(x))
@@ -897,7 +895,7 @@ class PECPM_Model(nn.Module):
         N = adj.shape[0]
         x = data.x.reshape((-1, N, self.args.gcn["in_channel"]))
         feat = self.backbone(x, adj).reshape(-1, self.args.gcn["out_channel"])
-        pattern_scores = self.pattern_matching(feat)
+        pattern_scores = self.pattern_matching(feat, data.x_available.any(-1) if hasattr(data, "x_available") else None)
         enhanced = feat * pattern_scores
         return enhanced + data.x
 
@@ -999,6 +997,10 @@ class STRAP(nn.Module):
         x = x.detach().float()
         if x.dim() > 2:
             x = x.reshape(-1, x.shape[-1])
+        if getattr(self.args, "benchmark_strict", False) and hasattr(data, "x_available"):
+            x = x[data.x_available.any(-1)]
+            if not len(x):
+                raise ValueError("No observed input rows for STRAP patterns")
         self._ensure_projector(x.shape[-1], x.device)
         feats = self._normalize(self.projector(x))
         if feats.shape[0] > self.max_patterns:
@@ -1080,7 +1082,7 @@ class RAP_Model(nn.Module):
         self.use_strap = getattr(args, "use_strap", True)
         if self.use_strap:
             self.strap = STRAP(args)
-            if hasattr(args, "path"):
+            if getattr(args, "path", None):
                 self.pattern_dir = os.path.join(args.path, "pattern_libraries")
                 os.makedirs(self.pattern_dir, exist_ok=True)
             self.strap_adapter = nn.Linear(args.gcn["out_channel"], self.strap.feature_dim)
@@ -1173,6 +1175,8 @@ class RAP_Model(nn.Module):
             enhanced = self.strap(adapted)
             return enhanced.reshape(B, N, -1)
         except Exception as e:
+            if getattr(self.args, "benchmark_strict", False):
+                raise
             print(f"STRAP application error: {e}")
             return feature_mid
 

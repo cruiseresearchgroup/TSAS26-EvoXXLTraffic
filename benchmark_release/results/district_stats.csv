@@ -1,0 +1,10 @@
+district,first_year,last_year,year_count,paper_N_first_approx,verified_N_first,paper_N_last,verified_N_last,growth_percent,definition
+PEMS03,2001,2025,25,174,174,1859,1859,968.390805,stored matrix columns / reconstructed yearly sensor catalog; not count of sensors with valid observed flow
+PEMS04,2001,2025,25,25,1266,4089,4110,224.64455,stored matrix columns / reconstructed yearly sensor catalog; not count of sensors with valid observed flow
+PEMS05,2005,2025,21,6,6,573,572,9433.333333,stored matrix columns / reconstructed yearly sensor catalog; not count of sensors with valid observed flow
+PEMS06,2005,2025,21,12,13,705,746,5638.461538,stored matrix columns / reconstructed yearly sensor catalog; not count of sensors with valid observed flow
+PEMS07,2001,2025,25,70,3215,4888,4888,52.037325,stored matrix columns / reconstructed yearly sensor catalog; not count of sensors with valid observed flow
+PEMS08,2001,2025,25,170,262,2059,2074,691.603053,stored matrix columns / reconstructed yearly sensor catalog; not count of sensors with valid observed flow
+PEMS10,2006,2025,20,340,45,1378,1396,3002.222222,stored matrix columns / reconstructed yearly sensor catalog; not count of sensors with valid observed flow
+PEMS11,1999,2025,27,200,424,1440,1440,239.622642,stored matrix columns / reconstructed yearly sensor catalog; not count of sensors with valid observed flow
+PEMS12,2002,2025,24,100,1783,2587,2587,45.092541,stored matrix columns / reconstructed yearly sensor catalog; not count of sensors with valid observed flow

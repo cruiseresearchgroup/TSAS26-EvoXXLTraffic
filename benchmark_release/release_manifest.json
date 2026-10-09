@@ -1,0 +1,12 @@
+{
+  "base_commit": "36d85454ef3bfe484ca04aeff33f415d1bc236bc",
+  "main_runs": 131,
+  "sensitivity_runs": 3,
+  "yearly_tasks": 3045,
+  "pems04_overlay": [
+    "benchmark_v2/formal_run.py"
+  ],
+  "source_verification": "All five frozen protocols match their selected source bytes",
+  "cache_distribution": "Corrected NPZ distribution still requires upload/verification; legacy download links are not asserted to contain corrected masks.",
+  "license": "No new license grant is inferred; artifact-specific author decision remains pending."
+}

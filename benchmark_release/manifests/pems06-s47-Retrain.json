@@ -1,0 +1,246 @@
+{
+  "method": "Retrain",
+  "district": "PEMS06",
+  "purpose": "benchmark",
+  "protocol_frozen": true,
+  "frozen_protocol_path": "benchmark_release/protocols/pems06.json",
+  "frozen_protocol_sha256": "a0eb83798916f964a64f0075dbd92c39533bfca3701544ea834105deac9e8b28",
+  "seed": 47,
+  "years": [
+    {
+      "district": "PEMS06",
+      "year": 2005,
+      "sensors": 13,
+      "data": "pems06/2005/data.npz",
+      "data_sha256": "5f0ecaa6c81d19696399d9c83d7715493543d6fa3fc055e8fd663ea01ff8aa2f",
+      "graph": "pems06/2005/graph.npz",
+      "graph_sha256": "0515bd6613eb04a8c21c9da02978ec4a4c471060df208fe16487f0970ba86f46"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2006,
+      "sensors": 13,
+      "data": "pems06/2006/data.npz",
+      "data_sha256": "af841800d5d7ea91c2a10cefc14a244ce961106a1ee2d358a7c34d7f9aeae3c0",
+      "graph": "pems06/2006/graph.npz",
+      "graph_sha256": "5192b9a8ebc4496328b8399e7e87730b9e54ce859749959eef4ece3f8f4161ad"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2007,
+      "sensors": 13,
+      "data": "pems06/2007/data.npz",
+      "data_sha256": "4f6be323c1a7083f8f61e4ed2118b60a21f98888c86a65fb73e4af2105c7c461",
+      "graph": "pems06/2007/graph.npz",
+      "graph_sha256": "805eeff1f8b9c70fb52c26a66313982793fae9a00d7bbf66745e2481666fc217"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2008,
+      "sensors": 27,
+      "data": "pems06/2008/data.npz",
+      "data_sha256": "62af12ae159cba1890432bc27c3a0feaf2b0d0807448f304b06a9908141b5223",
+      "graph": "pems06/2008/graph.npz",
+      "graph_sha256": "6a21e1c727c003d5ab53e133c9dc897ab79d50b2d4fb08370fb03d59ef4eafb5"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2009,
+      "sensors": 38,
+      "data": "pems06/2009/data.npz",
+      "data_sha256": "8a1aede4c57b63ad1dc34b3a079c2ce5a9aa909dfb8fd17c7e8206f0fc6e6d58",
+      "graph": "pems06/2009/graph.npz",
+      "graph_sha256": "9ab7ae4fae585b97f026379c0a4ca640a57beeedc36048c2d1627ad73fd80080"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2010,
+      "sensors": 222,
+      "data": "pems06/2010/data.npz",
+      "data_sha256": "f6f5cab8f764b3a29eef7df97ed8edf02c4536a76cdc94b7ce3edce2eb59e419",
+      "graph": "pems06/2010/graph.npz",
+      "graph_sha256": "c6819fe16e625c0dbd32d664a0ee6f103da3ba823e4904c3c50633e93a761917"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2011,
+      "sensors": 260,
+      "data": "pems06/2011/data.npz",
+      "data_sha256": "6d2b4a58ee627d893724878344d7d0e99d383863a23b9966a0db74c5ee3dcace",
+      "graph": "pems06/2011/graph.npz",
+      "graph_sha256": "c8217e93cb81b508595d56734b0aefd52bc4f2644f96b5108060931fe0d5e7c5"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2012,
+      "sensors": 260,
+      "data": "pems06/2012/data.npz",
+      "data_sha256": "a1e96aeaceb7fa3c619c45f5cfdfa299f00c438681947f068879d8298b519a3e",
+      "graph": "pems06/2012/graph.npz",
+      "graph_sha256": "d5e2622857da411c777fb4858fc0ffbcade246519b9d661482b1e79bfec4e7f6"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2013,
+      "sensors": 277,
+      "data": "pems06/2013/data.npz",
+      "data_sha256": "87b2689eab3686cbb990dc4705baaafa409c5469ce37b3b54c25415a6259f60b",
+      "graph": "pems06/2013/graph.npz",
+      "graph_sha256": "5ec6ab908093a6ede5524c39c4867bbdcfa1274583fd19f326cc20749c69a9f2"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2014,
+      "sensors": 225,
+      "data": "pems06/2014/data.npz",
+      "data_sha256": "b4a83c57d9ab01576de29a789b1e841dbc9d1a569d76d5aef5154764e3645b1b",
+      "graph": "pems06/2014/graph.npz",
+      "graph_sha256": "f57aa6deaa3033f96c7fe365830fcb10d2cf25d3304b45c02ba2282c59c82190"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2015,
+      "sensors": 418,
+      "data": "pems06/2015/data.npz",
+      "data_sha256": "ccb6f90fc0474a5af22c227604e68b8c6f3cb515fb5074c44793a66949c9f0db",
+      "graph": "pems06/2015/graph.npz",
+      "graph_sha256": "8f3d9d5565c88af7572dac7f7aae86cc8b716ed39fb368e285c52f47b229aa08"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2016,
+      "sensors": 461,
+      "data": "pems06/2016/data.npz",
+      "data_sha256": "49cf329e42cf42b15f1b5b4f7e2fd77ea54cae66d7df4629ba60211f438ff2fe",
+      "graph": "pems06/2016/graph.npz",
+      "graph_sha256": "c685412238bfc304afad33983c35b2795d48faea04eca8aca87bc7601bbedf1c"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2017,
+      "sensors": 505,
+      "data": "pems06/2017/data.npz",
+      "data_sha256": "d77385a1433907d6067a3ddd3d0d2d97ad6e82ebe00bf72b0e00d428c21cd84c",
+      "graph": "pems06/2017/graph.npz",
+      "graph_sha256": "beebdbb9349d03c072c4a2b38f8d86c456ff20bda3df6c763bf1fdf90e900fca"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2018,
+      "sensors": 558,
+      "data": "pems06/2018/data.npz",
+      "data_sha256": "a1efccdc197a4d4307d9f3833916c05c9269ed238f911f74bf66e840ada9abca",
+      "graph": "pems06/2018/graph.npz",
+      "graph_sha256": "3d6e929cf01b0798e1a1f210f393aa320504261f9f216fb8bfc5fc811cdc8aa3"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2019,
+      "sensors": 624,
+      "data": "pems06/2019/data.npz",
+      "data_sha256": "9b9e50527930460920d9eb15d26085cdc2014140193f9feb5ebd499356b24d98",
+      "graph": "pems06/2019/graph.npz",
+      "graph_sha256": "12d4024f3688e79ee626b358028ff32d09fdc4e4d5b19b7504d06e75cb42cce0"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2020,
+      "sensors": 630,
+      "data": "pems06/2020/data.npz",
+      "data_sha256": "3ec2ef383a66ce9c321e10ebef31fcde00fda8129db04b9ce203672b9589b429",
+      "graph": "pems06/2020/graph.npz",
+      "graph_sha256": "e6fe69ecb1394638952f23b113fb77deb1a9500cac50702786172aa90757bdd6"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2021,
+      "sensors": 669,
+      "data": "pems06/2021/data.npz",
+      "data_sha256": "68a4167f9fdcbb3eda71f16fca5b8de12110d99573d84bf343d1986aaa4beb9d",
+      "graph": "pems06/2021/graph.npz",
+      "graph_sha256": "e5c4d8eca02d58eceb48f8432e1321aadb500390f4acba80ff19cbab61f172e3"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2022,
+      "sensors": 670,
+      "data": "pems06/2022/data.npz",
+      "data_sha256": "19334716a2b4cc87c39168e505d337ad465b7468ca866fd7a31a561900969b35",
+      "graph": "pems06/2022/graph.npz",
+      "graph_sha256": "447627109208e74c2f743c3503697132e5777637a02aba18e37988d903b4e5df"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2023,
+      "sensors": 690,
+      "data": "pems06/2023/data.npz",
+      "data_sha256": "9cd608a2f9c5d410274ec7734f7d8eeb75709879d64040727e4e7edb083a24f5",
+      "graph": "pems06/2023/graph.npz",
+      "graph_sha256": "20f37b9e2b308aee72aa3b11d7c7412cb4c90d0b50740ea6aaea44e5b5e72bca"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2024,
+      "sensors": 705,
+      "data": "pems06/2024/data.npz",
+      "data_sha256": "3f91ee21021e8fe3a9132240eec0519b7031f55a788dd90a8beec83ea42774f9",
+      "graph": "pems06/2024/graph.npz",
+      "graph_sha256": "72c5a1f26f759bef4077e56a3d8d781afe6ed90472058648ce2897b33f7d9706"
+    },
+    {
+      "district": "PEMS06",
+      "year": 2025,
+      "sensors": 746,
+      "data": "pems06/2025/data.npz",
+      "data_sha256": "cc1fbe0b9b9644a9bc6e483aed3c0ec111ba9b64edc512283a7392b8b014ad40",
+      "graph": "pems06/2025/graph.npz",
+      "graph_sha256": "f24e6406485c23d362c622c34a6a00ff44d63ab6ea606b120dda13f2c065ff43"
+    }
+  ],
+  "model_config": {
+    "begin_year": 2005,
+    "end_year": 2025,
+    "dropout": 0.0,
+    "lr": 0.03,
+    "batch_size": 128,
+    "epoch": 100,
+    "gpuid": 0,
+    "loss": "mse",
+    "activation": "relu",
+    "scheduler": "epo",
+    "y_len": 12,
+    "x_len": 12,
+    "data_process": 0,
+    "raw_data_path": "../xxltrafficdata/preprocessed/pems06/RawData/",
+    "save_data_path": "../xxltrafficdata/preprocessed/pems06/FastData/",
+    "graph_path": "../xxltrafficdata/preprocessed/pems06/graph/",
+    "model_path": "log/PEMS06/",
+    "gcn": {
+      "in_channel": 12,
+      "out_channel": 12,
+      "hidden_channel": 64
+    },
+    "tcn": {
+      "in_channel": 1,
+      "out_channel": 1,
+      "kernel_size": 3,
+      "dilation": 1
+    },
+    "logname": "retrain_st_pems06",
+    "init": false,
+    "train": 1,
+    "auto_test": 0,
+    "strategy": "retrain",
+    "detect": false,
+    "ewc": false,
+    "replay": false
+  },
+  "epochs": 100,
+  "early_stopping_patience": 5,
+  "batch_size": 128,
+  "max_batches": null,
+  "max_eval_origins": null,
+  "cpu_threads": 6,
+  "device": "cuda:0",
+  "output": "results/pems06-s47-Retrain"
+}
