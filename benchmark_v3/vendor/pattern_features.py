@@ -18,6 +18,17 @@ from torch.nn import functional as F
 PATTERN_TYPES = ("spatial", "temporal", "spatiotemporal")
 
 
+def nearest_hop_nodes(graph, node, k_hop, limit):
+    """Exact distance/node-ID ordering, avoiding unused dense two-hop searches."""
+    first = sorted(n for n in graph.neighbors(node) if n != node)
+    # Every other reachable node is strictly farther away. If one hop fills
+    # the requested prefix, further BFS visits cannot change its members/order.
+    if len(first) >= limit or k_hop == 1:
+        return first[:limit]
+    distances = nx.single_source_shortest_path_length(graph, node, cutoff=k_hop)
+    return sorted((n for n in distances if n != node), key=lambda n: (distances[n], n))[:limit]
+
+
 def fit_features(x, width):
     """Original STRAP descriptor convention: truncate or zero-pad the last axis."""
     return F.pad(x[..., :width], (0, max(0, width - x.shape[-1])))
@@ -133,9 +144,8 @@ class GraphLayout:
 
         if enabled["temporal"]:
             for node in graph:
-                distances = nx.single_source_shortest_path_length(graph, node, cutoff=k_hop)
-                neighbors = sorted((n for n in distances if n != node), key=lambda n: (distances[n], n))
-                add("k_hop", [*neighbors[:max_neighbors], node])
+                neighbors = nearest_hop_nodes(graph, node, k_hop, max_neighbors)
+                add("k_hop", [*neighbors, node])
 
         if enabled["spatiotemporal"]:
             clusters = min(count, n_clusters if n_clusters is not None else max(2, min(5, count // 200)))

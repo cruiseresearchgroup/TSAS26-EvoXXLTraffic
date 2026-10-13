@@ -15,6 +15,7 @@ from benchmark_v3.runner import tensor_batch, snapshot, restore, normalized_adj,
 from benchmark_v2.special import cluster_loss
 from benchmark_v3.vendor.astgcn_graph import cheb_polynomial
 from benchmark_v3.vendor.pecpm_reference import Basic_Model
+from benchmark_v3.vendor.pattern_features import nearest_hop_nodes
 
 
 def args(path='.', n=6):
@@ -197,6 +198,19 @@ class AccumulationTests(unittest.TestCase):
 
 
 class AttentionTests(unittest.TestCase):
+    def test_hop_prefix_matches_full_bfs_including_ties_loops_and_isolates(self):
+        import networkx as nx
+        graphs = [nx.path_graph(40), nx.complete_graph(40), nx.empty_graph(40)]
+        graphs += [nx.gnp_random_graph(40, p, seed=seed) for p in (.04, .15, .7) for seed in (47, 48, 49)]
+        for graph in graphs:
+            graph.add_edge(0, 0)
+            for hops in (1, 2, 3):
+                for limit in (1, 3, 20, 50):
+                    for node in graph:
+                        distance = nx.single_source_shortest_path_length(graph, node, cutoff=hops)
+                        expected = sorted((n for n in distance if n != node), key=lambda n: (distance[n], n))[:limit]
+                        self.assertEqual(nearest_hop_nodes(graph, node, hops, limit), expected)
+
     def test_astgcn_has_sample_specific_temporal_attention(self):
         torch.manual_seed(47)
         m, a, x = ASTGCN(args()), graph(), sample()

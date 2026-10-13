@@ -63,6 +63,9 @@ Mechanisms and adaptations
   library from validation/test inputs. Build samples are the first 128
   chronological training origins. History ratio .3, history limit 10000,
   16 nearest patterns and fusion .7 are explicit.
+  Graph preprocessing skips an unused multi-hop BFS when one-hop neighbors
+  already fill its 20-node prefix; distance/node-ID ordering is unchanged and
+  tested against full BFS, including sparse, dense and disconnected graphs.
 
 * STKEC: the audited predictor and differentiable first-year cluster NLL are
   retained. The author detector is present under the extensionless path

@@ -35,7 +35,9 @@
     },
     "path": "src/model/pattern_features.py",
     "original_sha256": "9dda4893ee55f896b45482e9aa3b7d1d1e086528b8a7cf8d8b7e02dfd003cf5a",
-    "modifications": []
+    "modifications": [
+      "Exact nearest-hop prefix shortcut: when one-hop neighbors fill the requested prefix, skip further BFS; retain distance/node-ID ordering and fallback BFS for all other nodes."
+    ]
   },
   "gcn_conv.py": {
     "upstream": {
