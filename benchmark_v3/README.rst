@@ -80,9 +80,13 @@ Shared protocol
 
 Version 2 observation masks, train-only scalers, chronological 60/20/20 splits,
 12->12 windows, full-graph single-origin evaluation, metric accumulation and
-stable sensor IDs are reused. Optimizer is fresh AdamW each year. Microbatches
-are weighted by observed target counts before one logical-batch step; they do
-not change the published effective batch. Retrained models initialize every
+stable sensor IDs are reused. Optimizer is fresh AdamW each year. Prediction
+losses are weighted by observed target entries, while auxiliary losses are
+weighted by valid node-windows. DCRNN shares one scheduled-sampling decision
+across all memory chunks of a logical batch. Tiny graphs use the full logical
+batch. Sparse/dense storage switches at 10% graph density without changing
+edges; predictions and gradients are checked against both representations.
+These changes preserve the published effective batch. Retrained models initialize every
 year. PECPM, STRAP and STKEC inherit a SHA-bound prior-year checkpoint. Every
 checkpoint is reconstructed and predictions must match exactly before test.
 

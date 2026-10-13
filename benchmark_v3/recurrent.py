@@ -23,6 +23,13 @@ def random_walk(a):
     return torch.where(degree > 0, a / degree.clamp_min(1e-12), torch.zeros_like(a))
 
 
+def graph_storage(a):
+    """Use dense BLAS for dense geographic graphs; do not change any edge."""
+    if float(torch.count_nonzero(a))/a.numel() > .1:
+        return a.contiguous()
+    return a.to_sparse().coalesce()
+
+
 class DiffusionConv(nn.Module):
     def __init__(self, inputs, outputs, order=2, bias=0.):
         super().__init__()
@@ -72,7 +79,7 @@ class DCRNN(nn.Module):
         self.supports = None
 
     def prepare_graph(self, raw):
-        self.supports = [random_walk(a).T.to_sparse().coalesce() for a in (raw, raw.T)]
+        self.supports = [graph_storage(random_walk(a).T) for a in (raw, raw.T)]
 
     def forward(self, data, adj, labels=None, label_mask=None, sampling=None):
         if self.supports is None:
@@ -129,7 +136,7 @@ class TGCN(nn.Module):
     def prepare_graph(self, raw):
         a = raw+torch.eye(len(raw), device=raw.device, dtype=raw.dtype)
         d = a.sum(1).clamp_min(1e-12).rsqrt()
-        self.graph = (d[:, None]*a*d[None, :]).to_sparse().coalesce()
+        self.graph = graph_storage(d[:, None]*a*d[None, :])
 
     def forward(self, data, adj):
         if self.graph is None:

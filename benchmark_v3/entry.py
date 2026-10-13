@@ -38,6 +38,11 @@ def main():
         receipt['tests'] = {'run': tested.testsRun, 'passed': tested.wasSuccessful(), 'skipped': len(tested.skipped)}
         if not tested.wasSuccessful() or tested.skipped:
             raise RuntimeError('Mechanism validation failed or was skipped')
+        if spec['stage'] == 'feasibility':
+            from .feasibility import run as capacity_probe
+            result = capacity_probe(root, spec, a.data, out/'capacity')
+            receipt['status'] = result['status']
+            return
         if spec['stage'] != 'pilot':
             raise ValueError('Formal entry remains closed until all pilot and feasibility receipts pass')
         manifest = make(root, a.data, spec['method'], spec['seed'], out/'run')

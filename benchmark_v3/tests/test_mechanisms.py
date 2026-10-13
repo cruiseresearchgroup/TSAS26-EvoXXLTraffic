@@ -11,7 +11,8 @@ from benchmark_v3.astgcn import ASTGCN
 from benchmark_v3.pecpm import PECPM
 from benchmark_v3.strap import STRAP
 from benchmark_v3.influence import conjugate_gradient, select_influence
-from benchmark_v3.runner import tensor_batch, snapshot, restore, normalized_adj
+from benchmark_v3.runner import tensor_batch, snapshot, restore, normalized_adj, backward_logical_batch
+from benchmark_v2.special import cluster_loss
 from benchmark_v3.vendor.astgcn_graph import cheb_polynomial
 from benchmark_v3.vendor.pecpm_reference import Basic_Model
 
@@ -100,6 +101,99 @@ class RecurrentTests(unittest.TestCase):
         r, u = torch.sigmoid((norm @ torch.cat((x, h), -1)) @ m.cell.gates.weight.T+m.cell.gates.bias).chunk(2, -1)
         c = torch.tanh((norm @ torch.cat((x, r*h), -1)) @ m.cell.candidate.weight.T+m.cell.candidate.bias)
         torch.testing.assert_close(m.cell(x, h, m.graph), u*h+(1-u)*c)
+
+    def test_dense_and_sparse_graphs_preserve_predictions_and_gradients(self):
+        for constructor in (DCRNN, TGCN):
+            dense, a, x = constructor(args()), graph(), sample()
+            dense.prepare_graph(a)
+            sparse = copy.deepcopy(dense)
+            if constructor is DCRNN:
+                dense.supports = [s.to_dense() for s in dense.supports]
+                sparse.supports = [s.to_sparse().coalesce() for s in dense.supports]
+            else:
+                dense.graph = dense.graph.to_dense()
+                sparse.graph = dense.graph.to_sparse().coalesce()
+            p, q = dense(x, a), sparse(x, a)
+            torch.testing.assert_close(p, q, rtol=1e-5, atol=1e-6)
+            p.square().mean().backward()
+            q.square().mean().backward()
+            for (name, left), (_, right) in zip(dense.named_parameters(), sparse.named_parameters()):
+                torch.testing.assert_close(left.grad, right.grad, rtol=2e-4, atol=2e-7, msg=name)
+
+
+class AccumulationTests(unittest.TestCase):
+    def setUp(self):
+        torch.manual_seed(47)
+        self.n = 6
+        self.x = sample(b=4)
+        self.x.x_available[7:10, -1] = False
+        self.y = torch.randn(4, 6, 12)
+        self.mask = torch.ones_like(self.y, dtype=torch.bool)
+        self.mask[0, :, 1:] = False
+        self.mask[1, 0] = False
+        self.mask[3] = False
+        self.a = graph()
+
+    def chunks(self, size):
+        batches = []
+        for start in range(0, 4, size):
+            end = min(4, start+size)
+            x = SimpleNamespace(**{name: getattr(self.x, name)[start*self.n:end*self.n]
+                for name in ('x', 'x_available', 'time_features')})
+            batches.append((x, self.y[start:end], self.mask[start:end]))
+        return batches
+
+    def compare_gradients(self, model, reference_loss, cfg, labels=None):
+        reference = copy.deepcopy(model)
+        reference_loss(reference).backward()
+        for size in (1, 2, 4):
+            tested = copy.deepcopy(model)
+            backward_logical_batch(tested, self.chunks(size), self.a, cfg, labels)
+            for (name, left), (_, right) in zip(reference.named_parameters(), tested.named_parameters()):
+                if left.grad is not None:
+                    torch.testing.assert_close(left.grad, right.grad, rtol=3e-4, atol=3e-7, msg=name)
+
+    def test_pattern_loss_matches_direct_masked_objective(self):
+        model = PECPM(args())
+        model.centroids.normal_()
+        model.patterns_ready.fill_(True)
+        model.centroid_count.fill_(64)
+        def direct(m):
+            pred, attention = m(self.x, self.a)
+            mse = (pred.reshape(self.y.shape)[self.mask]-self.y[self.mask]).square().mean()
+            return mse+5*m.pattern_loss(self.x, attention, self.mask)
+        self.compare_gradients(model, direct, {'pattern_weight': 5})
+
+    def test_cluster_loss_matches_direct_masked_objective(self):
+        class Heads(torch.nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.predictor = torch.nn.Linear(12, 12)
+                self.classifier = torch.nn.Linear(12, 3)
+            def forward(self, x, a):
+                return self.predictor(x.x), self.classifier(x.x).softmax(-1)
+        labels = np.array([0, -1, 2, 1, 2, 0])
+        def direct(m):
+            pred, scores = m(self.x, self.a)
+            mse = (pred.reshape(self.y.shape)[self.mask]-self.y[self.mask]).square().mean()
+            return mse+.1*cluster_loss(scores, labels, self.mask)
+        self.compare_gradients(Heads(), direct, {}, labels)
+
+    def test_sampling_is_shared_across_memory_chunks(self):
+        model = DCRNN(args())
+        model.prepare_graph(self.a)
+        model.batches_seen.fill_(6908)  # A mix of prediction and teacher feedback.
+        reference = None
+        for size in (1, 2, 4):
+            tested = copy.deepcopy(model)
+            torch.manual_seed(87)
+            backward_logical_batch(tested, self.chunks(size), self.a, {'y_len': 12})
+            gradients = {name: p.grad for name, p in tested.named_parameters()}
+            if reference is None:
+                reference = gradients
+            else:
+                for name, g in gradients.items():
+                    torch.testing.assert_close(g, reference[name], rtol=3e-4, atol=3e-7, msg=name)
 
 
 class AttentionTests(unittest.TestCase):

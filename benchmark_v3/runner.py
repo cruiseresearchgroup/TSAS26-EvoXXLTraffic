@@ -4,6 +4,7 @@ import copy
 import hashlib
 import json
 import logging
+import math
 import random
 import sys
 import time
@@ -86,6 +87,51 @@ def masked_loss(pred, target, mask, kind='mse'):
     if kind == 'mse': return F.mse_loss(pred[mask], target[mask])
     if kind == 'huber': return F.smooth_l1_loss(pred[mask], target[mask])
     raise ValueError('Unsupported training loss: ' + kind)
+
+def backward_logical_batch(model, batches, adj, cfg, cluster_labels=None):
+    """Differentiate one logical batch, regardless of its memory chunk size.
+
+    Prediction loss averages observed target entries. Auxiliary losses average
+    valid node-windows, whose count need not be proportional to target entries.
+    The caller clears gradients and applies EWC/clipping/one optimizer step.
+    """
+    total = sum(int(mask.sum()) for _, _, mask in batches)
+    if not total:
+        return 0., 0, 0
+    auxiliary_counts = []
+    for x, _, mask in batches:
+        valid = mask.any(-1).reshape(-1)
+        if isinstance(model, PECPM):
+            valid = valid & x.x_available.all(-1)
+        elif cluster_labels is not None:
+            labels = torch.as_tensor(cluster_labels, device=mask.device).repeat(mask.shape[0])
+            valid = valid & (labels >= 0)
+        auxiliary_counts.append(int(valid.sum()))
+    auxiliary_total = sum(auxiliary_counts)
+    sampling = None
+    if isinstance(model, DCRNN):
+        probability = 1000/(1000+math.exp(min(float(model.batches_seen)/1000, 50)))
+        sampling = (torch.rand(cfg['y_len'], device=adj.device) < probability).tolist()
+    loss_sum, auxiliary = 0., 0
+    for (x, y, mask), auxiliary_count in zip(batches, auxiliary_counts):
+        count = int(mask.sum())
+        if not count:
+            continue
+        output = model(x, adj, labels=y, label_mask=mask, sampling=sampling) if isinstance(model, DCRNN) else model(x, adj)
+        pred = (output[0] if isinstance(output, tuple) else output).reshape(y.shape)
+        loss = masked_loss(pred, y, mask)
+        weighted = loss*(count/total)
+        if isinstance(model, PECPM):
+            weighted = weighted+float(cfg['pattern_weight'])*model.pattern_loss(x, output[1], mask)*auxiliary_count/max(1, auxiliary_total)
+            auxiliary += 1
+        if cluster_labels is not None:
+            weighted = weighted+.1*cluster_loss(output[1], cluster_labels, mask)*auxiliary_count/max(1, auxiliary_total)
+            auxiliary += 1
+        if not torch.isfinite(weighted):
+            raise ValueError('Nonfinite training loss')
+        weighted.backward()
+        loss_sum += float(loss.detach())*count
+    return loss_sum, total, auxiliary
 
 def evaluate(model, data, adj, split, cohorts, *, cap=None, ttc=None, loss_nodes=None):
     """One origin at a time: no cross-origin attention/pattern lookahead.
@@ -307,6 +353,10 @@ def run(m):
         steps, stale, auxiliary = 0, 0, 0
         best, best_state, history = float('inf'), None, []
         microbatch = int(cfg.get('microbatch', m['batch_size']))
+        # Tiny graphs can use the full logical batch. All losses and DCRNN's
+        # sampling decision below remain defined per logical batch.
+        if len(nodes) <= 256:
+            microbatch = m['batch_size']
         print(json.dumps({'event': 'year_start', 'year': year, 'method': m['method'], 'parent': parent}), flush=True)
         if not skip:
             for epoch in range(m['epochs']):
@@ -325,24 +375,11 @@ def run(m):
                     if not total:
                         continue
                     optimizer.zero_grad(set_to_none=True)
-                    for x, y, mask in batches:
-                        count = int(mask.sum())
-                        if not count:
-                            continue
-                        output = model(x, train_adj, labels=y, label_mask=mask) if isinstance(model, DCRNN) else model(x, train_adj)
-                        pred = (output[0] if isinstance(output, tuple) else output).reshape(y.shape)
-                        loss = masked_loss(pred, y, mask)
-                        if isinstance(model, PECPM):
-                            loss = loss+float(cfg['pattern_weight'])*model.pattern_loss(x, output[1], mask)
-                            auxiliary += 1
-                        if cluster_labels is not None:
-                            loss = loss+.1*cluster_loss(output[1], cluster_labels[nodes], mask)
-                            auxiliary += 1
-                        if not torch.isfinite(loss):
-                            raise ValueError('Nonfinite training loss')
-                        (loss*(count/total)).backward()
-                        loss_sum += float(loss.detach())*count
-                        label_count += count
+                    value, count, extra = backward_logical_batch(model, batches, train_adj, cfg,
+                        cluster_labels[nodes] if cluster_labels is not None else None)
+                    loss_sum += value
+                    label_count += count
+                    auxiliary += extra
                     if means is not None:
                         penalty = ewc_penalty(model, means, fisher, cfg['ewc_lambda'], 'ewc')
                         penalty.backward()
