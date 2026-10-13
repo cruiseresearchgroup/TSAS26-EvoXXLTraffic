@@ -1,0 +1,111 @@
+{
+  "astgcn.py": {
+    "upstream": {
+      "name": "ASTGCN",
+      "repository": "guoshnBJTU/ASTGCN-2019-pytorch",
+      "commit": "2e7a4faa2a6f89da8d1cb37acb7e267c9bc87296",
+      "commit_date": "2021-07-13T01:48:50Z",
+      "retrieved_utc": "2026-10-12T17:16:13.597327+00:00"
+    },
+    "path": "model/ASTGCN_r.py",
+    "original_sha256": "324840aa278352bb7bcc6668fafb0fa6c202518a60c1fdaacef4b4a722d2eb0b",
+    "modifications": [
+      "import routing only"
+    ]
+  },
+  "STRAP.py": {
+    "upstream": {
+      "name": "STRAP",
+      "repository": "HoweyZ/STRAP",
+      "commit": "8dc0c07905e9031b91ad8daa436d83b8bcd8bc26",
+      "commit_date": "2026-09-09T16:47:36Z",
+      "retrieved_utc": "2026-10-12T17:16:41.789415+00:00"
+    },
+    "path": "src/model/STRAP.py",
+    "original_sha256": "128b363fe3c66156f3b08b9318d13f555904a01fb9cae7247cc5d07054d71da2",
+    "modifications": []
+  },
+  "pattern_features.py": {
+    "upstream": {
+      "name": "STRAP",
+      "repository": "HoweyZ/STRAP",
+      "commit": "8dc0c07905e9031b91ad8daa436d83b8bcd8bc26",
+      "commit_date": "2026-09-09T16:47:36Z",
+      "retrieved_utc": "2026-10-12T17:16:41.789415+00:00"
+    },
+    "path": "src/model/pattern_features.py",
+    "original_sha256": "9dda4893ee55f896b45482e9aa3b7d1d1e086528b8a7cf8d8b7e02dfd003cf5a",
+    "modifications": []
+  },
+  "gcn_conv.py": {
+    "upstream": {
+      "name": "STRAP",
+      "repository": "HoweyZ/STRAP",
+      "commit": "8dc0c07905e9031b91ad8daa436d83b8bcd8bc26",
+      "commit_date": "2026-09-09T16:47:36Z",
+      "retrieved_utc": "2026-10-12T17:16:41.789415+00:00"
+    },
+    "path": "src/model/gcn_conv.py",
+    "original_sha256": "0549a505252b0c7248f9be4c37a656a922a1dfe983b7905ecfe333e7ca10025c",
+    "modifications": []
+  },
+  "strap_model.py": {
+    "upstream": {
+      "name": "STRAP",
+      "repository": "HoweyZ/STRAP",
+      "commit": "8dc0c07905e9031b91ad8daa436d83b8bcd8bc26",
+      "commit_date": "2026-09-09T16:47:36Z",
+      "retrieved_utc": "2026-10-12T17:16:41.789415+00:00"
+    },
+    "path": "src/model/model.py",
+    "classes": [
+      "STGNN_Backbone",
+      "RAP_Model"
+    ],
+    "class_AST_unchanged": true
+  },
+  "DCRNN": {
+    "source": {
+      "name": "DCRNN",
+      "repository": "liyaguang/DCRNN",
+      "commit": "602afd9d767d3aa1c9b3eac51710d6aeee12c227",
+      "commit_date": "2024-12-09T17:40:10Z",
+      "retrieved_utc": "2026-10-12T17:16:13.617616+00:00"
+    },
+    "adaptations_document": "benchmark_v3/README.rst",
+    "canonical_equivalence_claim": false
+  },
+  "TGCN": {
+    "source": {
+      "name": "TGCN",
+      "repository": "lehaifeng/T-GCN",
+      "commit": "e256572736291433f8fe5c5d432b0100184805d5",
+      "commit_date": "2025-09-01T02:23:21Z",
+      "retrieved_utc": "2026-10-12T17:16:13.736836+00:00"
+    },
+    "adaptations_document": "benchmark_v3/README.rst",
+    "canonical_equivalence_claim": false
+  },
+  "PECPM": {
+    "source": {
+      "name": "PECPM",
+      "repository": "UnderReview24/PECPM",
+      "commit": "fb8fe6aacf45bc3b269e8623ecc71338192d58b4",
+      "commit_date": "2025-12-09T11:11:10Z",
+      "retrieved_utc": "2026-10-12T17:16:12.957119+00:00"
+    },
+    "adaptations_document": "benchmark_v3/README.rst",
+    "canonical_equivalence_claim": false
+  },
+  "STKEC": {
+    "source": {
+      "name": "STKEC",
+      "repository": "UnderReview24/STKEC",
+      "commit": "11a761a641d3798a8c678e14366e61adea04fb06",
+      "commit_date": "2024-10-23T14:30:39Z",
+      "retrieved_utc": "2026-10-12T17:16:12.924155+00:00"
+    },
+    "adaptations_document": "benchmark_v3/README.rst",
+    "canonical_equivalence_claim": false
+  }
+}
