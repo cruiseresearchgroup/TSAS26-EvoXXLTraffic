@@ -15,7 +15,7 @@ from benchmark_v3.runner import tensor_batch, snapshot, restore, normalized_adj,
 from benchmark_v2.special import cluster_loss
 from benchmark_v3.vendor.astgcn_graph import cheb_polynomial
 from benchmark_v3.vendor.pecpm_reference import Basic_Model
-from benchmark_v3.vendor.pattern_features import nearest_hop_nodes
+from benchmark_v3.vendor.pattern_features import nearest_hop_nodes, unweighted_graph_statistics
 
 
 def args(path='.', n=6):
@@ -37,6 +37,43 @@ def graph(n=6):
     for i in range(n-1):
         a[i, i+1] = a[i+1, i] = 1
     return a
+
+
+class GraphStatisticsTests(unittest.TestCase):
+    def test_binary_statistics_match_independent_networkx(self):
+        import networkx as nx
+        graphs = [nx.empty_graph(0), nx.empty_graph(1), nx.empty_graph(9),
+                  nx.path_graph(17), nx.cycle_graph(19), nx.complete_graph(23),
+                  nx.disjoint_union(nx.complete_graph(5), nx.path_graph(8))]
+        for seed in range(4):
+            for density in (0.05, 0.3, 0.8):
+                g = nx.gnp_random_graph(31, density, seed=seed)
+                g.add_edges_from((i, i) for i in range(0, 31, 4))
+                nx.set_edge_attributes(g, 7.5, 'weight')
+                graphs.append(nx.relabel_nodes(g, {i: i * 3 + 11 for i in g}))
+        devices = ['cpu'] + (['cuda'] if torch.cuda.is_available() else [])
+        for device in devices:
+            for g in graphs:
+                with self.subTest(device=device, nodes=len(g), edges=g.number_of_edges()):
+                    clustering, closeness = unweighted_graph_statistics(g, device)
+                    self.assertEqual(clustering, nx.clustering(g))
+                    self.assertEqual(closeness, nx.closeness_centrality(g))
+
+    def test_materialized_induced_graph_retains_structure(self):
+        import networkx as nx
+        for density in (0.05, 0.5, 0.95):
+            g = nx.gnp_random_graph(83, density, seed=47)
+            g.add_edges_from((i, i) for i in range(0, 83, 5))
+            for nodes in (list(range(0, 83, 3)), list(range(20, 50)), [5]):
+                view = g.subgraph(nodes)
+                materialized = view.copy()
+                self.assertEqual(list(view), list(materialized))
+                self.assertEqual(dict(view.degree()), dict(materialized.degree()))
+                self.assertEqual(nx.average_clustering(view), nx.average_clustering(materialized))
+                self.assertEqual(nx.density(view), nx.density(materialized))
+                largest = max(nx.connected_components(view), key=len)
+                self.assertEqual(nx.average_shortest_path_length(view.subgraph(largest)),
+                                 nx.average_shortest_path_length(materialized.subgraph(largest)))
 
 
 class RecurrentTests(unittest.TestCase):

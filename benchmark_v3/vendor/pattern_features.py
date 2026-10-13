@@ -29,6 +29,53 @@ def nearest_hop_nodes(graph, node, k_hop, limit):
     return sorted((n for n in distances if n != node), key=lambda n: (distances[n], n))[:limit]
 
 
+def unweighted_graph_statistics(graph, device):
+    """Exact NetworkX clustering/closeness, using binary matrix operations.
+
+    Each product sums at most N binary terms, so float32 is exact for these
+    graphs. Triangle totals and distance totals use float64/int64. Self-loops
+    are excluded, as in NetworkX's unweighted definitions. No graph edges or
+    BFS levels are sampled. The returned values retain Python float division.
+    """
+    nodes = list(graph)
+    count = len(nodes)
+    if not count:
+        return {}, {}
+    if count > 2**24:
+        raise ValueError("Binary float32 products require N <= 2**24")
+    adjacency = torch.from_numpy(nx.to_numpy_array(graph, nodelist=nodes, weight=None,
+                                                 dtype=np.float32)).to(device)
+    adjacency.fill_diagonal_(0)
+    previous_tf32 = torch.backends.cuda.matmul.allow_tf32
+    try:
+        torch.backends.cuda.matmul.allow_tf32 = False
+        # NetworkX's triangle iterator counts each triangle twice per node.
+        triangles = ((adjacency @ adjacency) * adjacency).sum(1, dtype=torch.float64)
+        degree = adjacency.sum(1).to(torch.int64)
+        seen = torch.eye(count, dtype=torch.bool, device=device)
+        frontier = seen.to(torch.float32)
+        reachable = torch.ones(count, dtype=torch.int64, device=device)
+        totals = torch.zeros(count, dtype=torch.int64, device=device)
+        for distance in range(1, count):
+            frontier = ((frontier @ adjacency) > 0) & ~seen
+            newly_reached = frontier.sum(1)
+            if not frontier.any():
+                break
+            reachable += newly_reached
+            totals += distance * newly_reached
+            seen |= frontier
+            frontier = frontier.to(torch.float32)
+    finally:
+        torch.backends.cuda.matmul.allow_tf32 = previous_tf32
+    clustering, closeness = {}, {}
+    for node, triangle, deg, reached, total in zip(nodes, triangles.tolist(), degree.tolist(),
+                                                   reachable.tolist(), totals.tolist()):
+        clustering[node] = triangle / (deg * (deg - 1)) if deg > 1 else 0.
+        value = (reached - 1) / total if total > 0 and count > 1 else 0.
+        closeness[node] = value * ((reached - 1) / (count - 1)) if count > 1 else 0.
+    return clustering, closeness
+
+
 def fit_features(x, width):
     """Original STRAP descriptor convention: truncate or zero-pad the last axis."""
     return F.pad(x[..., :width], (0, max(0, width - x.shape[-1])))
@@ -163,8 +210,10 @@ class GraphLayout:
         for nodes in groups:
             indices.extend(nodes)
             offsets.append(len(indices))
-            subgraph = graph.subgraph(nodes)
-            largest = subgraph.subgraph(max(nx.connected_components(subgraph), key=len))
+            # A NetworkX view filters the full graph's adjacency on every
+            # neighbor visit. Materialize the same small induced graph once.
+            subgraph = graph.subgraph(nodes).copy()
+            largest = subgraph.subgraph(max(nx.connected_components(subgraph), key=len)).copy()
             structure.append((nx.average_clustering(subgraph), nx.density(subgraph),
                               nx.average_shortest_path_length(largest)))
         packed = torch.tensor(indices, device=adj.device, dtype=torch.long)
@@ -174,10 +223,13 @@ class GraphLayout:
         topology = np.zeros((count, 16), dtype=adjacency.dtype)
         degree = dict(graph.degree())
         centrality = nx.degree_centrality(graph)
-        clustering = nx.clustering(graph)
         for component in components:
-            subgraph = graph.subgraph(component)
-            closeness = nx.closeness_centrality(subgraph)
+            subgraph = graph if len(component) == count else graph.subgraph(component).copy()
+            if len(component) > 256 and nx.density(subgraph) > 0.1:
+                clustering, closeness = unweighted_graph_statistics(subgraph, adj.device)
+            else:
+                clustering = nx.clustering(subgraph)
+                closeness = nx.closeness_centrality(subgraph)
             betweenness = nx.betweenness_centrality(
                 subgraph, k=min(100, len(component)), seed=42
             )
