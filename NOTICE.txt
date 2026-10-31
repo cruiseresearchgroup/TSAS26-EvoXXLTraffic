@@ -1,7 +1,21 @@
-EvoXXLTraffic artifact licensing status — revision candidate, 9 October 2026
+EvoXXLTraffic - licensing and attribution (release tsas26-r1, 31 October 2026)
 
-No new blanket license is granted by this revision. The previously inspected XXLTraffic README states CC BY-NC 4.0 for its dataset and MIT for its code; those statements do not establish the licensing of every artifact in TSAS26-EvoXXLTraffic. In particular, upstream PeMS records and reused forecasting implementations retain their applicable ownership and terms.
+1. Author-owned code: MIT License (see LICENSE).
+   Covers the code written for this project: benchmark_v2/, benchmark_release/, coordinates/ and the
+   preprocessing notebooks and scripts in xxltrafficdata/, unless a file states otherwise.
 
-Before tagging a completed licensed release, the authors must confirm separate notices for (1) author-owned preprocessing/benchmark code, (2) derived dataset products and metadata, and (3) each reused baseline implementation. This file records the unresolved status; it is not a substitute for a LICENSE or permission from third-party rights holders.
+2. Data products: Creative Commons Attribution-NonCommercial 4.0 International (see LICENSE-DATA).
+   Covers the derived products released by the authors: yearly sensor catalogs, corrected benchmark caches,
+   graph snapshots, coordinate files, run manifests and result tables, both in this repository and in the
+   dataset repository https://huggingface.co/datasets/yind7/EvoXXLTraffic.
 
-The corrected runner adapts the baseline implementations already present in this repository. Attribution in original source files and the manuscript bibliography is preserved. No unsupported claim that every implementation exactly reproduces its original authors' code is made.
+3. Upstream records: the traffic records and station metadata come from the California Department of
+   Transportation Performance Measurement System (PeMS, https://pems.dot.ca.gov/). Their original terms
+   continue to apply.
+
+4. Third-party baseline code: the baseline implementations under eac/, run through benchmark_v2/, adapt or
+   follow code released by the authors of the respective methods (DCRNN, ASTGCN, TGCN, TrafficStream, PECPM,
+   STKEC, EAC, STRAP, ST-TTC). Adapted code remains under the license and copyright of its original
+   repository and is not relicensed by this release. Attribution is kept in the source files and in the
+   article's bibliography. The article documents every benchmark-specific adaptation; no claim is made that
+   an implementation reproduces its original authors' training pipeline exactly.
