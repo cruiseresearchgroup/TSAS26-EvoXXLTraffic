@@ -70,7 +70,13 @@ PEMS04/2001 remains in the archive but is excluded from the benchmark, because i
 
 ## Data access
 
-* **Corrected benchmark caches, coordinates and metadata snapshots:** <https://huggingface.co/datasets/yind7/EvoXXLTraffic>. Check them with `SHA256SUMS` there.
+* **Hugging Face dataset:** <https://huggingface.co/datasets/yind7/EvoXXLTraffic>. It has four parts:
+  * the corrected benchmark caches;
+  * the full-year 5-minute flow matrices and graphs of all 213 district-years, with `full_year/catalog.json` giving sensor IDs and start times;
+  * the coordinates;
+  * the metadata snapshots.
+
+  Check the files with `SHA256SUMS` and `SHA256SUMS.full_year`. The full-year matrices are stored filled (forward, then backward, then zero). The dataset card describes the processing pipeline and what this filling means.
 * **Original processed archive and raw records:** [processed](https://pan.baidu.com/s/1llz16kYY33TrWlKENNHC5A?pwd=xxtf) and [raw](https://pan.baidu.com/s/1BPuxL96npWlfRXDv38duww?pwd=xxtf), access code `xxtf`. The processed matrices there are forward- and backward-filled. Do not use them in place of the corrected caches.
 * **Preprocessing:** the original notebooks are in `xxltrafficdata/`. Baseline code is in `eac/` and is run through `benchmark_v2/` or `benchmark_v3/`.
 
