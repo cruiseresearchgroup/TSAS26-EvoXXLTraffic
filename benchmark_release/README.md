@@ -16,7 +16,7 @@ This recomputes equal-year means and sample standard deviations from all 137,025
 
 Original GPU runs used H200, PyTorch 2.2.1 and CUDA 12.1. `eac/environment.yaml` is the checked-in environment specification, not a claim that a fresh installation was tested on every platform. The original frozen tests ran as part of each receipt; this release adds no new GPU experiment.
 
-Obtain the corrected caches and lay them out as `DATA_ROOT/pems04/2002/data.npz`, `graph.npz`, etc. The coordinate variant additionally uses `graph_asof.npz`. **The legacy cloud-disk archive has not yet been verified to contain these corrected files.** Every input must match the hashes in the selected manifest.
+Download the corrected caches from <https://huggingface.co/datasets/yind7/EvoXXLTraffic> (`caches/<district>/<year>/data.npz`, `graph.npz`) and use that `caches/` folder as `DATA_ROOT`. Their SHA-256 values equal the `data_sha256`/`graph_sha256` in the manifests. The coordinate variant additionally uses `graph_asof.npz`. Do not substitute the legacy filled matrices of the original cloud-disk archive. Every input must match the hashes in the selected manifest.
 
 ```bash
 python benchmark_release/prepare_run.py \
@@ -38,6 +38,18 @@ Preparation verifies all frozen source hashes and data/graph hashes before creat
 
 The coordinate experiment uses the retained snapshots dated 2001-08-01, 2004-03-25, 2014-05-09 and 2024-03-20. Missing eligible coordinates isolate spatial edges before model-specific self loops; Gaussian bandwidth is recomputed from positive known-coordinate distances, threshold 0.1. This jointly changes timing and missing-location handling at a fixed retrospective catalog. It is not a threshold sweep, an all-method ranking check, or proof of operational metadata availability.
 
+## Final results (accepted replacement chains)
+
+The six repaired implementations (DCRNN, ASTGCN, TGCN, PECPM, STRAP, STKEC) are in `benchmark_v3/`. Their 48 PEMS04/PEMS05
+chains replace the earlier simplified versions; `results/replacement_chains.csv` lists each replacement receipt and the
+receipt it replaces. `results/yearly_metrics.csv.gz` and `results/runs.csv` contain the accepted chains; yearly training checks are in `results/year_checks.csv` (unchanged chains) and `results/replacement_year_checks.csv` (the 48 replacements), and
+`summarize.py` reproduces `results/summary.csv`, which covers the full period, 2018–2025 and the years before 2018.
+The PEMS04/PEMS05 rows of `results/summary.csv` equal the accepted table `results/final_metrics.csv` exactly.
+
+`training_free_references.py` computes the two training-free references of the article from the caches: each year's
+training mean predicted everywhere, and the last input value repeated for all leads. Their results are in
+`results/training_free_references.csv`.
+
 ## Remaining release boundaries
 
-The code/configuration/metric evidence can be inspected here. A complete data-based rerun still requires corrected NPZ distribution and the documented environment. No completed artifact-specific Evo license is asserted; see `../NOTICE.txt`. Measurement-quality sensitivity, alternative-threshold robustness, and inherited gap/hourly/daily numerical provenance are outside the validated experiment scope.
+Code, configuration, caches and metric evidence are public. The licenses are MIT for author-owned code and CC BY-NC 4.0 for data products, and adapted baseline code keeps its original license (`../NOTICE.txt`). Measurement-quality sensitivity and alternative-threshold robustness remain outside the validated experiment scope. The inherited gap/hourly/daily results are not part of this release; see the article's Appendix B.
