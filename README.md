@@ -7,7 +7,7 @@ This repository holds the benchmark code, frozen protocols, run manifests, per-y
 the TSAS revision of *From XXLTraffic to EvoXXLTraffic*. The article is a dataset and benchmark contribution; it does not
 introduce a new forecasting model.
 
-**Release `tsas26-r1`.** The data live on Hugging Face: <https://huggingface.co/datasets/yind7/EvoXXLTraffic>. That repository has the corrected yearly caches with explicit target/input masks, the coordinates, and 3,523 dated PeMS metadata snapshots.
+**Release `tsas26-r1.1`.** It is `tsas26-r1` plus the fixed- versus evolving-catalog control: its code in `reviewer_fixed_vs_evolving/` and its results in `benchmark_release/results/fixed_vs_evolving/`. The data live on Hugging Face: <https://huggingface.co/datasets/yind7/EvoXXLTraffic>. That repository has the corrected yearly caches with explicit target/input masks, the coordinates, and 3,523 dated PeMS metadata snapshots.
 
 ## Corrected experiment scope
 
@@ -19,7 +19,7 @@ introduce a new forecasting model.
 | PEMS06 | 2005–2025 | Retrain, Online-AN, ST-TTC | 47–49 | 9 |
 | PEMS10 | 2006–2025 | Retrain, Online-AN, ST-TTC | 47–49 | 9 |
 
-There are 131 main runs and 3 PEMS04 Online-AN coordinate-policy runs.
+There are 131 main runs and 3 PEMS04 Online-AN coordinate-policy runs. A separate control adds 24 runs on PEMS05 and PEMS06 (2018–2025) that compare training on the evolving catalog with training on the fixed set of sensors present in every year.
 
 * Each district is trained and tested on its own; these are not transfer experiments.
 * Each yearly task covers the first 31 stored days of the year.
@@ -32,6 +32,7 @@ There are 131 main runs and 3 PEMS04 Online-AN coordinate-policy runs.
 * **PEMS05:** Online-AN has the lowest MAE on all sensors (11.515 ± 0.037) and on new-to-previous-year sensors (9.984 ± 0.034).
 * **Other districts:** Online-AN also has the lowest MAE among the three methods run on PEMS03, PEMS06 and PEMS10.
 * **Pretrain:** worse than the training-free last-value reference in both districts.
+* **Fixed vs evolving catalog:** on the sensors common to every 2018–2025 catalog of PEMS05 and PEMS06, training on the evolving catalog changes MAE by less than 1% in either direction (Retrain and Online-AN, seeds 47–49).
 * **TGCN:** under its frozen configuration, TGCN's error barely changes with the horizon and stays close to that of predicting the training mean everywhere. It is reported as a degenerate fit, not as evidence about the method.
 
 ## Audited archive statistics
@@ -57,6 +58,7 @@ PEMS04/2001 remains in the archive but is excluded from the benchmark, because i
 * [`benchmark_release/README.md`](benchmark_release/README.md): how to recompute every reported mean and SD from the per-year export (standard library only), and how to prepare one exact run from its manifest.
 * [`benchmark_release/index.json`](benchmark_release/index.json) and `benchmark_release/manifests/`: all 134 run manifests, with source, protocol, data and graph checksums.
 * `benchmark_release/results/`: per-year scores and denominators (`yearly_metrics.csv.gz`), run receipts (`runs.csv`), recomputed summaries for the full period and 2018–2025 (`summary.csv`), the accepted table (`final_metrics.csv`), training-free references, the coordinate-policy sensitivity and the catalog statistics.
+* [`benchmark_release/results/fixed_vs_evolving/`](benchmark_release/results/fixed_vs_evolving/README.md): annual results, summary, receipt, a standard-library summarizer and rerun steps for the fixed- versus evolving-catalog control, whose code is in [`reviewer_fixed_vs_evolving/`](reviewer_fixed_vs_evolving/).
 * [`coordinates/`](coordinates/README.md): sensor coordinates in matrix-column order for every stored district-year, with source snapshots, no-look-ahead (dated) coordinates and a tool that builds unthresholded distances or any kernel. Rebuilding the stored graphs from these coordinates reproduces all 212 of them entry for entry.
 
 **Metric conventions.**

@@ -1,0 +1,2965 @@
+{
+ "source_receipt_sha256": "0844cda90cc94d90f96ba0943fc1e5202530f94245d6389bd907caa5403f48fb",
+ "path_note": "Absolute paths of the run directory are reduced to run-relative paths; all other fields are unchanged.",
+ "status": "COMPLETE",
+ "run_id": "tsas_fixed_evolving_20261031T225004Z_V",
+ "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+ "base_release_commit": "cd95d84837afd5dc7057d559ce66ecb230b4c33d",
+ "release_tag": "tsas26-r1",
+ "hf_revision": "4cbd8b0edb49879e5051c973f6fc8b4d315daf44",
+ "evaluation_split": "TEST",
+ "protocol": {
+  "id": "reviewer-fixed-vs-evolving-v1",
+  "base_tag": "tsas26-r1",
+  "base_commit": "cd95d84837afd5dc7057d559ce66ecb230b4c33d",
+  "districts": [
+   "PEMS05",
+   "PEMS06"
+  ],
+  "methods": [
+   "Retrain",
+   "Online-AN"
+  ],
+  "seeds": [
+   47,
+   48,
+   49
+  ],
+  "years": [
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "E": "Unchanged frozen yearly data and full archived graph; full-catalog validation selection",
+  "F": "2018-2025 catalog intersection; recompute z-score from accepted TRAIN values only; forward fill only; induced archived graph retaining entries, no sigma recomputation; validate on S",
+  "S_sizes": {
+   "PEMS05": 240,
+   "PEMS06": 476
+  },
+  "fresh_start": "Both populations fresh in 2018; Retrain new model each year; Online-AN only preceding year in this new chain",
+  "data": "31 stored days; chronological 60/20/20; 12 inputs and 12 outputs; finite_reported targets; full windows within each split",
+  "training": {
+   "epochs_max": 100,
+   "patience": 5,
+   "min_delta": 0,
+   "loss": "masked MSE",
+   "optimizer": "AdamW",
+   "learning_rate": 0.03,
+   "weight_decay": 0.01,
+   "batch_size": 128,
+   "scheduler": null
+  },
+  "evaluation": "Unmodified single-origin evaluator and MetricAccumulator; pooled 12 leads; MAE/RMSE in flow units; MAPE percent excludes abs(y)<=1e-6",
+  "cohorts": {
+   "E": [
+    "S",
+    "all",
+    "new"
+   ],
+   "F": [
+    "S"
+   ]
+  },
+  "new": "Current full catalog minus immediately previous full catalog. User confirmed 2017 catalog-only reference for 2018; no 2017 checkpoint/data training.",
+  "aggregation": "Equal mean of eight annual TEST values within each seed, then mean and sample SD (ddof=1) over seeds 47,48,49; E-F paired on S within seed before cross-seed statistics. Empty cohorts are N/A and never zero; flag rather than silently claim eight-year mean if any is empty.",
+  "execution": "Unmodified frozen runner.run; wrapper changes only manifests/data population and TEST cohorts. Two CPU threads per process; separate new run/output; no implicit retry. Torch2.2.1 CUDA12.1 numpy1.26.4. Record actual GPU."
+ },
+ "protocol_sha256": "531661e813b0dc1d7b592b59b1d9d34170ef30e7e4822748d7faffad644e180f",
+ "input_data_graph_sha256": [
+  {
+   "path": "pems05/2018/data.npz",
+   "sha256": "6229e206f97a4eaf44f499409fbc2a3978c771dc6c106afb6b9d2fafe2a5f4a1",
+   "bytes": 34817598
+  },
+  {
+   "path": "pems05/2018/graph.npz",
+   "sha256": "f296a41df9afceed141bdd24ea979d0f9b656ec0d0f2b6290457f58f5dc1eb56",
+   "bytes": 241224
+  },
+  {
+   "path": "pems05/2019/data.npz",
+   "sha256": "adcaf4e99e9dc042aa4a526461fd75b0ba5f5cea2f6457603dd647afcab9a804",
+   "bytes": 54674578
+  },
+  {
+   "path": "pems05/2019/graph.npz",
+   "sha256": "14af7c1f8b569278f649744a97157312e6d2ae7fb0e73e66f80e1e459d3087b3",
+   "bytes": 589836
+  },
+  {
+   "path": "pems05/2020/data.npz",
+   "sha256": "ccbe8ce8894a695d4b152fc254055aeaba97c51a827005fa4c6f93c75a4d6406",
+   "bytes": 69388750
+  },
+  {
+   "path": "pems05/2020/graph.npz",
+   "sha256": "d7e9416b74726c999c3229c16de6e088f834fbc138a971542d7428bc15ecf94d",
+   "bytes": 947864
+  },
+  {
+   "path": "pems05/2021/data.npz",
+   "sha256": "94fce33c1d9508d59be39751ef3206281225dab6bf0091f768f8e06e04f7b06a",
+   "bytes": 69531618
+  },
+  {
+   "path": "pems05/2021/graph.npz",
+   "sha256": "80f21510f5af77e7eb6f26d0fc1f83868a2e212b4ee0f7ea561c4328a28ca181",
+   "bytes": 951756
+  },
+  {
+   "path": "pems05/2022/data.npz",
+   "sha256": "d9d4127411b8d92990fc09439bd865f296d2f63666cbcb29216ee28f12b8e791",
+   "bytes": 73674426
+  },
+  {
+   "path": "pems05/2022/graph.npz",
+   "sha256": "f7ba56fc5e78f7890d217ae2effd7c98a2d0ed160ef8d5aed802f75641c98ada",
+   "bytes": 1068104
+  },
+  {
+   "path": "pems05/2023/data.npz",
+   "sha256": "9caf349e59bf8fd1d7b2e2263d375bb521a9b3ac89cf6e56145f245e5a752df3",
+   "bytes": 81245794
+  },
+  {
+   "path": "pems05/2023/graph.npz",
+   "sha256": "af522aedc7fa08c8a0c4eb052523331a5be49fcea8db987b28cc269ca15a098e",
+   "bytes": 1298124
+  },
+  {
+   "path": "pems05/2024/data.npz",
+   "sha256": "a4e3fb67d8fbdc8f14bf147d1c6836a4675787ff1699cd8c14717a1aad2f290c",
+   "bytes": 81245814
+  },
+  {
+   "path": "pems05/2024/graph.npz",
+   "sha256": "0da6bb3e25432c8679713940aa436bd0af9f92d3c76dae64ccdf85b21ebaeb40",
+   "bytes": 1298124
+  },
+  {
+   "path": "pems05/2025/data.npz",
+   "sha256": "e9f4655656c5c6832ba501d7ae7d001cd7c934f9726a2eeaf88a4ffc7c998516",
+   "bytes": 81817222
+  },
+  {
+   "path": "pems05/2025/graph.npz",
+   "sha256": "2811e1c16709374e23c6ea174d682d0f22d6e91ad3429e955eec4b8904d65e21",
+   "bytes": 1316396
+  },
+  {
+   "path": "pems06/2018/data.npz",
+   "sha256": "a1efccdc197a4d4307d9f3833916c05c9269ed238f911f74bf66e840ada9abca",
+   "bytes": 79817242
+  },
+  {
+   "path": "pems06/2018/graph.npz",
+   "sha256": "3d6e929cf01b0798e1a1f210f393aa320504261f9f216fb8bfc5fc811cdc8aa3",
+   "bytes": 1253004
+  },
+  {
+   "path": "pems06/2019/data.npz",
+   "sha256": "9b9e50527930460920d9eb15d26085cdc2014140193f9feb5ebd499356b24d98",
+   "bytes": 89245738
+  },
+  {
+   "path": "pems06/2019/graph.npz",
+   "sha256": "12d4024f3688e79ee626b358028ff32d09fdc4e4d5b19b7504d06e75cb42cce0",
+   "bytes": 1565580
+  },
+  {
+   "path": "pems06/2020/data.npz",
+   "sha256": "3ec2ef383a66ce9c321e10ebef31fcde00fda8129db04b9ce203672b9589b429",
+   "bytes": 90102866
+  },
+  {
+   "path": "pems06/2020/graph.npz",
+   "sha256": "e6fe69ecb1394638952f23b113fb77deb1a9500cac50702786172aa90757bdd6",
+   "bytes": 1595724
+  },
+  {
+   "path": "pems06/2021/data.npz",
+   "sha256": "68a4167f9fdcbb3eda71f16fca5b8de12110d99573d84bf343d1986aaa4beb9d",
+   "bytes": 95674250
+  },
+  {
+   "path": "pems06/2021/graph.npz",
+   "sha256": "e5c4d8eca02d58eceb48f8432e1321aadb500390f4acba80ff19cbab61f172e3",
+   "bytes": 1798680
+  },
+  {
+   "path": "pems06/2022/data.npz",
+   "sha256": "19334716a2b4cc87c39168e505d337ad465b7468ca866fd7a31a561900969b35",
+   "bytes": 95817126
+  },
+  {
+   "path": "pems06/2022/graph.npz",
+   "sha256": "447627109208e74c2f743c3503697132e5777637a02aba18e37988d903b4e5df",
+   "bytes": 1804044
+  },
+  {
+   "path": "pems06/2023/data.npz",
+   "sha256": "9cd608a2f9c5d410274ec7734f7d8eeb75709879d64040727e4e7edb083a24f5",
+   "bytes": 98674230
+  },
+  {
+   "path": "pems06/2023/graph.npz",
+   "sha256": "20f37b9e2b308aee72aa3b11d7c7412cb4c90d0b50740ea6aaea44e5b5e72bca",
+   "bytes": 1913004
+  },
+  {
+   "path": "pems06/2024/data.npz",
+   "sha256": "3f91ee21021e8fe3a9132240eec0519b7031f55a788dd90a8beec83ea42774f9",
+   "bytes": 100817074
+  },
+  {
+   "path": "pems06/2024/graph.npz",
+   "sha256": "72c5a1f26f759bef4077e56a3d8d781afe6ed90472058648ce2897b33f7d9706",
+   "bytes": 1996824
+  },
+  {
+   "path": "pems06/2025/data.npz",
+   "sha256": "cc1fbe0b9b9644a9bc6e483aed3c0ec111ba9b64edc512283a7392b8b014ad40",
+   "bytes": 106674170
+  },
+  {
+   "path": "pems06/2025/graph.npz",
+   "sha256": "f24e6406485c23d362c622c34a6a00ff44d63ab6ea606b120dda13f2c065ff43",
+   "bytes": 2235116
+  }
+ ],
+ "fixed_sensor_sets": {
+  "PEMS05": {
+   "S_size": 240,
+   "sensor_ids_sha256": "f6bd5d7fe0838ea27582327e38719bf2df72eac226410f12266863a6a7f88612",
+   "sensor_ids_serialization": "sorted numeric IDs, decimal UTF-8, one per line, final LF",
+   "year_counts": {
+    "2018": 243,
+    "2019": 382,
+    "2020": 485,
+    "2021": 486,
+    "2022": 515,
+    "2023": 568,
+    "2024": 568,
+    "2025": 572
+   }
+  },
+  "PEMS06": {
+   "S_size": 476,
+   "sensor_ids_sha256": "6eb3f88e26c98893c7313d15063a75a0546466901b1c5ab2a9e59e5fbf4db595",
+   "sensor_ids_serialization": "sorted numeric IDs, decimal UTF-8, one per line, final LF",
+   "year_counts": {
+    "2018": 558,
+    "2019": 624,
+    "2020": 630,
+    "2021": 669,
+    "2022": 670,
+    "2023": 690,
+    "2024": 705,
+    "2025": 746
+   }
+  }
+ },
+ "derived_inputs": [
+  {
+   "district": "PEMS05",
+   "year": 2018,
+   "data": "derived_F/pems05/2018/data.npz",
+   "data_sha256": "ba2c127f28e4e335fdee47c50e729483fa519d4d0c29a216829fa81cf8d3c9dd",
+   "graph": "derived_F/pems05/2018/graph.npz",
+   "graph_sha256": "1d4d8d1aeba4375cc454e2dd519dd008a485e21b686171feb585ff47f408080a",
+   "scaler_mean": 94.37324147600495,
+   "scaler_std": 77.36226138643364,
+   "train_accepted_count": 1263844,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS05",
+   "year": 2019,
+   "data": "derived_F/pems05/2019/data.npz",
+   "data_sha256": "d77074f58efc4930485bdf2aa7ffa10b1a6355f0fbc37abbdb6b55d90d65cf26",
+   "graph": "derived_F/pems05/2019/graph.npz",
+   "graph_sha256": "450920a2a19ad5f28077b5a6ea679464c41e99322ce4502ea43778401fd5d5de",
+   "scaler_mean": 98.35316010869911,
+   "scaler_std": 81.77523067018348,
+   "train_accepted_count": 1285383,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS05",
+   "year": 2020,
+   "data": "derived_F/pems05/2020/data.npz",
+   "data_sha256": "62e30fd57ca45ba0aaae0277a9dd97ff354244418419020040a599253351e3a9",
+   "graph": "derived_F/pems05/2020/graph.npz",
+   "graph_sha256": "5675f0aa43d71d5864d6b6901cd6ed8bbfdf4383a36bb28c9ae80c86a226b07a",
+   "scaler_mean": 98.33827669935015,
+   "scaler_std": 84.86350811050075,
+   "train_accepted_count": 1285359,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS05",
+   "year": 2021,
+   "data": "derived_F/pems05/2021/data.npz",
+   "data_sha256": "b8d3c5655feac5ca12ba3f23347ec13c2a3fc783d3cc36d4546b5c1a817b2536",
+   "graph": "derived_F/pems05/2021/graph.npz",
+   "graph_sha256": "6e7669b38e7ae6dd0321b42fad78c8fa2ea0125516e0d560043c229667f6626a",
+   "scaler_mean": 81.47504835138322,
+   "scaler_std": 74.79254268009717,
+   "train_accepted_count": 1284865,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS05",
+   "year": 2022,
+   "data": "derived_F/pems05/2022/data.npz",
+   "data_sha256": "95301b0cf397639f54d38910c0e397c94e2792947406f33be13b27ac7803d81d",
+   "graph": "derived_F/pems05/2022/graph.npz",
+   "graph_sha256": "7a2d3bb26ce9bfc7d36096f92a3afa5fe45760af3d823088143256628a7ba33c",
+   "scaler_mean": 91.9135010117182,
+   "scaler_std": 84.63196006016223,
+   "train_accepted_count": 1285437,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS05",
+   "year": 2023,
+   "data": "derived_F/pems05/2023/data.npz",
+   "data_sha256": "ae254ddf731d93c6cdd2e25c98581567f14e68d5172e2abfb1b37d07e87f9538",
+   "graph": "derived_F/pems05/2023/graph.npz",
+   "graph_sha256": "b0ae8838945bd21908ed7fa8213a319a50eb908d508cde93b8aa04292cf642ad",
+   "scaler_mean": 91.69831695250274,
+   "scaler_std": 84.29246204583703,
+   "train_accepted_count": 1282495,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS05",
+   "year": 2024,
+   "data": "derived_F/pems05/2024/data.npz",
+   "data_sha256": "5304324ac7b8d43b138a32cad7fb56a915ea8ea93a3f5d94e15b02244da10b27",
+   "graph": "derived_F/pems05/2024/graph.npz",
+   "graph_sha256": "fa5286d04ec10b512384e50e27f94fa9e772ebde58275b374ece5aefeb99dbfe",
+   "scaler_mean": 97.459487692843,
+   "scaler_std": 88.01160986879702,
+   "train_accepted_count": 1284659,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS05",
+   "year": 2025,
+   "data": "derived_F/pems05/2025/data.npz",
+   "data_sha256": "fd1df0086c6502e74226b152b0fb5023b43d1f21126aa055db544d17e41e312a",
+   "graph": "derived_F/pems05/2025/graph.npz",
+   "graph_sha256": "2faa6add67bf91116195fad61127811490d22ac7e76aa135b8e94e5eb34d3eea",
+   "scaler_mean": 97.06181001198813,
+   "scaler_std": 88.4319893123836,
+   "train_accepted_count": 1285439,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS06",
+   "year": 2018,
+   "data": "derived_F/pems06/2018/data.npz",
+   "data_sha256": "c86ec7ed34202c17c7a2e6fbfdc1f8820ea2878da246921698a29b797f7cb8d6",
+   "graph": "derived_F/pems06/2018/graph.npz",
+   "graph_sha256": "7bb15f59370944e76ed557d71c9ecb556a6e17d5740e3f8ca5f12ff5b140725b",
+   "scaler_mean": 102.9760212137436,
+   "scaler_std": 87.81755340348508,
+   "train_accepted_count": 2497249,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS06",
+   "year": 2019,
+   "data": "derived_F/pems06/2019/data.npz",
+   "data_sha256": "e959661f7bfb272f178f35cedd17b253f7998e9421c0b00f183cfacec6088bf2",
+   "graph": "derived_F/pems06/2019/graph.npz",
+   "graph_sha256": "f761e3e7c25a35848e5d29316aa536a23e30f6e966e7b02363109e3a585146cb",
+   "scaler_mean": 96.0849713079744,
+   "scaler_std": 88.12058335192508,
+   "train_accepted_count": 2502786,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS06",
+   "year": 2020,
+   "data": "derived_F/pems06/2020/data.npz",
+   "data_sha256": "371605fb2d6f8f94b2eac28fdb4b1b2fea6836fbc230f383f29a1e5a26b52280",
+   "graph": "derived_F/pems06/2020/graph.npz",
+   "graph_sha256": "7413646b4b6147d53a1508a731b7faccf59eb0c41769f6135e7db3ca4d4bd35e",
+   "scaler_mean": 96.08504318555624,
+   "scaler_std": 88.73867766317764,
+   "train_accepted_count": 2506162,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS06",
+   "year": 2021,
+   "data": "derived_F/pems06/2021/data.npz",
+   "data_sha256": "0ef3e753274f0d489c39afc836e923c9bbf5ca56dedb707f438dd616b2c0c77a",
+   "graph": "derived_F/pems06/2021/graph.npz",
+   "graph_sha256": "7830f24ffea4cfd3f688b6436098fb362e3731193ad4340dcb5768344ec90a01",
+   "scaler_mean": 85.3576063408948,
+   "scaler_std": 79.88997921885091,
+   "train_accepted_count": 2510182,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS06",
+   "year": 2022,
+   "data": "derived_F/pems06/2022/data.npz",
+   "data_sha256": "3bfaa031702830097e4989cc9a93c154aa3ce9ba9c9007007e152f26f5d22f69",
+   "graph": "derived_F/pems06/2022/graph.npz",
+   "graph_sha256": "0d54a50a846cba4f57f742a7f1ffaf50df0c657eaaf00ecc46e852384f4add68",
+   "scaler_mean": 92.43356382510494,
+   "scaler_std": 88.33774863434475,
+   "train_accepted_count": 2487869,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS06",
+   "year": 2023,
+   "data": "derived_F/pems06/2023/data.npz",
+   "data_sha256": "c4225c709ec02f60acf7d44ba558b17341130763ce23c7192dbd9eefbd082dfa",
+   "graph": "derived_F/pems06/2023/graph.npz",
+   "graph_sha256": "353a327a3961d5206373ace9d7f8311d0afa63038ac5d9f69e6335709cf3a3c7",
+   "scaler_mean": 93.12395958838057,
+   "scaler_std": 87.39186048682917,
+   "train_accepted_count": 2494926,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS06",
+   "year": 2024,
+   "data": "derived_F/pems06/2024/data.npz",
+   "data_sha256": "9509ab0ca80a7a2efa909becf19f5bed484897efb039d9a8264fa96814b9675b",
+   "graph": "derived_F/pems06/2024/graph.npz",
+   "graph_sha256": "e78e0adce730c9711ec1d195aee8182365590eb58944c48d1cc82a04d94db0f0",
+   "scaler_mean": 98.1467764580277,
+   "scaler_std": 94.99616654210557,
+   "train_accepted_count": 2506451,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  },
+  {
+   "district": "PEMS06",
+   "year": 2025,
+   "data": "derived_F/pems06/2025/data.npz",
+   "data_sha256": "87490fc2a636d07662fce9a027ce43f8a0ebc2a88e4a182f0b1ee47b98cc54c5",
+   "graph": "derived_F/pems06/2025/graph.npz",
+   "graph_sha256": "78def6100dd0f73cfe43f6f1ff1b0820bee468d1dd6c0a877dacdb2d72a85b86",
+   "scaler_mean": 98.13187949452103,
+   "scaler_std": 87.52802689433004,
+   "train_accepted_count": 2437134,
+   "origins": {
+    "train": 5333,
+    "val": 1763,
+    "test": 1763
+   }
+  }
+ ],
+ "chains": [
+  {
+   "label": "PEMS05-Retrain-E-s47",
+   "district": "PEMS05",
+   "method": "Retrain",
+   "train_population": "E",
+   "seed": 47,
+   "status": "PASS",
+   "host": "g015",
+   "slurm_job_id": "37098203",
+   "started": 1793487818.9358318,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Retrain-E-s47/results.json",
+   "result_sha256": "d987ea944259bfdf835cb6a4442072c144c936735be73fb76a41918da6e5b95e",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 20,
+     "optimizer_steps": 840,
+     "checkpoint_sha256": "202e4d52c4cdea201206950b34b47bf3908f6e8e3b0eadcd3949850b7ed5c555",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 39,
+     "optimizer_steps": 1638,
+     "checkpoint_sha256": "373e523b24ed972260b3588df30639086377205417214645e5a35e5b86792a1a",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 39,
+     "optimizer_steps": 1638,
+     "checkpoint_sha256": "97a32cf851ecccacef67970556e20823ab341e54f165e36493ebc4ea62a1dccd",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 32,
+     "optimizer_steps": 1344,
+     "checkpoint_sha256": "64cb1303444f2c7b725c186eedb7cb1ad8374b7a42cdb66da07d0413bba29fcc",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 30,
+     "optimizer_steps": 1260,
+     "checkpoint_sha256": "9cf4aa45b15731cb19672f4aa67d091f3c630529395c9b9e0943441d09cd9bf8",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 35,
+     "optimizer_steps": 1470,
+     "checkpoint_sha256": "a1ce2e7b20cb0b12591e46fd1db96709d8691de945b7d3b6974a95abe3325555",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 23,
+     "optimizer_steps": 966,
+     "checkpoint_sha256": "b7975acbbc6ee7bad888bb0a35c574cff5710c86bd8f841d9baee6a357aa002e",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 33,
+     "optimizer_steps": 1386,
+     "checkpoint_sha256": "48a1b27f2ef3f85957ff15e02c6a3090c706c2273b7575f47939366c5bbea6b0",
+     "parent": null
+    }
+   ],
+   "finished": 1793488850.487658,
+   "seconds": 1031.5518264770508,
+   "peak_allocated_bytes": 205342720,
+   "peak_reserved_bytes": 331350016
+  },
+  {
+   "label": "PEMS05-Retrain-E-s48",
+   "district": "PEMS05",
+   "method": "Retrain",
+   "train_population": "E",
+   "seed": 48,
+   "status": "PASS",
+   "host": "g022",
+   "slurm_job_id": "37098204",
+   "started": 1793487821.983007,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Retrain-E-s48/results.json",
+   "result_sha256": "9bfc7427111822421071ef6f518965187883e09c1b3bf78dca0f5b4ab6a8f0ce",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 32,
+     "optimizer_steps": 1344,
+     "checkpoint_sha256": "478ec67fd1dbe6d09f1829cb5c875e00d2d09858748f657be7af08fc4d72717a",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 31,
+     "optimizer_steps": 1302,
+     "checkpoint_sha256": "415397c726df254667958a91a793cdcedce72b2824f54a2aaff60adcaca083b4",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 43,
+     "optimizer_steps": 1806,
+     "checkpoint_sha256": "2926566d8e11420c644b8903f0ee7fd57ee486428bc20b07051a4964ced81940",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 16,
+     "optimizer_steps": 672,
+     "checkpoint_sha256": "fe122436deaeecada9d83a102ab13d20f73f0a5c4ac03eb6a54697beb2822534",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 36,
+     "optimizer_steps": 1512,
+     "checkpoint_sha256": "038cd880c5763d48f07a4c1a7eb30fbf4781ccc0a2815da5ab99bb8fcc6b0450",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 35,
+     "optimizer_steps": 1470,
+     "checkpoint_sha256": "57b0812c8332c46af368b62aab6021f62f9daeddd3fe81940276c5ab4185accc",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 31,
+     "optimizer_steps": 1302,
+     "checkpoint_sha256": "964532a8c07334e27c378ce274388febcbc960121a451a261e41cf501766a161",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 31,
+     "optimizer_steps": 1302,
+     "checkpoint_sha256": "cbb1a9dc96358cde02063d8267943cca165d03b9480ea5ef04f8606e519eb79c",
+     "parent": null
+    }
+   ],
+   "finished": 1793488800.3748565,
+   "seconds": 978.3918497562408,
+   "peak_allocated_bytes": 205737984,
+   "peak_reserved_bytes": 367001600
+  },
+  {
+   "label": "PEMS05-Retrain-E-s49",
+   "district": "PEMS05",
+   "method": "Retrain",
+   "train_population": "E",
+   "seed": 49,
+   "status": "PASS",
+   "host": "g022",
+   "slurm_job_id": "37098205",
+   "started": 1793487822.0567775,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Retrain-E-s49/results.json",
+   "result_sha256": "fe1f1970aef95cd4476dd11674e6f5c9b4145e27e8a25043382cee7bb87faf0b",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 20,
+     "optimizer_steps": 840,
+     "checkpoint_sha256": "6fe2ad384bbf54b98035451017f1fbdcaedca985c4c1d50ffd958aa162a02778",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 33,
+     "optimizer_steps": 1386,
+     "checkpoint_sha256": "b9e7e7154a00a06c5d12a97a65e5b71ffa20ee73d594e3f9de3aa05cfbb3fbaa",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 42,
+     "optimizer_steps": 1764,
+     "checkpoint_sha256": "7acd642f919e7d191bec0388f9f0b22944241abe02203d344c6f1c75a0d66705",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 36,
+     "optimizer_steps": 1512,
+     "checkpoint_sha256": "b781b90dfad2c7292f2ff1b42de1aea0e02f643480ba034f019a020a15985ac4",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 28,
+     "optimizer_steps": 1176,
+     "checkpoint_sha256": "bad206760bf51a04f6707a924d69aa30741950e4da023620cc8daa613f2fa2de",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 41,
+     "optimizer_steps": 1722,
+     "checkpoint_sha256": "0afb5afd5cb4f2bd37424c46720a500ed201471345c071180a9e87aa3e9226ff",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 29,
+     "optimizer_steps": 1218,
+     "checkpoint_sha256": "6e49dce37c643769c6eca5e96d3f6be164620818badf7c2f402b574a6803c064",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 31,
+     "optimizer_steps": 1302,
+     "checkpoint_sha256": "ca78cae09babac9e994ef0ac90f78e7709f5603d4b439e72d05637ee069c109a",
+     "parent": null
+    }
+   ],
+   "finished": 1793488870.683642,
+   "seconds": 1048.6268649101257,
+   "peak_allocated_bytes": 207648256,
+   "peak_reserved_bytes": 367001600
+  },
+  {
+   "label": "PEMS05-Retrain-F-s47",
+   "district": "PEMS05",
+   "method": "Retrain",
+   "train_population": "F",
+   "seed": 47,
+   "status": "PASS",
+   "host": "g015",
+   "slurm_job_id": "37098203",
+   "started": 1793487818.9286008,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Retrain-F-s47/results.json",
+   "result_sha256": "97695b271112b1e91dca33964117f631b9ff2e36f623ce21f03c2b4e4119e7fb",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 48,
+     "optimizer_steps": 2016,
+     "checkpoint_sha256": "7f5dd15b8ebb2d76999076e7fb343fdb2be479b67f5dea840abf52b45726a759",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 27,
+     "optimizer_steps": 1134,
+     "checkpoint_sha256": "818327b4cf80f32a889e39792a56f4782aa0baac1afebf9f4aacf7f29099b39f",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 33,
+     "optimizer_steps": 1386,
+     "checkpoint_sha256": "58005b30140da1803691d01e1f73320297d23ab62dee398c81b2953d1f502305",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 35,
+     "optimizer_steps": 1470,
+     "checkpoint_sha256": "69d4641e176a8e6b0309d86fa5381853e641305e5ed4912d862a5dba87995bc9",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 44,
+     "optimizer_steps": 1848,
+     "checkpoint_sha256": "e3c5cff4692df63d1aea0e010f6ff69d17f0338beb6576f62a6bc7f08ca83b35",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 27,
+     "optimizer_steps": 1134,
+     "checkpoint_sha256": "a39abb9a6b9ba3ae8bd94062e2eaab2b0651a9dcd00c3c4d8f4599056058e878",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 36,
+     "optimizer_steps": 1512,
+     "checkpoint_sha256": "281625905cd0fa144fddb516b5bf8a35360220b02b83bbb2faebcc9c8c49a3f0",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 16,
+     "optimizer_steps": 672,
+     "checkpoint_sha256": "034046a3e6ebc3a3ca6b715642b94b16dfbc860eec6f773e2f9d215d8536620c",
+     "parent": null
+    }
+   ],
+   "finished": 1793488690.0033638,
+   "seconds": 871.0747635364532,
+   "peak_allocated_bytes": 125922304,
+   "peak_reserved_bytes": 165675008
+  },
+  {
+   "label": "PEMS05-Retrain-F-s48",
+   "district": "PEMS05",
+   "method": "Retrain",
+   "train_population": "F",
+   "seed": 48,
+   "status": "PASS",
+   "host": "g022",
+   "slurm_job_id": "37098204",
+   "started": 1793487821.983171,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Retrain-F-s48/results.json",
+   "result_sha256": "d8b89f056638ad01c229ea8aceab96df2245534ad01f6cdad5bc7cd0fdb0ddde",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 26,
+     "optimizer_steps": 1092,
+     "checkpoint_sha256": "d17f1b74b9bdd8f1609c28da1b3d016284c551e319954174af45b478443f3069",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 30,
+     "optimizer_steps": 1260,
+     "checkpoint_sha256": "58e029f2a5cdba35a017219a915bb421f28c58b6ef2ea2212155f69b9fd2ac90",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 39,
+     "optimizer_steps": 1638,
+     "checkpoint_sha256": "79657a156cee794cfc10888c778f87e24e2c9d972b232953be87cab0fab6bbf8",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 20,
+     "optimizer_steps": 840,
+     "checkpoint_sha256": "efea82af89aba759502c339d36fb7e3267060467c0babf92b1e1e012c67f83e2",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 13,
+     "optimizer_steps": 546,
+     "checkpoint_sha256": "414a3722ab7fc3f6f6a54cdfd9de5de33205f84c00751607cc3d6cb385b1f692",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 30,
+     "optimizer_steps": 1260,
+     "checkpoint_sha256": "bdff1cecb214ec514bcad521a2d50c474982555b5c8345849a1f61514acae53d",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 22,
+     "optimizer_steps": 924,
+     "checkpoint_sha256": "3d3900adf3a2f0eb7ee71e672145deedcbcda987d3ef29877a428fce1c5ebe63",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 27,
+     "optimizer_steps": 1134,
+     "checkpoint_sha256": "95d26cfaa0901e2b5ba274b54779d09b10290202c358f372d185d079f466f457",
+     "parent": null
+    }
+   ],
+   "finished": 1793488492.9980934,
+   "seconds": 671.014922618866,
+   "peak_allocated_bytes": 125922304,
+   "peak_reserved_bytes": 165675008
+  },
+  {
+   "label": "PEMS05-Retrain-F-s49",
+   "district": "PEMS05",
+   "method": "Retrain",
+   "train_population": "F",
+   "seed": 49,
+   "status": "PASS",
+   "host": "g022",
+   "slurm_job_id": "37098205",
+   "started": 1793487822.0564895,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Retrain-F-s49/results.json",
+   "result_sha256": "bd7f9efed50ea2dcf8ac034cc2788900ccbf13898c8abd382b796e8a9cda17d2",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 32,
+     "optimizer_steps": 1344,
+     "checkpoint_sha256": "5a2954df86a1a8c9565c0405f41f4a779f9862b529d126b932923c8d96abb9bb",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 63,
+     "optimizer_steps": 2646,
+     "checkpoint_sha256": "c44d9ad07f612b03f98ecf6148f43720488dbe3db6ab00912442cc0ca8852a87",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 41,
+     "optimizer_steps": 1722,
+     "checkpoint_sha256": "57910d8af55a1c76c2f912dfe9b56d4b106990af87c46e3120fcbdab34e4c7f1",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 34,
+     "optimizer_steps": 1428,
+     "checkpoint_sha256": "95402d3e6b834c38f2c3e4d7f5bf30a972d1cfbf5ad078f2c58b92ccf90dc1d0",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 21,
+     "optimizer_steps": 882,
+     "checkpoint_sha256": "84ffd2bf144a18a4e584437d671a386e5d305697472c0a4ec96ed9652a026de5",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 34,
+     "optimizer_steps": 1428,
+     "checkpoint_sha256": "b9c9629db7d9faf6b77ad1544e81d1de67b9b88561a1054c6da4596ea8e9ddba",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 29,
+     "optimizer_steps": 1218,
+     "checkpoint_sha256": "4a1e2132b3c29b083887497f2f26ef86266815d22e13bc5adf1821b97bda6b63",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 23,
+     "optimizer_steps": 966,
+     "checkpoint_sha256": "5db7143764280f3f20e49a5cdd2a39186fd507f3deb415b18e66181781c5ef30",
+     "parent": null
+    }
+   ],
+   "finished": 1793488706.5434132,
+   "seconds": 884.4869239330292,
+   "peak_allocated_bytes": 125921280,
+   "peak_reserved_bytes": 165675008
+  },
+  {
+   "label": "PEMS05-Online-AN-E-s47",
+   "district": "PEMS05",
+   "method": "Online-AN",
+   "train_population": "E",
+   "seed": 47,
+   "status": "PASS",
+   "host": "g039",
+   "slurm_job_id": "37098206",
+   "started": 1793487827.246677,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Online-AN-E-s47/results.json",
+   "result_sha256": "3e0a1075eaa29e2d328eede5955166742fefb06f87c4d5e9fab3908ac41bbd9f",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 20,
+     "optimizer_steps": 840,
+     "checkpoint_sha256": "999283b9e1a99d4c238764e992166a7c2fce1561fb836d677ddb34bca41c8d28",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 32,
+     "optimizer_steps": 1344,
+     "checkpoint_sha256": "65fa2a841ba241e7f512d9cf2d28ca2a677a9a223b26591ba5305e2270883b4b",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s47/2018.pkl",
+      "sha256": "999283b9e1a99d4c238764e992166a7c2fce1561fb836d677ddb34bca41c8d28",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 23,
+     "optimizer_steps": 966,
+     "checkpoint_sha256": "1c21e7f3dcffb80a4291039efa7b10b6799d27980e9350b2aec00c583f890fc4",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s47/2019.pkl",
+      "sha256": "65fa2a841ba241e7f512d9cf2d28ca2a677a9a223b26591ba5305e2270883b4b",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 13,
+     "optimizer_steps": 546,
+     "checkpoint_sha256": "012618d3eb3f694f72358cf158f979372d28142ba2750e611263fdbf9e73a4a1",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s47/2020.pkl",
+      "sha256": "1c21e7f3dcffb80a4291039efa7b10b6799d27980e9350b2aec00c583f890fc4",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 13,
+     "optimizer_steps": 546,
+     "checkpoint_sha256": "9122c0fdec2c20425f5bf427c48236c656e9f9f3d5b122668e6ca4a12b0773ea",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s47/2021.pkl",
+      "sha256": "012618d3eb3f694f72358cf158f979372d28142ba2750e611263fdbf9e73a4a1",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 14,
+     "optimizer_steps": 588,
+     "checkpoint_sha256": "8dfa97758190a621e093192e123df35b98ba5735fa8f84b800943487a3c8a33a",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s47/2022.pkl",
+      "sha256": "9122c0fdec2c20425f5bf427c48236c656e9f9f3d5b122668e6ca4a12b0773ea",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 19,
+     "optimizer_steps": 798,
+     "checkpoint_sha256": "ada2ed44d4b46bd2bf8182e4fe133330c0a24ea409ee1963dc2865b1f1ae4dda",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s47/2023.pkl",
+      "sha256": "8dfa97758190a621e093192e123df35b98ba5735fa8f84b800943487a3c8a33a",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 17,
+     "optimizer_steps": 714,
+     "checkpoint_sha256": "ad44c5e0debd6f12059e4813240160f5e92c1a66101e0694e31f9ef23784faf6",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s47/2024.pkl",
+      "sha256": "ada2ed44d4b46bd2bf8182e4fe133330c0a24ea409ee1963dc2865b1f1ae4dda",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488468.9882033,
+   "seconds": 641.7415268421173,
+   "peak_allocated_bytes": 203651584,
+   "peak_reserved_bytes": 331350016
+  },
+  {
+   "label": "PEMS05-Online-AN-E-s48",
+   "district": "PEMS05",
+   "method": "Online-AN",
+   "train_population": "E",
+   "seed": 48,
+   "status": "PASS",
+   "host": "g108",
+   "slurm_job_id": "37098207",
+   "started": 1793487850.1921132,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Online-AN-E-s48/results.json",
+   "result_sha256": "8369bff7551a74d65d4500309394d443497b5f61bddffbc1f8a5ab577239198c",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 32,
+     "optimizer_steps": 1344,
+     "checkpoint_sha256": "692594a7ff038789be24183b99e3f4b3336819a97de3f2d7da36b3f3c11cba81",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 15,
+     "optimizer_steps": 630,
+     "checkpoint_sha256": "7f5d7903af7041f9c1e101615d50fc3a8ca8d7044c4a5e309f8fa14d4ea58365",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s48/2018.pkl",
+      "sha256": "692594a7ff038789be24183b99e3f4b3336819a97de3f2d7da36b3f3c11cba81",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 29,
+     "optimizer_steps": 1218,
+     "checkpoint_sha256": "e1a1afddf116cf59158c1d0b195b7619893a50c2922570fc0dcad9ca970a5892",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s48/2019.pkl",
+      "sha256": "7f5d7903af7041f9c1e101615d50fc3a8ca8d7044c4a5e309f8fa14d4ea58365",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "cec6de580dc6d3df4c87caa06319a22f39baa6b30f4959c10b72b355bef1361c",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s48/2020.pkl",
+      "sha256": "e1a1afddf116cf59158c1d0b195b7619893a50c2922570fc0dcad9ca970a5892",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 35,
+     "optimizer_steps": 1470,
+     "checkpoint_sha256": "0c5cb975372ead217115d670ec932925bb79e1ec8ae3139adca2032df43a16cf",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s48/2021.pkl",
+      "sha256": "cec6de580dc6d3df4c87caa06319a22f39baa6b30f4959c10b72b355bef1361c",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 22,
+     "optimizer_steps": 924,
+     "checkpoint_sha256": "e86334818bb0b5e3cd2e8a479bf0a69e489ac507b020e9a31ecca5f7b98fd457",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s48/2022.pkl",
+      "sha256": "0c5cb975372ead217115d670ec932925bb79e1ec8ae3139adca2032df43a16cf",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "3beffa8f2ab812e382f9cb7d0ac8ae42c49a45df8a776c74a9223a011aa1d8af",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s48/2023.pkl",
+      "sha256": "e86334818bb0b5e3cd2e8a479bf0a69e489ac507b020e9a31ecca5f7b98fd457",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 23,
+     "optimizer_steps": 966,
+     "checkpoint_sha256": "56966cf179fe932af892f675756e8c207ad5e4f0470b6d60a1cc6ee70ce55880",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s48/2024.pkl",
+      "sha256": "3beffa8f2ab812e382f9cb7d0ac8ae42c49a45df8a776c74a9223a011aa1d8af",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488510.581604,
+   "seconds": 660.3894910812378,
+   "peak_allocated_bytes": 206341632,
+   "peak_reserved_bytes": 367001600
+  },
+  {
+   "label": "PEMS05-Online-AN-E-s49",
+   "district": "PEMS05",
+   "method": "Online-AN",
+   "train_population": "E",
+   "seed": 49,
+   "status": "PASS",
+   "host": "g031",
+   "slurm_job_id": "37098219",
+   "started": 1793487868.193707,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Online-AN-E-s49/results.json",
+   "result_sha256": "f29d8c0a91b62f7aa19a7173a0ece24747adda72ac0c43820a5ef1f631ba64e9",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 20,
+     "optimizer_steps": 840,
+     "checkpoint_sha256": "dc564842adfcccd74e4a9c9c9c892472b1d0ac7a3d1ee0b5d2b78a7affd2ce2f",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 8,
+     "optimizer_steps": 336,
+     "checkpoint_sha256": "f6eae1c2647f42008d82ed9baf891fbfddb6f0aa5b99aca830450cc418d4c211",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s49/2018.pkl",
+      "sha256": "dc564842adfcccd74e4a9c9c9c892472b1d0ac7a3d1ee0b5d2b78a7affd2ce2f",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 9,
+     "optimizer_steps": 378,
+     "checkpoint_sha256": "c52c59611bcc428b1baecd4e719d9ce28ebd0e6690cd6bdf0e1fb96b2897a57f",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s49/2019.pkl",
+      "sha256": "f6eae1c2647f42008d82ed9baf891fbfddb6f0aa5b99aca830450cc418d4c211",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 16,
+     "optimizer_steps": 672,
+     "checkpoint_sha256": "b79c071a58d791d85b10f5c751efa0c26fa9dc402526af45b3a87be2edb4ab65",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s49/2020.pkl",
+      "sha256": "c52c59611bcc428b1baecd4e719d9ce28ebd0e6690cd6bdf0e1fb96b2897a57f",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 27,
+     "optimizer_steps": 1134,
+     "checkpoint_sha256": "374e22127818d2911070167e9a5c9fd33199ad7c8cbf1245bdc5e3df6734e0f3",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s49/2021.pkl",
+      "sha256": "b79c071a58d791d85b10f5c751efa0c26fa9dc402526af45b3a87be2edb4ab65",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 11,
+     "optimizer_steps": 462,
+     "checkpoint_sha256": "82282d67071d25ae75bf5ad1886ca53abf1d5ce959d3e7443ef25209d5da54ed",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s49/2022.pkl",
+      "sha256": "374e22127818d2911070167e9a5c9fd33199ad7c8cbf1245bdc5e3df6734e0f3",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 14,
+     "optimizer_steps": 588,
+     "checkpoint_sha256": "cba7c3f13a02e2595424eb5e90c62f67a8c0a51bf59f2a6434f36731d05067a6",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s49/2023.pkl",
+      "sha256": "82282d67071d25ae75bf5ad1886ca53abf1d5ce959d3e7443ef25209d5da54ed",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 10,
+     "optimizer_steps": 420,
+     "checkpoint_sha256": "def5b07d8f9a416a2e4631474ebf221bd9ec0812a778aea16b2069da4e715ec6",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-E-s49/2024.pkl",
+      "sha256": "cba7c3f13a02e2595424eb5e90c62f67a8c0a51bf59f2a6434f36731d05067a6",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488350.201079,
+   "seconds": 482.0073721408844,
+   "peak_allocated_bytes": 205888512,
+   "peak_reserved_bytes": 367001600
+  },
+  {
+   "label": "PEMS05-Online-AN-F-s47",
+   "district": "PEMS05",
+   "method": "Online-AN",
+   "train_population": "F",
+   "seed": 47,
+   "status": "PASS",
+   "host": "g039",
+   "slurm_job_id": "37098206",
+   "started": 1793487827.2467816,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Online-AN-F-s47/results.json",
+   "result_sha256": "2ff46673d5673bcec841e4cd4b9b201d182fe73bc566690e116efa85c9aad878",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 26,
+     "optimizer_steps": 1092,
+     "checkpoint_sha256": "2ed8c3bf4a070b272e2c57e3eb45875bbc36e4fab45ce827f4547a55ed247d14",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 7,
+     "optimizer_steps": 294,
+     "checkpoint_sha256": "79b9ead0089e3a4b1d3ed5e904b71d2a6ec41b087429b40950a6d2c0f8bad9d7",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s47/2018.pkl",
+      "sha256": "2ed8c3bf4a070b272e2c57e3eb45875bbc36e4fab45ce827f4547a55ed247d14",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 8,
+     "optimizer_steps": 336,
+     "checkpoint_sha256": "f06a631b372e35771ac56d0fe029f662d07b5e30ca34985a491e4bc0817d568f",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s47/2019.pkl",
+      "sha256": "79b9ead0089e3a4b1d3ed5e904b71d2a6ec41b087429b40950a6d2c0f8bad9d7",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 9,
+     "optimizer_steps": 378,
+     "checkpoint_sha256": "d46524b6ed3bf5203fe2881891dc166314c78c027114e4dcc755b72b26f8d6b6",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s47/2020.pkl",
+      "sha256": "f06a631b372e35771ac56d0fe029f662d07b5e30ca34985a491e4bc0817d568f",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 23,
+     "optimizer_steps": 966,
+     "checkpoint_sha256": "b75c43ba8db513b2eba71013f3ca390acb6a5b172819a83abf8a51bc10741a57",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s47/2021.pkl",
+      "sha256": "d46524b6ed3bf5203fe2881891dc166314c78c027114e4dcc755b72b26f8d6b6",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 24,
+     "optimizer_steps": 1008,
+     "checkpoint_sha256": "20194b751dca3b8e175fd7e08c8d3a9f2e1307fef931cb03b944bfef04340a8f",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s47/2022.pkl",
+      "sha256": "b75c43ba8db513b2eba71013f3ca390acb6a5b172819a83abf8a51bc10741a57",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 11,
+     "optimizer_steps": 462,
+     "checkpoint_sha256": "180ae7269cdbe7d1815f872fba51a7bac0f2214cd8f2739b3b771e9f4587cf04",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s47/2023.pkl",
+      "sha256": "20194b751dca3b8e175fd7e08c8d3a9f2e1307fef931cb03b944bfef04340a8f",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 10,
+     "optimizer_steps": 420,
+     "checkpoint_sha256": "d9de3c13161cd0224bb813ccdb20a4a7f41e21af23bc8cbc89cde9519962048f",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s47/2024.pkl",
+      "sha256": "180ae7269cdbe7d1815f872fba51a7bac0f2214cd8f2739b3b771e9f4587cf04",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488250.034649,
+   "seconds": 422.7878677845001,
+   "peak_allocated_bytes": 125938176,
+   "peak_reserved_bytes": 165675008
+  },
+  {
+   "label": "PEMS05-Online-AN-F-s48",
+   "district": "PEMS05",
+   "method": "Online-AN",
+   "train_population": "F",
+   "seed": 48,
+   "status": "PASS",
+   "host": "g108",
+   "slurm_job_id": "37098207",
+   "started": 1793487850.192258,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Online-AN-F-s48/results.json",
+   "result_sha256": "ef6c6515da1926d394d2c8447091b356e8b8aab55a6858bfaacbb88e0f150d8f",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 26,
+     "optimizer_steps": 1092,
+     "checkpoint_sha256": "8b5ce036ea77046d11a2eecd7e1415bac23798f31e5e1a92a9e952cfdd3a7564",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 9,
+     "optimizer_steps": 378,
+     "checkpoint_sha256": "64db578d48751d351d4484b36eaa67d75743f35b11d2c3142a177b0ce4830891",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s48/2018.pkl",
+      "sha256": "8b5ce036ea77046d11a2eecd7e1415bac23798f31e5e1a92a9e952cfdd3a7564",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "1f55b00cbabc82aeb67a0142a1728efa9e8b9a28e369bdba92cf98200f37ef89",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s48/2019.pkl",
+      "sha256": "64db578d48751d351d4484b36eaa67d75743f35b11d2c3142a177b0ce4830891",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "48c4d61e15c6b357ee62326687051d46f0d9020813ddd38254300474f5b39126",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s48/2020.pkl",
+      "sha256": "1f55b00cbabc82aeb67a0142a1728efa9e8b9a28e369bdba92cf98200f37ef89",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "9954035e40eb519471ded213ad9adf5596d1a90373c7f2fd8476269121efba84",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s48/2021.pkl",
+      "sha256": "48c4d61e15c6b357ee62326687051d46f0d9020813ddd38254300474f5b39126",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "53068c5b3d666984088614953b13b7e9513b2ebb88ed9fc615448535597ac149",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s48/2022.pkl",
+      "sha256": "9954035e40eb519471ded213ad9adf5596d1a90373c7f2fd8476269121efba84",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 15,
+     "optimizer_steps": 630,
+     "checkpoint_sha256": "a6b1bd8cef8cd3ae883367e1e69b6d8afcb97a292dd128d6a7c6cb6578c6b922",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s48/2023.pkl",
+      "sha256": "53068c5b3d666984088614953b13b7e9513b2ebb88ed9fc615448535597ac149",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 8,
+     "optimizer_steps": 336,
+     "checkpoint_sha256": "24b2659bd2eb0ae33a00939ff923bb85ff1f36d672941aaf17774e128d560373",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s48/2024.pkl",
+      "sha256": "a6b1bd8cef8cd3ae883367e1e69b6d8afcb97a292dd128d6a7c6cb6578c6b922",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488195.149898,
+   "seconds": 344.9576404094696,
+   "peak_allocated_bytes": 125936640,
+   "peak_reserved_bytes": 165675008
+  },
+  {
+   "label": "PEMS05-Online-AN-F-s49",
+   "district": "PEMS05",
+   "method": "Online-AN",
+   "train_population": "F",
+   "seed": 49,
+   "status": "PASS",
+   "host": "g031",
+   "slurm_job_id": "37098219",
+   "started": 1793487868.1935923,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS05-Online-AN-F-s49/results.json",
+   "result_sha256": "a3acbdf22148a35f26248a429ec8fb8b0ec0c4ef5c60b2f736b8057a2e1d61fd",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 32,
+     "optimizer_steps": 1344,
+     "checkpoint_sha256": "bbe489a4e8fa0b0fa56b71773b65518624ae7a1d2f49f776b540ab814714775e",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 9,
+     "optimizer_steps": 378,
+     "checkpoint_sha256": "5dafc1075f28028fe122d540adeeb2c8ae881a91fed39c4b042ae517c60e4810",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s49/2018.pkl",
+      "sha256": "bbe489a4e8fa0b0fa56b71773b65518624ae7a1d2f49f776b540ab814714775e",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 16,
+     "optimizer_steps": 672,
+     "checkpoint_sha256": "dd136a5ebff2370715126a4649dc148c02c0654aa9ac7df0094ac80c34ead2ed",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s49/2019.pkl",
+      "sha256": "5dafc1075f28028fe122d540adeeb2c8ae881a91fed39c4b042ae517c60e4810",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "257b2b2d96c6984aae3de176e10b5d109c6726d3031f7d2c9b121096f03e0a05",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s49/2020.pkl",
+      "sha256": "dd136a5ebff2370715126a4649dc148c02c0654aa9ac7df0094ac80c34ead2ed",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "3f6b0ae502dd6532b6acd0badf10bead54a5764f1af4b8e54b07ca9e359ebb8c",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s49/2021.pkl",
+      "sha256": "257b2b2d96c6984aae3de176e10b5d109c6726d3031f7d2c9b121096f03e0a05",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 11,
+     "optimizer_steps": 462,
+     "checkpoint_sha256": "185710b5e2266ae58f9ed79a8c9dc369eb0dd58f4bb2f901959c851c4a0f8e8a",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s49/2022.pkl",
+      "sha256": "3f6b0ae502dd6532b6acd0badf10bead54a5764f1af4b8e54b07ca9e359ebb8c",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 21,
+     "optimizer_steps": 882,
+     "checkpoint_sha256": "a1c11cd4a11e2ad0e6b16b6f34cf1fb03f8204c63b4ad51db53ff32602618569",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s49/2023.pkl",
+      "sha256": "185710b5e2266ae58f9ed79a8c9dc369eb0dd58f4bb2f901959c851c4a0f8e8a",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 13,
+     "optimizer_steps": 546,
+     "checkpoint_sha256": "d9185813865b6e81f124b3c3dddb58d56f59baed1222bc36d9ba7afeff9af2c8",
+     "parent": {
+      "path": "results/PEMS05-Online-AN-F-s49/2024.pkl",
+      "sha256": "a1c11cd4a11e2ad0e6b16b6f34cf1fb03f8204c63b4ad51db53ff32602618569",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488284.9199762,
+   "seconds": 416.72638416290283,
+   "peak_allocated_bytes": 125937152,
+   "peak_reserved_bytes": 165675008
+  },
+  {
+   "label": "PEMS06-Retrain-E-s47",
+   "district": "PEMS06",
+   "method": "Retrain",
+   "train_population": "E",
+   "seed": 47,
+   "status": "PASS",
+   "host": "g031",
+   "slurm_job_id": "37098221",
+   "started": 1793487874.7786803,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Retrain-E-s47/results.json",
+   "result_sha256": "f5eb693c26f711175cfaccc97cb6b9c026cd09ef00a014a052f838ca07b94d6c",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 15,
+     "optimizer_steps": 630,
+     "checkpoint_sha256": "7a49e1fca0f4f212b3eda84aaf13e311e9bf02f201f3b5ed52bd4a76bc8f8f23",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 21,
+     "optimizer_steps": 882,
+     "checkpoint_sha256": "d656e14b6565811dbe5365cd104ce46656776f3b1ca904d759c388645d3c6414",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 25,
+     "optimizer_steps": 1050,
+     "checkpoint_sha256": "356996053227a53909fa7bb9346c17ad2d6578534ab39cc9804af9f39314cee3",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 24,
+     "optimizer_steps": 1008,
+     "checkpoint_sha256": "131bc75aa6adc0d4afcc4df959b1a3b8488c67d454b8397e7411b6b9c9491166",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 32,
+     "optimizer_steps": 1344,
+     "checkpoint_sha256": "81d3f57e3c4a907fe868b81318883728dd4ba83fd6619482f713b20330efc680",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 30,
+     "optimizer_steps": 1260,
+     "checkpoint_sha256": "ad62ca3ab4cabb9ca7d0ee15910ba1f7e3ae53f65bc46950aaf892951454da88",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 32,
+     "optimizer_steps": 1344,
+     "checkpoint_sha256": "b6778f5cc64c287ad162fdae5fbc8169bb86608f26892fa1f9d4b3623941be85",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 38,
+     "optimizer_steps": 1596,
+     "checkpoint_sha256": "0aef3b89aa2359c9735db86eb1756ceb9ebf34ea522769d3e58977e3f076242b",
+     "parent": null
+    }
+   ],
+   "finished": 1793488855.715678,
+   "seconds": 980.9369978904724,
+   "peak_allocated_bytes": 247646720,
+   "peak_reserved_bytes": 488636416
+  },
+  {
+   "label": "PEMS06-Retrain-E-s48",
+   "district": "PEMS06",
+   "method": "Retrain",
+   "train_population": "E",
+   "seed": 48,
+   "status": "PASS",
+   "host": "g010",
+   "slurm_job_id": "37098222",
+   "started": 1793487881.0626862,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Retrain-E-s48/results.json",
+   "result_sha256": "e8f6c7aa9f22e70fc998dddcdb9a8f47ec92a5127fd302f76aa966c674ae1eae",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 26,
+     "optimizer_steps": 1092,
+     "checkpoint_sha256": "97f95070a82a1f58fe66e025bbc36db8036529d74c4e96dee25cd0cebb1c6463",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 29,
+     "optimizer_steps": 1218,
+     "checkpoint_sha256": "40df870c45efb9a1d8042d4fb0c6bbab49be76ddb954b0b916ba005175c804f2",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 40,
+     "optimizer_steps": 1680,
+     "checkpoint_sha256": "f9c633a55d86ad1ad028890bd950a8dcf2294b1fa41395f641e167411ba6416d",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 29,
+     "optimizer_steps": 1218,
+     "checkpoint_sha256": "c1bbddf8e55603513a022e556d300503fc37a653ec0750b03e8bffffc5303120",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 21,
+     "optimizer_steps": 882,
+     "checkpoint_sha256": "586927d818dd2f750733671def63b3c6d75a12037ed8258a7cb0aa46df307b5e",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 32,
+     "optimizer_steps": 1344,
+     "checkpoint_sha256": "54e69a6b6a0b09d7400a63119f0595d99705c16c979246c954e373638e38fe98",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 33,
+     "optimizer_steps": 1386,
+     "checkpoint_sha256": "bc93d3f9d8ec793f9221c2cd4280eee22e83f3a7eae0672edde379ef92c91fd4",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 27,
+     "optimizer_steps": 1134,
+     "checkpoint_sha256": "16905acb0a28e6886ccfec6dfae92bc4ee6cefb2326c76b545c33cb7d2152193",
+     "parent": null
+    }
+   ],
+   "finished": 1793488973.8784196,
+   "seconds": 1092.8157336711884,
+   "peak_allocated_bytes": 248849920,
+   "peak_reserved_bytes": 488636416
+  },
+  {
+   "label": "PEMS06-Retrain-E-s49",
+   "district": "PEMS06",
+   "method": "Retrain",
+   "train_population": "E",
+   "seed": 49,
+   "status": "PASS",
+   "host": "g029",
+   "slurm_job_id": "37098223",
+   "started": 1793487900.4308424,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Retrain-E-s49/results.json",
+   "result_sha256": "af1acb5be44dfc90972f41c60d8046692ee8fbe8a7e6ec8be88a1d9f5475a500",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 18,
+     "optimizer_steps": 756,
+     "checkpoint_sha256": "42fd992f1f327939e4f517b8731fd6e823865af1776fc13c0a2078e1099b2033",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 48,
+     "optimizer_steps": 2016,
+     "checkpoint_sha256": "ebc418d66108f635fdfdb2f8eab044e7cac16ba40a271523413f54a021d17e71",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 37,
+     "optimizer_steps": 1554,
+     "checkpoint_sha256": "48fc8062621249a4e4d8221b9fe7b3c51202d8dfdd304dbfb8347a4cc837371b",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 23,
+     "optimizer_steps": 966,
+     "checkpoint_sha256": "b7444944ab3b6744de4f2b2273053f51067bafc3df404da762f1afb0b9082639",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 35,
+     "optimizer_steps": 1470,
+     "checkpoint_sha256": "0e4ab857d7dd5bf319768ce9ab1f60db24f1b5900d5e28bf5df84669ed4b1ddf",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 33,
+     "optimizer_steps": 1386,
+     "checkpoint_sha256": "1c983e9841f2d8b3b68419e2137a90b4743f540bea68bc3a4586fd2a3ca92f05",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 32,
+     "optimizer_steps": 1344,
+     "checkpoint_sha256": "2894006fea7ad8e26d047af9c3b931021d1a2ff56b7d0a7b9d3eb9e53aa3c382",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 46,
+     "optimizer_steps": 1932,
+     "checkpoint_sha256": "88b3d27cd818c74ba2d2204b6f6dbc495d65ebe76de76adc9ff591263fd77229",
+     "parent": null
+    }
+   ],
+   "finished": 1793489124.0678604,
+   "seconds": 1223.6370186805725,
+   "peak_allocated_bytes": 249634304,
+   "peak_reserved_bytes": 488636416
+  },
+  {
+   "label": "PEMS06-Retrain-F-s47",
+   "district": "PEMS06",
+   "method": "Retrain",
+   "train_population": "F",
+   "seed": 47,
+   "status": "PASS",
+   "host": "g031",
+   "slurm_job_id": "37098221",
+   "started": 1793487874.7781606,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Retrain-F-s47/results.json",
+   "result_sha256": "842b8bd68de382ac4737a2eb24b50a0a6a27c4e1b572fb00356867bd48d93ee3",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 13,
+     "optimizer_steps": 546,
+     "checkpoint_sha256": "56654149f5eb6926da92246a1ac27763547ca1d93e0f9a9ce4c4654c4e4b1cde",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 23,
+     "optimizer_steps": 966,
+     "checkpoint_sha256": "390af5b155e8be02c1f47f465e9b0b701d6ae8465aa40ecbb529dc69b73eb051",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 33,
+     "optimizer_steps": 1386,
+     "checkpoint_sha256": "7ef33b3c3d451601167c0845a1478bcf62e87fbc6d96dd68f088c522e76928fa",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 36,
+     "optimizer_steps": 1512,
+     "checkpoint_sha256": "c5f92a2945b08524a50ac5528404891a359f8e2f4b0dc625c6610a39fdc9a923",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 29,
+     "optimizer_steps": 1218,
+     "checkpoint_sha256": "57ca5a95c62abec6a69347d093f18a0bb1ebb3deddac2514c67a6f514eba7691",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 24,
+     "optimizer_steps": 1008,
+     "checkpoint_sha256": "aa56292d23b8463092ada37f40ba36557fec67fadf26d7b8fd31aed85db4ed56",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 20,
+     "optimizer_steps": 840,
+     "checkpoint_sha256": "d8df1429bb4455099d35d1c2fc018442e823ec620cc3c31a7a43745dbc750bd8",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 27,
+     "optimizer_steps": 1134,
+     "checkpoint_sha256": "723abea74a2259257b9eb5eed3fc240fca38417fdb887e28b0d0295220028485",
+     "parent": null
+    }
+   ],
+   "finished": 1793488707.906701,
+   "seconds": 833.1285409927368,
+   "peak_allocated_bytes": 181110272,
+   "peak_reserved_bytes": 209715200
+  },
+  {
+   "label": "PEMS06-Retrain-F-s48",
+   "district": "PEMS06",
+   "method": "Retrain",
+   "train_population": "F",
+   "seed": 48,
+   "status": "PASS",
+   "host": "g010",
+   "slurm_job_id": "37098222",
+   "started": 1793487881.06288,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Retrain-F-s48/results.json",
+   "result_sha256": "046b377d062b99b676c6c76170b10a0262e3d15ad273f9ab334315d1645d822e",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 43,
+     "optimizer_steps": 1806,
+     "checkpoint_sha256": "1fd858843686cb6e4a82d07ff3c9c2a4399ff1c3e43c32446947faf767270899",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 39,
+     "optimizer_steps": 1638,
+     "checkpoint_sha256": "6a719560369af35f14aa2b4d672ca7ca752d704e39f3f5d39c686bb1fb32e2b0",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 37,
+     "optimizer_steps": 1554,
+     "checkpoint_sha256": "adc6fda019654b96a23e9ca97491f8f82793deee3594b3bc4a2771546a49b280",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 41,
+     "optimizer_steps": 1722,
+     "checkpoint_sha256": "90f06fdb8171eba18c494bd89bfcda2b8bac12af04ba76f3eff0775094ae5e2f",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 25,
+     "optimizer_steps": 1050,
+     "checkpoint_sha256": "682a4d0dd510a687e4e3cc37368901b24d960bb7c6f8c33ff98802b04546d360",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 29,
+     "optimizer_steps": 1218,
+     "checkpoint_sha256": "0ea3d5af1248d28ea31f2f742d3bbc24ecb45357f0423a3a6c6de4eb8f6a9027",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 21,
+     "optimizer_steps": 882,
+     "checkpoint_sha256": "3b44cc31935c43752a2d480b7581630c4329e5fdf5e0a9341a96b977bbe7d7cd",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 37,
+     "optimizer_steps": 1554,
+     "checkpoint_sha256": "ec91f29c3d32e9fbf78eb2d249444a1e4aee2ce660709a165da839633b12e2a9",
+     "parent": null
+    }
+   ],
+   "finished": 1793488991.4564736,
+   "seconds": 1110.3935940265656,
+   "peak_allocated_bytes": 181196800,
+   "peak_reserved_bytes": 209715200
+  },
+  {
+   "label": "PEMS06-Retrain-F-s49",
+   "district": "PEMS06",
+   "method": "Retrain",
+   "train_population": "F",
+   "seed": 49,
+   "status": "PASS",
+   "host": "g029",
+   "slurm_job_id": "37098223",
+   "started": 1793487900.4308012,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Retrain-F-s49/results.json",
+   "result_sha256": "d07debfcc471ff8762588de3ada7c515ec32b61f751f31b9935aa1998ff97359",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 18,
+     "optimizer_steps": 756,
+     "checkpoint_sha256": "2eb149825188308e53ec11d77e164eb1b37d364af9990670ce4939219cc9d84d",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 48,
+     "optimizer_steps": 2016,
+     "checkpoint_sha256": "a88d96dad0b5116ffd161e24c246d695ba7178bbb2850f2ac7abf093a7994f6b",
+     "parent": null
+    },
+    {
+     "year": 2020,
+     "epochs": 37,
+     "optimizer_steps": 1554,
+     "checkpoint_sha256": "025894242fd2398c5849689b2ca39f7d9b9864e622986e183313f0fd37269583",
+     "parent": null
+    },
+    {
+     "year": 2021,
+     "epochs": 24,
+     "optimizer_steps": 1008,
+     "checkpoint_sha256": "a1937ed01d504c5f7de94e205bba54221e335dc24de4bd4ffc6c21d2feb3ae57",
+     "parent": null
+    },
+    {
+     "year": 2022,
+     "epochs": 34,
+     "optimizer_steps": 1428,
+     "checkpoint_sha256": "9c0dbbeec563ebcaf475e57f4681e1ecf737592292b5a6f99ae2a2b9486db636",
+     "parent": null
+    },
+    {
+     "year": 2023,
+     "epochs": 33,
+     "optimizer_steps": 1386,
+     "checkpoint_sha256": "61e3283668a4902735293b3009ea88835991ab2073bfee7601eb7879ce9bfb1d",
+     "parent": null
+    },
+    {
+     "year": 2024,
+     "epochs": 38,
+     "optimizer_steps": 1596,
+     "checkpoint_sha256": "ce52e54d3a4ebea0e3f79c5ef2edbc0fa9218c0dd959fffc090dbc94fdc6e088",
+     "parent": null
+    },
+    {
+     "year": 2025,
+     "epochs": 35,
+     "optimizer_steps": 1470,
+     "checkpoint_sha256": "e18cfb8d774da4186a4b46c04f0cc99e9128447b356e729c70c0e97c7ffe9371",
+     "parent": null
+    }
+   ],
+   "finished": 1793488988.9546642,
+   "seconds": 1088.5238633155823,
+   "peak_allocated_bytes": 181244928,
+   "peak_reserved_bytes": 209715200
+  },
+  {
+   "label": "PEMS06-Online-AN-E-s47",
+   "district": "PEMS06",
+   "method": "Online-AN",
+   "train_population": "E",
+   "seed": 47,
+   "status": "PASS",
+   "host": "g030",
+   "slurm_job_id": "37098282",
+   "started": 1793487916.566575,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Online-AN-E-s47/results.json",
+   "result_sha256": "6698c683cc269a794b1066a4193e220d4139d86447a219380ea8e9499f097128",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 15,
+     "optimizer_steps": 630,
+     "checkpoint_sha256": "c2e4d43fa30aa7293451fda0f014371aabe89fbd583abde71183a0314fbf09ee",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 23,
+     "optimizer_steps": 966,
+     "checkpoint_sha256": "1b590bff4dbdfb0d7e80dc2853168f41b5bbe7a65af992c7f3975ea05d00c497",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s47/2018.pkl",
+      "sha256": "c2e4d43fa30aa7293451fda0f014371aabe89fbd583abde71183a0314fbf09ee",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 7,
+     "optimizer_steps": 294,
+     "checkpoint_sha256": "cdc1a76f2d886f1988bbdb4451f6cd2e12b6e5ad983b2be3a90a0a6e0bc5050f",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s47/2019.pkl",
+      "sha256": "1b590bff4dbdfb0d7e80dc2853168f41b5bbe7a65af992c7f3975ea05d00c497",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 18,
+     "optimizer_steps": 756,
+     "checkpoint_sha256": "1ad4092f8bd71e5778741ccb5b36a1c5783551852253d000781f712874b57bfa",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s47/2020.pkl",
+      "sha256": "cdc1a76f2d886f1988bbdb4451f6cd2e12b6e5ad983b2be3a90a0a6e0bc5050f",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 11,
+     "optimizer_steps": 462,
+     "checkpoint_sha256": "782a470b20942ca317cc9929cb69b4c40e01278ca0f09cfc1a6e3a9b81c22610",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s47/2021.pkl",
+      "sha256": "1ad4092f8bd71e5778741ccb5b36a1c5783551852253d000781f712874b57bfa",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "b1dcad2eb58091c61aafb6673cb132804e046d72344610f50383af5034d7e751",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s47/2022.pkl",
+      "sha256": "782a470b20942ca317cc9929cb69b4c40e01278ca0f09cfc1a6e3a9b81c22610",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 17,
+     "optimizer_steps": 714,
+     "checkpoint_sha256": "0170d31f13079670c1ac9a984eb8426f53ee8504238eff874b912abbac83d32a",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s47/2023.pkl",
+      "sha256": "b1dcad2eb58091c61aafb6673cb132804e046d72344610f50383af5034d7e751",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 9,
+     "optimizer_steps": 378,
+     "checkpoint_sha256": "8610ba1b31c8a06e37c6fad1dd55be73052d07fc87c536978afcd35bb28642e4",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s47/2024.pkl",
+      "sha256": "0170d31f13079670c1ac9a984eb8426f53ee8504238eff874b912abbac83d32a",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488482.7696087,
+   "seconds": 566.2030339241028,
+   "peak_allocated_bytes": 249056768,
+   "peak_reserved_bytes": 488636416
+  },
+  {
+   "label": "PEMS06-Online-AN-E-s48",
+   "district": "PEMS06",
+   "method": "Online-AN",
+   "train_population": "E",
+   "seed": 48,
+   "status": "PASS",
+   "host": "g026",
+   "slurm_job_id": "37098437",
+   "started": 1793487919.3676784,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Online-AN-E-s48/results.json",
+   "result_sha256": "2ab934137016a6355ff38de6bd7ed199097329bb43f9190032fe8713e010ed2a",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 26,
+     "optimizer_steps": 1092,
+     "checkpoint_sha256": "671c71dc3f4354d3a71af06cf5850b9fd68b9741f19c8c8c55d18cc762c1ba1e",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "4ef7e42b0892415704905e96a6ddb93f31e4393cac9bd4268c7489550032c764",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s48/2018.pkl",
+      "sha256": "671c71dc3f4354d3a71af06cf5850b9fd68b9741f19c8c8c55d18cc762c1ba1e",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 14,
+     "optimizer_steps": 588,
+     "checkpoint_sha256": "70f3e10369313c6d949b3ae513af119207c4d35aabdf97403cced4fc4428d9b9",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s48/2019.pkl",
+      "sha256": "4ef7e42b0892415704905e96a6ddb93f31e4393cac9bd4268c7489550032c764",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 14,
+     "optimizer_steps": 588,
+     "checkpoint_sha256": "7b541800a8daec337e0c42b17e8edbaabbf2c98c923f57695246ef4a55785910",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s48/2020.pkl",
+      "sha256": "70f3e10369313c6d949b3ae513af119207c4d35aabdf97403cced4fc4428d9b9",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 18,
+     "optimizer_steps": 756,
+     "checkpoint_sha256": "9247f0b07e4848f2ffdfea38ba369c1d7b88b233c53c5ea1eb2e6971ed37d056",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s48/2021.pkl",
+      "sha256": "7b541800a8daec337e0c42b17e8edbaabbf2c98c923f57695246ef4a55785910",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 11,
+     "optimizer_steps": 462,
+     "checkpoint_sha256": "32607104d00e07b0087668d5e73d114d0451903e7b5e555a46e3c9646d955176",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s48/2022.pkl",
+      "sha256": "9247f0b07e4848f2ffdfea38ba369c1d7b88b233c53c5ea1eb2e6971ed37d056",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 11,
+     "optimizer_steps": 462,
+     "checkpoint_sha256": "9bc6d2042c13702aa84b908146619688cc2c3b92bbfc60d29f848a8a22601586",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s48/2023.pkl",
+      "sha256": "32607104d00e07b0087668d5e73d114d0451903e7b5e555a46e3c9646d955176",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "479dbf9942dc63380651bd60e09a7cb03a9b56aa25e11f9398ed60fa51c7e989",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s48/2024.pkl",
+      "sha256": "9bc6d2042c13702aa84b908146619688cc2c3b92bbfc60d29f848a8a22601586",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488504.6926668,
+   "seconds": 585.3249893188477,
+   "peak_allocated_bytes": 250222080,
+   "peak_reserved_bytes": 488636416
+  },
+  {
+   "label": "PEMS06-Online-AN-E-s49",
+   "district": "PEMS06",
+   "method": "Online-AN",
+   "train_population": "E",
+   "seed": 49,
+   "status": "PASS",
+   "host": "g036",
+   "slurm_job_id": "37098624",
+   "started": 1793487923.3285058,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Online-AN-E-s49/results.json",
+   "result_sha256": "00e32169b61b4c8a02397538a947370cb75cff7a5dcd2899acc7f0f196468e28",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 18,
+     "optimizer_steps": 756,
+     "checkpoint_sha256": "6cb8e04ec8d5f5bb335ded475fdb99861f6a014c93af5aa7696761c81474e5f3",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 23,
+     "optimizer_steps": 966,
+     "checkpoint_sha256": "15f59049f65c25e6d2d75ad367c2d16191b9439f72ea80dd6541b2fd75e6d5ca",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s49/2018.pkl",
+      "sha256": "6cb8e04ec8d5f5bb335ded475fdb99861f6a014c93af5aa7696761c81474e5f3",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 13,
+     "optimizer_steps": 546,
+     "checkpoint_sha256": "e0276fd00ee3080691067be469a609fdb1bbb13bd5dfb7deb163e6a1fd8912fd",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s49/2019.pkl",
+      "sha256": "15f59049f65c25e6d2d75ad367c2d16191b9439f72ea80dd6541b2fd75e6d5ca",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 16,
+     "optimizer_steps": 672,
+     "checkpoint_sha256": "0afa2978ac58025cfb1f263c154a3462ec761cee30c4f91720fd8726699179b2",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s49/2020.pkl",
+      "sha256": "e0276fd00ee3080691067be469a609fdb1bbb13bd5dfb7deb163e6a1fd8912fd",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 11,
+     "optimizer_steps": 462,
+     "checkpoint_sha256": "547c431627c0eed2c302ac128d14d9ce5a26908e7096b76fdebc52cdffc2780b",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s49/2021.pkl",
+      "sha256": "0afa2978ac58025cfb1f263c154a3462ec761cee30c4f91720fd8726699179b2",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 8,
+     "optimizer_steps": 336,
+     "checkpoint_sha256": "59f31539dc3c50306b2006b5d42f4553f3f6e52e3353ac87eba79e01b6623e02",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s49/2022.pkl",
+      "sha256": "547c431627c0eed2c302ac128d14d9ce5a26908e7096b76fdebc52cdffc2780b",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 13,
+     "optimizer_steps": 546,
+     "checkpoint_sha256": "5dfb8daf219f9f04fe9ec9d72a15063334d881b367b2196aad1b17f585ddabbc",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s49/2023.pkl",
+      "sha256": "59f31539dc3c50306b2006b5d42f4553f3f6e52e3353ac87eba79e01b6623e02",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 13,
+     "optimizer_steps": 546,
+     "checkpoint_sha256": "89fc243d9da1c462fd357a281765227f51dc3c3c333cdaf7c528980bb5245f4c",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-E-s49/2024.pkl",
+      "sha256": "5dfb8daf219f9f04fe9ec9d72a15063334d881b367b2196aad1b17f585ddabbc",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488470.5228426,
+   "seconds": 547.1943371295929,
+   "peak_allocated_bytes": 249078272,
+   "peak_reserved_bytes": 488636416
+  },
+  {
+   "label": "PEMS06-Online-AN-F-s47",
+   "district": "PEMS06",
+   "method": "Online-AN",
+   "train_population": "F",
+   "seed": 47,
+   "status": "PASS",
+   "host": "g030",
+   "slurm_job_id": "37098282",
+   "started": 1793487916.5666854,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Online-AN-F-s47/results.json",
+   "result_sha256": "809120f7c08884bfcd75792f65a07e1e74dff6ec5b6e1a187a873e4742d15ac3",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 13,
+     "optimizer_steps": 546,
+     "checkpoint_sha256": "678e873d9d083c1abde1b699795f1cf91c2435935ec9545eef0bc32921863299",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 23,
+     "optimizer_steps": 966,
+     "checkpoint_sha256": "a1d6e60d159de06b5ccd0f4d595304f03e16a3b58336610e8088c63db022b7cc",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s47/2018.pkl",
+      "sha256": "678e873d9d083c1abde1b699795f1cf91c2435935ec9545eef0bc32921863299",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 18,
+     "optimizer_steps": 756,
+     "checkpoint_sha256": "0fc730706fc035b224ef6b4af63f3df46739f4853bae9b845da32f12819f4e66",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s47/2019.pkl",
+      "sha256": "a1d6e60d159de06b5ccd0f4d595304f03e16a3b58336610e8088c63db022b7cc",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 16,
+     "optimizer_steps": 672,
+     "checkpoint_sha256": "bd2195344c22c1a2ef68ebc44de80eb04e03f30d24b1b1a8c01d242728fd390a",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s47/2020.pkl",
+      "sha256": "0fc730706fc035b224ef6b4af63f3df46739f4853bae9b845da32f12819f4e66",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 10,
+     "optimizer_steps": 420,
+     "checkpoint_sha256": "3884b55cdc6837cb8abea22c768b70bfb0e8214d77d63e17c23190ba3e87c2c7",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s47/2021.pkl",
+      "sha256": "bd2195344c22c1a2ef68ebc44de80eb04e03f30d24b1b1a8c01d242728fd390a",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 11,
+     "optimizer_steps": 462,
+     "checkpoint_sha256": "f511c70cd22cfa94f7696561f2765d08238c3ba7b3e81b44770e76f6d0f3a080",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s47/2022.pkl",
+      "sha256": "3884b55cdc6837cb8abea22c768b70bfb0e8214d77d63e17c23190ba3e87c2c7",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "03e87ac09f4199692f8451866ce2ab4909ad81f2fa736deee1768836d9818583",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s47/2023.pkl",
+      "sha256": "f511c70cd22cfa94f7696561f2765d08238c3ba7b3e81b44770e76f6d0f3a080",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 8,
+     "optimizer_steps": 336,
+     "checkpoint_sha256": "6a6cc7bdcb6d6665e851315388200a744e2b7ba6765a9cb2cc8a5cf6f4027bab",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s47/2024.pkl",
+      "sha256": "03e87ac09f4199692f8451866ce2ab4909ad81f2fa736deee1768836d9818583",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488414.6911883,
+   "seconds": 498.12450337409973,
+   "peak_allocated_bytes": 180921856,
+   "peak_reserved_bytes": 209715200
+  },
+  {
+   "label": "PEMS06-Online-AN-F-s48",
+   "district": "PEMS06",
+   "method": "Online-AN",
+   "train_population": "F",
+   "seed": 48,
+   "status": "PASS",
+   "host": "g026",
+   "slurm_job_id": "37098437",
+   "started": 1793487919.367883,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Online-AN-F-s48/results.json",
+   "result_sha256": "d1ebcde4ba0cfae848f5cbc5bac2aa6597adca4f3b45dd03500b93437222688c",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 27,
+     "optimizer_steps": 1134,
+     "checkpoint_sha256": "55de362304594b043c6a72d1cef835d35c2e4412e80daaa454a9b3190adaed04",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 34,
+     "optimizer_steps": 1428,
+     "checkpoint_sha256": "f4ec6c54e3feea500f18ef462f9b5b08203eda1dd59a9bb0d931f65d5c558270",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s48/2018.pkl",
+      "sha256": "55de362304594b043c6a72d1cef835d35c2e4412e80daaa454a9b3190adaed04",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 20,
+     "optimizer_steps": 840,
+     "checkpoint_sha256": "43d8dfaa38221dfb3b04bffce1caa15e8b321f3f1f699d1ee3882e209392e150",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s48/2019.pkl",
+      "sha256": "f4ec6c54e3feea500f18ef462f9b5b08203eda1dd59a9bb0d931f65d5c558270",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 30,
+     "optimizer_steps": 1260,
+     "checkpoint_sha256": "77ebdb312bcda04b14431e92d0f59488a4cdbb6f7dcfe56dc115f2a5632623f1",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s48/2020.pkl",
+      "sha256": "43d8dfaa38221dfb3b04bffce1caa15e8b321f3f1f699d1ee3882e209392e150",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 10,
+     "optimizer_steps": 420,
+     "checkpoint_sha256": "8c8409f3d5e00c046fc55b499c8bbbf8ff5fb070380de45416f47a36a3e47628",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s48/2021.pkl",
+      "sha256": "77ebdb312bcda04b14431e92d0f59488a4cdbb6f7dcfe56dc115f2a5632623f1",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 18,
+     "optimizer_steps": 756,
+     "checkpoint_sha256": "8e59cffd11d7927425a1a170f2930b8af80d48eb4f1f8bc760a0cfe5fb14505e",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s48/2022.pkl",
+      "sha256": "8c8409f3d5e00c046fc55b499c8bbbf8ff5fb070380de45416f47a36a3e47628",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 7,
+     "optimizer_steps": 294,
+     "checkpoint_sha256": "27563bc4bb7db35da22fb85ca3f4e084d56e6d5f7e4697854ac60cda1ec2df41",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s48/2023.pkl",
+      "sha256": "8e59cffd11d7927425a1a170f2930b8af80d48eb4f1f8bc760a0cfe5fb14505e",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 12,
+     "optimizer_steps": 504,
+     "checkpoint_sha256": "554efd1c401a6fc836b68667a985a2dc7ff810f6001721591f30e5f8672ceab3",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s48/2024.pkl",
+      "sha256": "27563bc4bb7db35da22fb85ca3f4e084d56e6d5f7e4697854ac60cda1ec2df41",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488575.5714645,
+   "seconds": 656.2035820484161,
+   "peak_allocated_bytes": 180933120,
+   "peak_reserved_bytes": 209715200
+  },
+  {
+   "label": "PEMS06-Online-AN-F-s49",
+   "district": "PEMS06",
+   "method": "Online-AN",
+   "train_population": "F",
+   "seed": 49,
+   "status": "PASS",
+   "host": "g036",
+   "slurm_job_id": "37098624",
+   "started": 1793487923.3287296,
+   "code_commit": "88bb373dd33395d513ed980fba03955c408f70d5",
+   "gpu": "NVIDIA H100",
+   "torch": "2.2.1+cu121",
+   "cuda": "12.1",
+   "numpy": "1.26.4",
+   "gpu_capacity_bytes": 100228136960,
+   "tf32_matmul": false,
+   "tf32_cudnn": true,
+   "result_path": "results/PEMS06-Online-AN-F-s49/results.json",
+   "result_sha256": "747ad09e755905fb545913dea4193f112ce85f4e73f3c02d32923d7bb48e1f39",
+   "years": [
+    {
+     "year": 2018,
+     "epochs": 18,
+     "optimizer_steps": 756,
+     "checkpoint_sha256": "6ebd2b6de3513068fcdf82ded65e68a05d3eabd0b2590dc0602c34bf685a31e9",
+     "parent": null
+    },
+    {
+     "year": 2019,
+     "epochs": 18,
+     "optimizer_steps": 756,
+     "checkpoint_sha256": "af5f9b3734bfdff4ec419c4382d5c9cdd0c0fa0d67fad3902599f819de439088",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s49/2018.pkl",
+      "sha256": "6ebd2b6de3513068fcdf82ded65e68a05d3eabd0b2590dc0602c34bf685a31e9",
+      "year": 2018
+     }
+    },
+    {
+     "year": 2020,
+     "epochs": 18,
+     "optimizer_steps": 756,
+     "checkpoint_sha256": "6ba028d4c929edec78d7ad3a6f661bb7f69354e816b907f2e4155f0751fcb17a",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s49/2019.pkl",
+      "sha256": "af5f9b3734bfdff4ec419c4382d5c9cdd0c0fa0d67fad3902599f819de439088",
+      "year": 2019
+     }
+    },
+    {
+     "year": 2021,
+     "epochs": 16,
+     "optimizer_steps": 672,
+     "checkpoint_sha256": "6b5e02bcc7db314aa4ec3cc9ea6fdb5eaee1316e47db925e44b45f7215ceeed8",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s49/2020.pkl",
+      "sha256": "6ba028d4c929edec78d7ad3a6f661bb7f69354e816b907f2e4155f0751fcb17a",
+      "year": 2020
+     }
+    },
+    {
+     "year": 2022,
+     "epochs": 10,
+     "optimizer_steps": 420,
+     "checkpoint_sha256": "1dd1855d58ee01870dfba11589dc6ac7f1d1b2f71ad00ccce0b6f97ea39bf0fe",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s49/2021.pkl",
+      "sha256": "6b5e02bcc7db314aa4ec3cc9ea6fdb5eaee1316e47db925e44b45f7215ceeed8",
+      "year": 2021
+     }
+    },
+    {
+     "year": 2023,
+     "epochs": 10,
+     "optimizer_steps": 420,
+     "checkpoint_sha256": "e07d3c7e67a6c268d1d31b350da6eafd98424a85a75fbfecd2f07f23232e9b7d",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s49/2022.pkl",
+      "sha256": "1dd1855d58ee01870dfba11589dc6ac7f1d1b2f71ad00ccce0b6f97ea39bf0fe",
+      "year": 2022
+     }
+    },
+    {
+     "year": 2024,
+     "epochs": 15,
+     "optimizer_steps": 630,
+     "checkpoint_sha256": "b3efe51b3d660a094c800ebfc06386fcd7022ea04734d56d71d8d00d17a8ce01",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s49/2023.pkl",
+      "sha256": "e07d3c7e67a6c268d1d31b350da6eafd98424a85a75fbfecd2f07f23232e9b7d",
+      "year": 2023
+     }
+    },
+    {
+     "year": 2025,
+     "epochs": 13,
+     "optimizer_steps": 546,
+     "checkpoint_sha256": "53225d2c5836f013b9de8cd460eb5681f365febe5358d122b249c319d9828cd9",
+     "parent": {
+      "path": "results/PEMS06-Online-AN-F-s49/2024.pkl",
+      "sha256": "b3efe51b3d660a094c800ebfc06386fcd7022ea04734d56d71d8d00d17a8ce01",
+      "year": 2024
+     }
+    }
+   ],
+   "finished": 1793488419.8123715,
+   "seconds": 496.483642578125,
+   "peak_allocated_bytes": 181263360,
+   "peak_reserved_bytes": 209715200
+  }
+ ],
+ "annual_result_artifacts": [
+  {
+   "path": "results/PEMS05-Retrain-E-s47/results.json",
+   "sha256": "d987ea944259bfdf835cb6a4442072c144c936735be73fb76a41918da6e5b95e"
+  },
+  {
+   "path": "results/PEMS05-Retrain-E-s48/results.json",
+   "sha256": "9bfc7427111822421071ef6f518965187883e09c1b3bf78dca0f5b4ab6a8f0ce"
+  },
+  {
+   "path": "results/PEMS05-Retrain-E-s49/results.json",
+   "sha256": "fe1f1970aef95cd4476dd11674e6f5c9b4145e27e8a25043382cee7bb87faf0b"
+  },
+  {
+   "path": "results/PEMS05-Retrain-F-s47/results.json",
+   "sha256": "97695b271112b1e91dca33964117f631b9ff2e36f623ce21f03c2b4e4119e7fb"
+  },
+  {
+   "path": "results/PEMS05-Retrain-F-s48/results.json",
+   "sha256": "d8b89f056638ad01c229ea8aceab96df2245534ad01f6cdad5bc7cd0fdb0ddde"
+  },
+  {
+   "path": "results/PEMS05-Retrain-F-s49/results.json",
+   "sha256": "bd7f9efed50ea2dcf8ac034cc2788900ccbf13898c8abd382b796e8a9cda17d2"
+  },
+  {
+   "path": "results/PEMS05-Online-AN-E-s47/results.json",
+   "sha256": "3e0a1075eaa29e2d328eede5955166742fefb06f87c4d5e9fab3908ac41bbd9f"
+  },
+  {
+   "path": "results/PEMS05-Online-AN-E-s48/results.json",
+   "sha256": "8369bff7551a74d65d4500309394d443497b5f61bddffbc1f8a5ab577239198c"
+  },
+  {
+   "path": "results/PEMS05-Online-AN-E-s49/results.json",
+   "sha256": "f29d8c0a91b62f7aa19a7173a0ece24747adda72ac0c43820a5ef1f631ba64e9"
+  },
+  {
+   "path": "results/PEMS05-Online-AN-F-s47/results.json",
+   "sha256": "2ff46673d5673bcec841e4cd4b9b201d182fe73bc566690e116efa85c9aad878"
+  },
+  {
+   "path": "results/PEMS05-Online-AN-F-s48/results.json",
+   "sha256": "ef6c6515da1926d394d2c8447091b356e8b8aab55a6858bfaacbb88e0f150d8f"
+  },
+  {
+   "path": "results/PEMS05-Online-AN-F-s49/results.json",
+   "sha256": "a3acbdf22148a35f26248a429ec8fb8b0ec0c4ef5c60b2f736b8057a2e1d61fd"
+  },
+  {
+   "path": "results/PEMS06-Retrain-E-s47/results.json",
+   "sha256": "f5eb693c26f711175cfaccc97cb6b9c026cd09ef00a014a052f838ca07b94d6c"
+  },
+  {
+   "path": "results/PEMS06-Retrain-E-s48/results.json",
+   "sha256": "e8f6c7aa9f22e70fc998dddcdb9a8f47ec92a5127fd302f76aa966c674ae1eae"
+  },
+  {
+   "path": "results/PEMS06-Retrain-E-s49/results.json",
+   "sha256": "af1acb5be44dfc90972f41c60d8046692ee8fbe8a7e6ec8be88a1d9f5475a500"
+  },
+  {
+   "path": "results/PEMS06-Retrain-F-s47/results.json",
+   "sha256": "842b8bd68de382ac4737a2eb24b50a0a6a27c4e1b572fb00356867bd48d93ee3"
+  },
+  {
+   "path": "results/PEMS06-Retrain-F-s48/results.json",
+   "sha256": "046b377d062b99b676c6c76170b10a0262e3d15ad273f9ab334315d1645d822e"
+  },
+  {
+   "path": "results/PEMS06-Retrain-F-s49/results.json",
+   "sha256": "d07debfcc471ff8762588de3ada7c515ec32b61f751f31b9935aa1998ff97359"
+  },
+  {
+   "path": "results/PEMS06-Online-AN-E-s47/results.json",
+   "sha256": "6698c683cc269a794b1066a4193e220d4139d86447a219380ea8e9499f097128"
+  },
+  {
+   "path": "results/PEMS06-Online-AN-E-s48/results.json",
+   "sha256": "2ab934137016a6355ff38de6bd7ed199097329bb43f9190032fe8713e010ed2a"
+  },
+  {
+   "path": "results/PEMS06-Online-AN-E-s49/results.json",
+   "sha256": "00e32169b61b4c8a02397538a947370cb75cff7a5dcd2899acc7f0f196468e28"
+  },
+  {
+   "path": "results/PEMS06-Online-AN-F-s47/results.json",
+   "sha256": "809120f7c08884bfcd75792f65a07e1e74dff6ec5b6e1a187a873e4742d15ac3"
+  },
+  {
+   "path": "results/PEMS06-Online-AN-F-s48/results.json",
+   "sha256": "d1ebcde4ba0cfae848f5cbc5bac2aa6597adca4f3b45dd03500b93437222688c"
+  },
+  {
+   "path": "results/PEMS06-Online-AN-F-s49/results.json",
+   "sha256": "747ad09e755905fb545913dea4193f112ce85f4e73f3c02d32923d7bb48e1f39"
+  }
+ ],
+ "gpu_models": [
+  "NVIDIA H100"
+ ],
+ "row_counts": {
+  "annual": 1152,
+  "summary": 60
+ },
+ "deliverable_sha256": {
+  "RESULTS_EN.txt": "5d3ff8bb742c807ddea19e14fc14a7c68d6d2ee8f0f86d2d86831136be57bef9",
+  "summary_fixed_vs_evolving.csv": "968466d817f204ec5b72c4c3d4fc0bb598cc5064ccc2c078d3e6ffcc05a894a9",
+  "results_fixed_vs_evolving.csv": "19c9ae2013b339e1051f21afc7e9f24615f48fe854cb9b13877fc4d8d2957a53"
+ }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "reviewer-fixed-vs-evolving-v1",
+  "base_tag": "tsas26-r1",
+  "base_commit": "cd95d84837afd5dc7057d559ce66ecb230b4c33d",
+  "districts": ["PEMS05", "PEMS06"],
+  "methods": ["Retrain", "Online-AN"],
+  "seeds": [47, 48, 49],
+  "years": [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+  "E": "Unchanged frozen yearly data and full archived graph; full-catalog validation selection",
+  "F": "2018-2025 catalog intersection; recompute z-score from accepted TRAIN values only; forward fill only; induced archived graph retaining entries, no sigma recomputation; validate on S",
+  "S_sizes": {"PEMS05": 240, "PEMS06": 476},
+  "fresh_start": "Both populations fresh in 2018; Retrain new model each year; Online-AN only preceding year in this new chain",
+  "data": "31 stored days; chronological 60/20/20; 12 inputs and 12 outputs; finite_reported targets; full windows within each split",
+  "training": {"epochs_max": 100, "patience": 5, "min_delta": 0, "loss": "masked MSE", "optimizer": "AdamW", "learning_rate": 0.03, "weight_decay": 0.01, "batch_size": 128, "scheduler": null},
+  "evaluation": "Unmodified single-origin evaluator and MetricAccumulator; pooled 12 leads; MAE/RMSE in flow units; MAPE percent excludes abs(y)<=1e-6",
+  "cohorts": {"E": ["S", "all", "new"], "F": ["S"]},
+  "new": "Current full catalog minus immediately previous full catalog. User confirmed 2017 catalog-only reference for 2018; no 2017 checkpoint/data training.",
+  "aggregation": "Equal mean of eight annual TEST values within each seed, then mean and sample SD (ddof=1) over seeds 47,48,49; E-F paired on S within seed before cross-seed statistics. Empty cohorts are N/A and never zero; flag rather than silently claim eight-year mean if any is empty.",
+  "execution": "Unmodified frozen runner.run; wrapper changes only manifests/data population and TEST cohorts. Two CPU threads per process; separate new run/output; no implicit retry. Torch2.2.1 CUDA12.1 numpy1.26.4. Record actual GPU."
+}

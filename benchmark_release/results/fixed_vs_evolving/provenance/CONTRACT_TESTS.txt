@@ -1,0 +1,9 @@
+test_2018_new_uses_2017_catalog_without_checkpoint (reviewer_fixed_vs_evolving.test_contracts.Contracts.test_2018_new_uses_2017_catalog_without_checkpoint) ... ok
+test_fixed_scaler_and_induced_graph (reviewer_fixed_vs_evolving.test_contracts.Contracts.test_fixed_scaler_and_induced_graph) ... ok
+test_metrics_pool_each_lead_once_and_zero_denominator (reviewer_fixed_vs_evolving.test_contracts.Contracts.test_metrics_pool_each_lead_once_and_zero_denominator) ... ok
+test_two_stage_paired_sample_sd (reviewer_fixed_vs_evolving.test_contracts.Contracts.test_two_stage_paired_sample_sd) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.113s
+
+OK
