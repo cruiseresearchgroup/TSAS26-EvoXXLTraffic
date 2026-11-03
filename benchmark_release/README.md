@@ -42,7 +42,9 @@ The coordinate experiment uses the retained snapshots dated 2001-08-01, 2004-03-
 
 The six repaired implementations (DCRNN, ASTGCN, TGCN, PECPM, STRAP, STKEC) are in `benchmark_v3/`. Their 48 PEMS04/PEMS05
 chains replace the earlier simplified versions; `results/replacement_chains.csv` lists each replacement receipt and the
-receipt it replaces. `results/yearly_metrics.csv.gz` and `results/runs.csv` contain the accepted chains; yearly training checks are in `results/year_checks.csv` (unchanged chains) and `results/replacement_year_checks.csv` (the 48 replacements), and
+receipt it replaces. `manifests_repaired/` holds the manifests these 48 chains ran with, byte for byte. `manifests/` keeps their base
+versions, from which `benchmark_v3/manifests.py` derives them, and `prepare_run.py` prepares only those base versions: for these six
+methods it gives the earlier configuration, not the accepted run. `results/yearly_metrics.csv.gz` and `results/runs.csv` contain the accepted chains; yearly training checks are in `results/year_checks.csv` (unchanged chains) and `results/replacement_year_checks.csv` (the 48 replacements), and
 `summarize.py` reproduces `results/summary.csv`, which covers the full period, 2018–2025 and the years before 2018.
 The PEMS04/PEMS05 rows of `results/summary.csv` equal the accepted table `results/final_metrics.csv` exactly.
 
@@ -52,4 +54,4 @@ training mean predicted everywhere, and the last input value repeated for all le
 
 ## Remaining release boundaries
 
-Code, configuration, caches and metric evidence are public. The licenses are MIT for author-owned code and CC BY-NC 4.0 for data products, and adapted baseline code keeps its original license (`../NOTICE.txt`). Measurement-quality sensitivity and alternative-threshold robustness remain outside the validated experiment scope. The inherited gap/hourly/daily results are not part of this release; see the article's Appendix B.
+Code, configuration, caches and metric evidence are public. The licenses are MIT for author-owned code and CC BY-NC 4.0 for data products, and adapted baseline code keeps its original license (`../NOTICE.txt`). `release_manifest.json` is a dated snapshot of the first release; this section supersedes its notes on the cache upload and licensing. Measurement-quality sensitivity and alternative-threshold robustness remain outside the validated experiment scope. The inherited gap/hourly/daily results are not part of this release; see the article's Appendix B.

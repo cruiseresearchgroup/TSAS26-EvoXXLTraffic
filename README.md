@@ -7,7 +7,7 @@ This repository holds the benchmark code, frozen protocols, run manifests, per-y
 the TSAS revision of *From XXLTraffic to EvoXXLTraffic*. The article is a dataset and benchmark contribution; it does not
 introduce a new forecasting model.
 
-**Release `tsas26-r1.1`.** It is `tsas26-r1` plus the fixed- versus evolving-catalog control: its code in `reviewer_fixed_vs_evolving/` and its results in `benchmark_release/results/fixed_vs_evolving/`. The data live on Hugging Face: <https://huggingface.co/datasets/yind7/EvoXXLTraffic>. That repository has the corrected yearly caches with explicit target/input masks, the coordinates, and 3,523 dated PeMS metadata snapshots.
+**Release `tsas26-r1.2`.** It is `tsas26-r1.1` plus the manifests that the 48 repaired chains ran with (`benchmark_release/manifests_repaired/`); code and results are unchanged. `tsas26-r1.1` is `tsas26-r1` plus the fixed- versus evolving-catalog control: its code in `reviewer_fixed_vs_evolving/` and its results in `benchmark_release/results/fixed_vs_evolving/`. The data live on Hugging Face: <https://huggingface.co/datasets/yind7/EvoXXLTraffic>. That repository has the corrected yearly caches with explicit target/input masks, the coordinates, and 3,523 dated PeMS metadata snapshots.
 
 ## Corrected experiment scope
 
@@ -56,10 +56,10 @@ PEMS04/2001 remains in the archive but is excluded from the benchmark, because i
 ## Reproduce and inspect
 
 * [`benchmark_release/README.md`](benchmark_release/README.md): how to recompute every reported mean and SD from the per-year export (standard library only), and how to prepare one exact run from its manifest.
-* [`benchmark_release/index.json`](benchmark_release/index.json) and `benchmark_release/manifests/`: all 134 run manifests, with source, protocol, data and graph checksums.
+* [`benchmark_release/index.json`](benchmark_release/index.json) and `benchmark_release/manifests/`: 134 run manifests, with protocol, data and graph checksums. For the 48 repaired chains these are the base manifests; `benchmark_release/manifests_repaired/` holds the manifests they ran with, including their source checksum and declared settings (Table 7 and Section 6.2 of the article).
 * `benchmark_release/results/`: per-year scores and denominators (`yearly_metrics.csv.gz`), run receipts (`runs.csv`), recomputed summaries for the full period and 2018–2025 (`summary.csv`), the accepted table (`final_metrics.csv`), training-free references, the coordinate-policy sensitivity and the catalog statistics.
 * [`benchmark_release/results/fixed_vs_evolving/`](benchmark_release/results/fixed_vs_evolving/README.md): annual results, summary, receipt, a standard-library summarizer and rerun steps for the fixed- versus evolving-catalog control, whose code is in [`reviewer_fixed_vs_evolving/`](reviewer_fixed_vs_evolving/).
-* [`coordinates/`](coordinates/README.md): sensor coordinates in matrix-column order for every stored district-year, with source snapshots, no-look-ahead (dated) coordinates and a tool that builds unthresholded distances or any kernel. Rebuilding the stored graphs from these coordinates reproduces all 212 of them entry for entry.
+* [`coordinates/`](coordinates/README.md): sensor coordinates in matrix-column order for the 212 cached district-years, with source snapshots, no-look-ahead (dated) coordinates and a tool that builds unthresholded distances, the Gaussian kernel and any threshold. Rebuilding the stored graphs from these coordinates reproduces all 212 of them entry for entry.
 
 **Metric conventions.**
 
