@@ -7,7 +7,7 @@ This repository holds the benchmark code, frozen protocols, run manifests, per-y
 the TSAS revision of *From XXLTraffic to EvoXXLTraffic*. The article is a dataset and benchmark contribution; it does not
 introduce a new forecasting model.
 
-**Release `tsas26-r1.2`.** It is `tsas26-r1.1` plus the manifests that the 48 repaired chains ran with (`benchmark_release/manifests_repaired/`); code and results are unchanged. `tsas26-r1.1` is `tsas26-r1` plus the fixed- versus evolving-catalog control: its code in `reviewer_fixed_vs_evolving/` and its results in `benchmark_release/results/fixed_vs_evolving/`. The data live on Hugging Face: <https://huggingface.co/datasets/yind7/EvoXXLTraffic>. That repository has the corrected yearly caches with explicit target/input masks, the coordinates, and 3,523 dated PeMS metadata snapshots.
+**Release `tsas26-r1.3`.** It is `tsas26-r1.2` plus 120 runs that extend seven methods (Pretrain, Retrain, Online-NN, Online-AN, TrafficStream, EAC and ST-TTC) to all nine districts: their per-year results, run records, yearly training checks and manifests, the frozen protocols of PEMS07, PEMS08, PEMS11 and PEMS12, and the launcher they ran with (`benchmark_release/formal_run_relocated.py`). The benchmark code is unchanged. `tsas26-r1.2` is `tsas26-r1.1` plus the manifests that the 48 repaired chains ran with (`benchmark_release/manifests_repaired/`); code and results are unchanged. `tsas26-r1.1` is `tsas26-r1` plus the fixed- versus evolving-catalog control: its code in `reviewer_fixed_vs_evolving/` and its results in `benchmark_release/results/fixed_vs_evolving/`. The data live on Hugging Face: <https://huggingface.co/datasets/yind7/EvoXXLTraffic>. That repository has the corrected yearly caches with explicit target/input masks, the coordinates, and 3,523 dated PeMS metadata snapshots.
 
 ## Corrected experiment scope
 
@@ -15,23 +15,27 @@ introduce a new forecasting model.
 |---|---|---:|---|---:|
 | PEMS04 | 2002–2025 | 13 | 47–51 | 65 |
 | PEMS05 | 2005–2025 | 13 | 47–49 | 39 |
-| PEMS03 | 2001–2025 | Retrain, Online-AN, ST-TTC | 47–49 | 9 |
-| PEMS06 | 2005–2025 | Retrain, Online-AN, ST-TTC | 47–49 | 9 |
-| PEMS10 | 2006–2025 | Retrain, Online-AN, ST-TTC | 47–49 | 9 |
+| PEMS03 | 2001–2025 | 7 | 47–49 | 21 |
+| PEMS06 | 2005–2025 | 7 | 47–49 | 21 |
+| PEMS07 | 2001–2025 | 7 | 47–49 | 21 |
+| PEMS08 | 2001–2025 | 7 | 47–49 | 21 |
+| PEMS10 | 2006–2025 | 7 | 47–49 | 21 |
+| PEMS11 | 1999–2025 | 7 | 47–49 | 21 |
+| PEMS12 | 2002–2025 | 7 | 47–49 | 21 |
 
-There are 131 main runs and 3 PEMS04 Online-AN coordinate-policy runs. A separate control adds 24 runs on PEMS05 and PEMS06 (2018–2025) that compare training on the evolving catalog with training on the fixed set of sensors present in every year.
+The seven methods outside PEMS04 and PEMS05 are Pretrain, Retrain, Online-NN, Online-AN, TrafficStream, EAC and ST-TTC. There are 251 main runs and 3 PEMS04 Online-AN coordinate-policy runs. A separate control adds 24 runs on PEMS05 and PEMS06 (2018–2025) that compare training on the evolving catalog with training on the fixed set of sensors present in every year.
 
 * Each district is trained and tested on its own; these are not transfer experiments.
 * Each yearly task covers the first 31 stored days of the year.
 * Six implementations were repaired after a source audit: DCRNN, ASTGCN, TGCN, PECPM, STRAP and STKEC. The repaired code is in `benchmark_v3/`.
-* The repairs' 48 PEMS04/PEMS05 chains replace the earlier results (see `benchmark_release/results/replacement_chains.csv`).
+* The repairs' 48 PEMS04/PEMS05 chains replace the earlier results (see `benchmark_release/results/replacement_chains.csv`). The six repaired methods are evaluated on PEMS04 and PEMS05 only.
 
-**Results.** All numbers are full-12-lead MAE, mean ± sample SD over seeds after equal-year aggregation. Full tables are in `benchmark_release/results/final_metrics.csv` and `summary.csv`.
+**Results.** All numbers are full-12-lead MAE, mean ± sample SD over seeds after equal-year aggregation. Full tables are in `benchmark_release/results/final_metrics.csv` (the 13-method table of PEMS04 and PEMS05) and `summary.csv` (every district, method and period).
 
 * **PEMS04:** PECPM has the lowest MAE on all sensors (20.760 ± 0.081) and on new-to-previous-year sensors (17.315 ± 0.093).
 * **PEMS05:** Online-AN has the lowest MAE on all sensors (11.515 ± 0.037) and on new-to-previous-year sensors (9.984 ± 0.034).
-* **Other districts:** Online-AN also has the lowest MAE among the three methods run on PEMS03, PEMS06 and PEMS10.
-* **Pretrain:** worse than the training-free last-value reference in both districts.
+* **All nine districts (seven methods):** Online-AN has the lowest MAE on all sensors in eight districts (EAC on PEMS12), and Online-NN has the lowest MAE on new-to-previous-year sensors in six. On PEMS04, PECPM is lower than all seven.
+* **Pretrain:** worse than the training-free last-value reference on PEMS04 and PEMS05, and the highest MAE of the seven methods in every district.
 * **Fixed vs evolving catalog:** on the sensors common to every 2018–2025 catalog of PEMS05 and PEMS06, training on the evolving catalog changes MAE by less than 1% in either direction (Retrain and Online-AN, seeds 47–49).
 * **TGCN:** under its frozen configuration, TGCN's error barely changes with the horizon and stays close to that of predicting the training mean everywhere. It is reported as a degenerate fit, not as evidence about the method.
 
@@ -56,8 +60,8 @@ PEMS04/2001 remains in the archive but is excluded from the benchmark, because i
 ## Reproduce and inspect
 
 * [`benchmark_release/README.md`](benchmark_release/README.md): how to recompute every reported mean and SD from the per-year export (standard library only), and how to prepare one exact run from its manifest.
-* [`benchmark_release/index.json`](benchmark_release/index.json) and `benchmark_release/manifests/`: 134 run manifests, with protocol, data and graph checksums. For the 48 repaired chains these are the base manifests; `benchmark_release/manifests_repaired/` holds the manifests they ran with, including their source checksum and declared settings (Table 7 and Section 6.2 of the article).
-* `benchmark_release/results/`: per-year scores and denominators (`yearly_metrics.csv.gz`), run receipts (`runs.csv`), recomputed summaries for the full period and 2018–2025 (`summary.csv`), the accepted table (`final_metrics.csv`), training-free references, the coordinate-policy sensitivity and the catalog statistics.
+* [`benchmark_release/index.json`](benchmark_release/index.json) and `benchmark_release/manifests/`: 254 run manifests, with protocol, data and graph checksums. For the 48 repaired chains these are the base manifests; `benchmark_release/manifests_repaired/` holds the manifests they ran with, including their source checksum and declared settings (Table 7 and Section 6.2 of the article).
+* `benchmark_release/results/`: per-year scores and denominators (`yearly_metrics.csv.gz`), run receipts (`runs.csv`), recomputed summaries for the full period and 2018–2025 (`summary.csv`), the accepted 13-method table of PEMS04 and PEMS05 (`final_metrics.csv`), training-free references, the coordinate-policy sensitivity and the catalog statistics.
 * [`benchmark_release/results/fixed_vs_evolving/`](benchmark_release/results/fixed_vs_evolving/README.md): annual results, summary, receipt, a standard-library summarizer and rerun steps for the fixed- versus evolving-catalog control, whose code is in [`reviewer_fixed_vs_evolving/`](reviewer_fixed_vs_evolving/).
 * [`coordinates/`](coordinates/README.md): sensor coordinates in matrix-column order for the 212 cached district-years, with source snapshots, no-look-ahead (dated) coordinates and a tool that builds unthresholded distances, the Gaussian kernel and any threshold. Rebuilding the stored graphs from these coordinates reproduces all 212 of them entry for entry.
 
